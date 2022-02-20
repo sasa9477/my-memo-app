@@ -1,25 +1,32 @@
-import { NextPage } from 'next'
-import { getRequestInstance } from "../modules/request";
+import { NextPage, GetStaticProps, GetStaticPathsContext } from 'next'
+import type { Memo } from '@prisma/client';
+import axios from 'axios';
 
 const Page = (props: any) => {
-  console.log(props);
+  console.log("props", props);
 
   return (
     <div>
-      {props.data.map((data: any, index: number) => <div key={data.id}>{data.id}番目のデータ: {data.name}</div>)}
+      {props.memos.map((data: any, index: number) => <div key={data.id}>{data.id}: {data.content}</div>)}
     </div>
   )
 }
 
 export default Page
 
-export async function getStaticProps(ctx: any) {
-	const request = getRequestInstance(Boolean(ctx.req));
-	const res = await request.get("data").then(res => res);
-  console.log(res.data);
-	return {
+interface ILoadAllMemosRequest {
+}
+
+interface ILoadAllMemosResponse {
+  memos: Memo[]
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+	const memos = await axios.get<ILoadAllMemosResponse>("http://localhost:3000/api/memos").then(res => res.data);
+
+  return {
     props: {
-      data: res.data.data
+      memos: memos
     }
   }
 }

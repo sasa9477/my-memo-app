@@ -12,7 +12,8 @@ app.prepare()
 
         server.all("*", (req: Request, res: Response) => {
             return handle(req, res);
-        })
+        });
+
         server.listen(port, (err?: any) => {
             if (err) throw err;
             console.log(`Ready on localhost:${port} - env ${process.env.NODE_ENV}`);
