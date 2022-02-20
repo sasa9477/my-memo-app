@@ -1,18 +1,7 @@
-import { NextPage, GetStaticProps, GetStaticPathsContext } from 'next'
 import type { Memo } from '@prisma/client';
-import axios from 'axios';
-
-const Page = (props: any) => {
-  console.log("props", props);
-
-  return (
-    <div>
-      {props.memos.map((data: any, index: number) => <div key={data.id}>{data.id}: {data.content}</div>)}
-    </div>
-  )
-}
-
-export default Page
+import Axios from './Axios';
+import RegisterForm, { RegisterFormProps } from './RegisterForm';
+import { useEffect, useState } from 'react';
 
 interface ILoadAllMemosRequest {
 }
@@ -21,12 +10,27 @@ interface ILoadAllMemosResponse {
   memos: Memo[]
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-	const memos = await axios.get<ILoadAllMemosResponse>("http://localhost:3000/api/memos").then(res => res.data);
-
-  return {
-    props: {
-      memos: memos
-    }
-  }
+const loadAllMemos = async (): Promise<Memo[]> => {
+  return await Axios.get("/load-all-memos").then(res => res.data);
 }
+
+const Page = (props: any) => {
+  const [ memos, setMemos ] = useState<Memo[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const loadedMemos = await loadAllMemos();
+      setMemos(loadedMemos);
+    }
+    load();
+  },[])
+
+  return (
+    <>
+      <RegisterForm onSubmit={() => console.log('TODO: Renderer!')}/>
+      {memos.map((data: Memo) => <div key={data.id}>{data.id}: {data.content}</div>)}
+    </>
+  )
+}
+
+export default Page
