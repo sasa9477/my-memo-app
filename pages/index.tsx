@@ -1,36 +1,48 @@
+import { useEffect, useState, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import type { Memo } from '@prisma/client';
-import Axios from './Axios';
-import RegisterForm, { RegisterFormProps } from './RegisterForm';
-import { useEffect, useState } from 'react';
+import { useMemoApi, ICreateMemoRequest } from '../hooks/useMemoapi';
 
-interface ILoadAllMemosRequest {
+type FormValues = {
+  content: string
 }
 
-interface ILoadAllMemosResponse {
-  memos: Memo[]
-}
-
-const loadAllMemos = async (): Promise<Memo[]> => {
-  return await Axios.get("/load-all-memos").then(res => res.data);
-}
-
-const Page = (props: any) => {
+const Index = () => {
+  const { register, handleSubmit, formState } = useForm<FormValues>();
+  const { create, loadAll } = useMemoApi();
   const [ memos, setMemos ] = useState<Memo[]>([]);
+  const handleCreate = useCallback(
+    async (values: FormValues) => {
+      console.log(values);
+
+      const req: ICreateMemoRequest = {
+        content: values.content
+      }
+
+      await create(req);
+
+      const memos = await loadAll();
+      setMemos(memos);
+    },
+    []);
 
   useEffect(() => {
-    const load = async () => {
-      const loadedMemos = await loadAllMemos();
+    (async () => {
+      const loadedMemos = await loadAll();
       setMemos(loadedMemos);
-    }
-    load();
+    })();
   },[])
 
   return (
     <>
-      <RegisterForm onSubmit={() => console.log('TODO: Renderer!')}/>
+      <form onSubmit={handleSubmit(handleCreate)}>
+          <textarea rows={10} { ...register("content", { required: true })}></textarea>
+          {formState.errors.content && <span>Content is required.</span>}
+          <input type="submit" value="新規登録"/>
+      </form>
       {memos.map((data: Memo) => <div key={data.id}>{data.id}: {data.content}</div>)}
     </>
   )
 }
 
-export default Page
+export default Index
