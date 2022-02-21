@@ -1,18 +1,18 @@
 import type { Memo } from "@prisma/client";
-import axiosClient from "./axiosClient"
+import apiClient from "./apiClient";
 
 export interface ICreateMemoRequest {
     content: string
 }
 
-// TODO: apiida
+// TODO: use apiida, swagger
 export const useMemoApi = () => {
     const loadAll = async () => {
-        return await axiosClient.get<Memo[]>("/load-all-memos").then(res => res.data);
+        return await apiClient.get<Memo[]>("/load-all-memos").then(res => res.data);
     }
 
     const create = async (req: ICreateMemoRequest) => {
-        return await axiosClient.post<Memo>("/create-memo", req).then(res => res.data);
+        return await apiClient.post<Memo>("/create-memo", req).then(res => res.data);
     }
 
     return {

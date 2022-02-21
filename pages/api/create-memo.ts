@@ -1,9 +1,9 @@
-import { NextApiHandler } from "next";
 import { PrismaClient } from "@prisma/client";
+import { NextApiHandler } from "next";
 
 const prisma = new PrismaClient();
 
-// TODO: interface
+// TODO: use swagger
 const handler: NextApiHandler = async (req, res) => {
     const memo = {
         content: req.body.content
