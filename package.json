@@ -8,8 +8,12 @@
     "build:server": "tsc -p tsconfig.server.json",
     "start": "NODE_ENV=production node dist/index.js",
     "lint": "next lint",
-    "init": "prisma db push",
-    "generate": "prisma generate"
+    "prisma init": "prisma db push",
+    "prisma generate": "prisma generate",
+    "validate-openapi": "openapi-generator-cli validate -i ./src/open_api/openapi.yaml",
+    "openapi-generate-client": "openapi-generator-cli generate -g typescript-axios -i ./src/open_api/openapi.yaml -o ./src/open_api/interfaces/client",
+    "openapi-generate-server": "openapi-generator-cli generate -g nodejs-express-server -i ./src/open_api/openapi.yaml -o ./src/open_api/interfaces/server",
+    "openapi-generate-interface": "npm-run-all -s openapi-generate-client openapi-generate-server"
   },
   "dependencies": {
     "@prisma/client": "^3.9.2",
@@ -23,11 +27,14 @@
     "react-hook-form": "^7.27.1"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.26",
     "@types/express": "^4.17.13",
     "@types/node": "17.0.18",
     "@types/react": "17.0.39",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
+    "npm-run-all": "^4.1.5",
+    "swagger-ui-express": "^4.3.0",
     "typescript": "4.5.5"
   }
 }

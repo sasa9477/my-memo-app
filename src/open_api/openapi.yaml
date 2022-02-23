@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: MyMemoApp
+  description: メモアプリのサーバーAPIです。
+  version: 1.0.0
+tags:
+  - name: Memos
+    description: メモに関する API群です。
+paths:
+  /memos/all:
+    get:
+      tags:
+        - Memos
+      summary: 登録されているメモを登録日時でソートして返します。
+      responses:
+        200:
+          description: 登録されているメモを登録日時でソートして返します。
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Memo'
+  /memos/find:
+    get:
+      tags:
+        - Memos
+      summary: IDで指定されたメモを返します。
+      parameters:
+        - in: query
+          name: memo_id
+          description: 取得対象のメモID
+          required: true
+          schema:
+            $ref: '#/components/schemas/memo_id'
+      responses:
+        200:
+          description: IDで指定されたメモを返します。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+  /memos/create:
+    post:
+      tags:
+        - Memos
+      summary: メモを登録します。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+      responses:
+        200:
+          description: 登録されたメモを返します。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+  /memos/update:
+    post:
+      tags:
+        - Memos
+      summary: メモを更新します。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Memo'
+      responses:
+        200:
+          description: 更新されたメモを返します。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memo'
+  /memos/delete:
+    post:
+      tags:
+        - Memos
+      summary: IDで指定されたメモを削除します。
+      parameters:
+        - in: query
+          name: memo_id
+          description: 削除対象のメモID
+          required: true
+          schema:
+            $ref: '#/components/schemas/memo_id'
+      responses:
+        200:
+          description: IDで指定されたメモを返します。
+components:
+  schemas:
+    memo_id:
+      description: メモ識別子
+      type: string
+      format: uuid
+    Memo:
+      description: メモオブジェクト
+      type: object
+      properties:
+        id:
+          description: ID
+          type: string
+          format: uuid
+        createdAt:
+          description: 登録日時(UTC)
+          type: string
+          format: date-time
+        updatedAt:
+          description: 更新日時(UTC)
+          type: string
+          format: date-time
+        content:
+          description: コンテンツ
+          type: string
+        isBookmarked:
+          description: ブックマークフラグ
+          type: boolean
+      required:
+        - id
+        - createdAt
+        - updatedAt
+        - content
+        - isBookmarked
