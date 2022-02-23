@@ -1,7 +1,8 @@
-import type { Memo } from '@prisma/client';
+import { Memo } from '@prisma/client';
+import { format } from 'date-fns-tz';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ICreateMemoRequest, useMemoApi } from '../hooks/useMemoapi';
+import { ICreateMemoRequest, useMemoApi } from '../hooks/useMemoApi';
 
 type FormValues = {
   content: string
@@ -9,8 +10,9 @@ type FormValues = {
 
 const Index = () => {
   const { register, handleSubmit, formState } = useForm<FormValues>();
-  const { create, loadAll } = useMemoApi();
+  const { loadAllMemo, createMemo, updateMemo, deleteMemo } = useMemoApi();
   const [ memos, setMemos ] = useState<Memo[]>([]);
+
   const handleCreate = useCallback(
     async (values: FormValues) => {
       console.log(values);
@@ -19,17 +21,34 @@ const Index = () => {
         content: values.content
       }
 
-      await create(req);
+      await createMemo(req);
 
-      const memos = await loadAll();
+      const memos = await loadAllMemo();
       setMemos(memos);
-    },
-    []);
+    }, []);
+
+  const handleUpdate = useCallback(
+    async (memo: Memo) => {
+      memo.content = 'update memo!';
+      await updateMemo(memo);
+
+      const memos = await loadAllMemo();
+      setMemos(memos);
+    }, []);
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      await deleteMemo({id: id});
+
+      const memos = await loadAllMemo();
+      setMemos(memos);
+    }, []);
 
   useEffect(() => {
     (async () => {
-      const loadedMemos = await loadAll();
+      const loadedMemos = await loadAllMemo();
       setMemos(loadedMemos);
+      console.log('loaded memos', loadedMemos);
     })();
   },[])
 
@@ -40,7 +59,30 @@ const Index = () => {
           {formState.errors.content && <span>Content is required.</span>}
           <input type="submit" value="新規登録"/>
       </form>
-      {memos.map((data: Memo) => <div key={data.id}>{data.id}: {data.content}</div>)}
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>Content</th>
+            <th>IsBookmarked</th>
+          </tr>
+        </thead>
+        <tbody>
+          {memos.map((memo: Memo) => (
+            <tr key={memo.id}>
+              <td>{memo.id}</td>
+              <td>{format(new Date(memo.createdAt), 'yyyy-MM-dd HH:mm:ss')}</td>
+              <td>{format(new Date(memo.updatedAt), 'yyyy-MM-dd HH:mm:ss')}</td>
+              <td>{memo.content}</td>
+              <td>{memo.isBookmarked ? 'True' : 'False'}</td>
+              <td><input type="button" value="更新" onClick={() => handleUpdate(memo)}/></td>
+              <td><input type="button" value="削除" onClick={() => handleDelete(memo.id)}/></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   )
 }

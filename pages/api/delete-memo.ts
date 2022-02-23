@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import prismaApiClient from "./prismaApiClient";
 
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const id = req.body.id;
 
-    const deleteMemo = await prisma.memo.delete({
+    const deleteMemo = await prismaApiClient.memo.delete({
         where: {
             id: id
         }
