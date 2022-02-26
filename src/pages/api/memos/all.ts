@@ -1,5 +1,5 @@
 import { NextApiHandler } from 'next';
-import prismaApiClient from './prismaApiClient';
+import prismaApiClient from './../prismaApiClient';
 
 const handler: NextApiHandler = async (req, res) => {
     const memos = await prismaApiClient.memo.findMany({

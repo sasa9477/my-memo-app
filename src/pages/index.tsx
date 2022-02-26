@@ -1,8 +1,8 @@
-import { Memo } from '@prisma/client';
 import { format } from 'date-fns-tz';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ICreateMemoRequest, useMemoApi } from '../hooks/useMemoApi';
+import { Memo } from '../api/@types';
+import { useMemoApi } from '../hooks/useMemoApi';
 
 type FormValues = {
   content: string
@@ -17,11 +17,11 @@ const Index = () => {
     async (values: FormValues) => {
       console.log(values);
 
-      const req: ICreateMemoRequest = {
+      const req = {
         content: values.content
       }
 
-      await createMemo(req);
+      await createMemo(values.content);
 
       const memos = await loadAllMemo();
       setMemos(memos);
@@ -38,7 +38,7 @@ const Index = () => {
 
   const handleDelete = useCallback(
     async (id: string) => {
-      await deleteMemo({id: id});
+      await deleteMemo(id);
 
       const memos = await loadAllMemo();
       setMemos(memos);
@@ -48,7 +48,6 @@ const Index = () => {
     (async () => {
       const loadedMemos = await loadAllMemo();
       setMemos(loadedMemos);
-      console.log('loaded memos', loadedMemos);
     })();
   },[])
 
@@ -73,12 +72,12 @@ const Index = () => {
           {memos.map((memo: Memo) => (
             <tr key={memo.id}>
               <td>{memo.id}</td>
-              <td>{format(new Date(memo.createdAt), 'yyyy-MM-dd HH:mm:ss')}</td>
-              <td>{format(new Date(memo.updatedAt), 'yyyy-MM-dd HH:mm:ss')}</td>
+              <td>{memo.createdAt ? format(new Date(memo.createdAt), 'yyyy-MM-dd HH:mm:ss') : null}</td>
+              <td>{memo.updatedAt ? format(new Date(memo.updatedAt), 'yyyy-MM-dd HH:mm:ss') : null}</td>
               <td>{memo.content}</td>
               <td>{memo.isBookmarked ? 'True' : 'False'}</td>
               <td><input type="button" value="更新" onClick={() => handleUpdate(memo)}/></td>
-              <td><input type="button" value="削除" onClick={() => handleDelete(memo.id)}/></td>
+              <td><input type="button" value="削除" onClick={() => handleDelete(memo.id!)}/></td>
             </tr>
           ))}
         </tbody>

@@ -9,8 +9,7 @@ tags:
 paths:
   /memos/all:
     get:
-      tags:
-        - Memos
+      operationId: memosAllGET
       summary: 登録されているメモを登録日時でソートして返します。
       responses:
         200:
@@ -21,18 +20,20 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Memo'
-  /memos/find:
-    get:
       tags:
         - Memos
+      x-eov-operation-handler: controllers/MemosController
+  /memos/find:
+    get:
+      operationId: memosFindGET
       summary: IDで指定されたメモを返します。
       parameters:
         - in: query
-          name: memo_id
+          name: memoId
           description: 取得対象のメモID
           required: true
           schema:
-            $ref: '#/components/schemas/memo_id'
+            $ref: '#/components/schemas/memoId'
       responses:
         200:
           description: IDで指定されたメモを返します。
@@ -40,10 +41,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Memo'
-  /memos/create:
-    post:
       tags:
         - Memos
+      x-eov-operation-handler: controllers/MemosController
+  /memos/create:
+    post:
+      operationId: memosCreatePOST
       summary: メモを登録します。
       requestBody:
         content:
@@ -57,10 +60,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Memo'
-  /memos/update:
-    post:
       tags:
         - Memos
+      x-eov-operation-handler: controllers/MemosController
+  /memos/update:
+    put:
+      operationId: memosUpdatePOST
       summary: メモを更新します。
       requestBody:
         content:
@@ -74,24 +79,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Memo'
-  /memos/delete:
-    post:
       tags:
         - Memos
+      x-eov-operation-handler: controllers/MemosController
+  /memos/delete:
+    delete:
+      operationId: memosDeletePOST
       summary: IDで指定されたメモを削除します。
       parameters:
         - in: query
-          name: memo_id
+          name: memoId
           description: 削除対象のメモID
           required: true
           schema:
-            $ref: '#/components/schemas/memo_id'
+            $ref: '#/components/schemas/memoId'
       responses:
         200:
           description: IDで指定されたメモを返します。
+      tags:
+        - Memos
+      x-eov-operation-handler: controllers/MemosController
 components:
   schemas:
-    memo_id:
+    memoId:
       description: メモ識別子
       type: string
       format: uuid
@@ -118,8 +128,4 @@ components:
           description: ブックマークフラグ
           type: boolean
       required:
-        - id
-        - createdAt
-        - updatedAt
         - content
-        - isBookmarked
