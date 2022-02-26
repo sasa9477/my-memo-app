@@ -15,12 +15,6 @@ const Index = () => {
 
   const handleCreate = useCallback(
     async (values: FormValues) => {
-      console.log(values);
-
-      const req = {
-        content: values.content
-      }
-
       await createMemo(values.content);
 
       const memos = await loadAllMemo();
