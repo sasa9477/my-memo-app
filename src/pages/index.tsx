@@ -10,14 +10,14 @@ type FormValues = {
 
 const Index = () => {
   const { register, handleSubmit, formState } = useForm<FormValues>();
-  const { loadAllMemo, createMemo, updateMemo, deleteMemo } = useMemoApi();
+  const { loadAllMemos, createMemo, updateMemo, deleteMemo } = useMemoApi();
   const [ memos, setMemos ] = useState<Memo[]>([]);
 
   const handleCreate = useCallback(
     async (values: FormValues) => {
       await createMemo(values.content);
 
-      const memos = await loadAllMemo();
+      const memos = await loadAllMemos();
       setMemos(memos);
     }, []);
 
@@ -26,7 +26,7 @@ const Index = () => {
       memo.content = 'update memo!';
       await updateMemo(memo);
 
-      const memos = await loadAllMemo();
+      const memos = await loadAllMemos();
       setMemos(memos);
     }, []);
 
@@ -34,13 +34,13 @@ const Index = () => {
     async (id: string) => {
       await deleteMemo(id);
 
-      const memos = await loadAllMemo();
+      const memos = await loadAllMemos();
       setMemos(memos);
     }, []);
 
   useEffect(() => {
     (async () => {
-      const loadedMemos = await loadAllMemo();
+      const loadedMemos = await loadAllMemos();
       setMemos(loadedMemos);
     })();
   },[])

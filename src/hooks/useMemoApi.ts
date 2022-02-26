@@ -1,10 +1,8 @@
 import type { Memo } from "../api/@types";
 import apiClient from "./apiClient";
 
-// TODO: use apiida, swagger
 export const useMemoApi = () => {
-
-    const loadAllMemo = async () => {
+    const loadAllMemos = async () => {
         try {
             const response = await apiClient.memos.all.$get()
             return response
@@ -45,7 +43,7 @@ export const useMemoApi = () => {
     }
 
     return {
-        loadAllMemo,
+        loadAllMemos,
         createMemo,
         updateMemo,
         deleteMemo
