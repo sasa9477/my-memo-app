@@ -13,10 +13,14 @@
     "prisma generate": "prisma generate",
     "aspida:clean": "rimraf ./src/api",
     "aspida:generate": "openapi2aspida -i ./src/openapi.yaml -o ./src/api",
-    "generate-api": "run-s aspida:clean aspida:generate"
+    "generate-openapi-api": "run-s aspida:clean aspida:generate"
   },
   "dependencies": {
     "@aspida/axios": "^1.8.0",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.4.2",
+    "@mui/material": "^5.4.3",
     "@prisma/client": "^3.9.2",
     "axios": "^0.26.0",
     "date-fns-tz": "^1.2.2",

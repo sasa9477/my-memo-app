@@ -1,4 +1,4 @@
-import type { Memo } from "../api/@types";
+import type { Memo, MemoCreateProps } from "../api/@types";
 import apiClient from "./apiClient";
 
 export const useMemoApi = () => {
@@ -14,10 +14,10 @@ export const useMemoApi = () => {
 
     const createMemo = async (content: string) => {
         try {
-            const memo = {
+            const requestProps: MemoCreateProps = {
                 content: content
             }
-            const response = await apiClient.memos.create.$post({ body: memo})
+            const response = await apiClient.memos.create.$post({ body: requestProps })
             return response
         } catch(e) {
             console.log(e)

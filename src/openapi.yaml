@@ -12,7 +12,7 @@ paths:
       operationId: memosAllGET
       summary: 登録されているメモを登録日時でソートして返します。
       responses:
-        200:
+        "200":
           description: 登録されているメモを登録日時でソートして返します。
           content:
             application/json:
@@ -35,7 +35,7 @@ paths:
           schema:
             $ref: '#/components/schemas/memoId'
       responses:
-        200:
+        "200":
           description: IDで指定されたメモを返します。
           content:
             application/json:
@@ -52,9 +52,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Memo'
+              $ref: '#/components/schemas/MemoCreateProps'
       responses:
-        200:
+        "200":
           description: 登録されたメモを返します。
           content:
             application/json:
@@ -73,7 +73,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Memo'
       responses:
-        200:
+        "200":
           description: 更新されたメモを返します。
           content:
             application/json:
@@ -94,7 +94,7 @@ paths:
           schema:
             $ref: '#/components/schemas/memoId'
       responses:
-        200:
+        "200":
           description: IDで指定されたメモを返します。
       tags:
         - Memos
@@ -105,27 +105,41 @@ components:
       description: メモ識別子
       type: string
       format: uuid
+
+    MemoCreateProps:
+      type: object
+      properties:
+        content:
+          description: 投稿内容
+          type: string
+      required:
+        - content
+
     Memo:
       description: メモオブジェクト
       type: object
-      properties:
-        id:
-          description: ID
-          type: string
-          format: uuid
-        createdAt:
-          description: 登録日時(UTC)
-          type: string
-          format: date-time
-        updatedAt:
-          description: 更新日時(UTC)
-          type: string
-          format: date-time
-        content:
-          description: コンテンツ
-          type: string
-        isBookmarked:
-          description: ブックマークフラグ
-          type: boolean
-      required:
-        - content
+      allOf:
+        - $ref: '#/components/schemas/MemoCreateProps'
+        - type: object
+          properties:
+            id:
+              description: ID
+              type: string
+              format: uuid
+            createdAt:
+              description: 登録日時(UTC)
+              type: string
+              format: date-time
+            updatedAt:
+              description: 登録日時(UTC)
+              type: string
+              format: date-time
+            isBookmarked:
+              description: ブックマークフラグ
+              type: boolean
+              default: false
+          required:
+            - id
+            - createdAt
+            - updatedAt
+            - isBookmarked

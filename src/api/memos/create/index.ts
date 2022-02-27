@@ -6,6 +6,6 @@ export type Methods = {
     status: 200
     /** 登録されたメモを返します。 */
     resBody: Types.Memo
-    reqBody: Types.Memo
+    reqBody: Types.MemoCreateProps
   }
 }
