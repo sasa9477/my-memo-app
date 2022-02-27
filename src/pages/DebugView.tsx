@@ -31,7 +31,7 @@ const DebugView = () => {
     }, []);
 
   const handleDelete = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       await deleteMemo(id);
 
       const memos = await loadAllMemos();
@@ -71,7 +71,7 @@ const DebugView = () => {
               <td>{memo.content}</td>
               <td>{memo.isBookmarked ? 'True' : 'False'}</td>
               <td><input type="button" value="更新" onClick={() => handleUpdate(memo)}/></td>
-              <td><input type="button" value="削除" onClick={() => handleDelete(memo.id!)}/></td>
+              <td><input type="button" value="削除" onClick={() => handleDelete(memo.id)}/></td>
             </tr>
           ))}
         </tbody>

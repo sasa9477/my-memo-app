@@ -1,6 +1,6 @@
 /* eslint-disable */
 /** メモ識別子 */
-export type MemoId = string
+export type MemoId = number
 
 export type MemoCreateProps = {
   /** 投稿内容 */

@@ -33,7 +33,7 @@ export const useMemoApi = () => {
         }
     }
 
-    const deleteMemo = async (memoId: string) => {
+    const deleteMemo = async (memoId: number) => {
         try {
             const response = apiClient.memos.delete.$delete({ query: { memoId: memoId} })
             return response

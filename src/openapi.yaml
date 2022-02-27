@@ -103,8 +103,7 @@ components:
   schemas:
     memoId:
       description: メモ識別子
-      type: string
-      format: uuid
+      type: integer
 
     MemoCreateProps:
       type: object
@@ -124,7 +123,6 @@ components:
             id:
               description: ID
               type: integer
-              format: uuid
             createdAt:
               description: 登録日時(UTC)
               type: string
