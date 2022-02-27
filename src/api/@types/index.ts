@@ -8,13 +8,13 @@ export type MemoCreateProps = {
 }
 
 /** メモオブジェクト */
-export type Memo = MemoCreateProps & {
+export type Memo = {
   /** ID */
-  id: string
+  id: number
   /** 登録日時(UTC) */
   createdAt: string
   /** 登録日時(UTC) */
   updatedAt: string
   /** ブックマークフラグ */
   isBookmarked: boolean
-}
+} & MemoCreateProps

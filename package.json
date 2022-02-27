@@ -9,11 +9,11 @@
     "build:server": "npm run clean && tsc -p tsconfig.server.json",
     "start": "NODE_ENV=production node dist/main.js",
     "lint": "next lint",
-    "prisma init": "prisma db push",
-    "prisma generate": "prisma generate",
+    "prisma-init": "prisma db push",
+    "prisma-generate": "prisma generate",
     "aspida:clean": "rimraf ./src/api",
     "aspida:generate": "openapi2aspida -i ./src/openapi.yaml -o ./src/api",
-    "generate-openapi-api": "run-s aspida:clean aspida:generate"
+    "openapi-generate": "run-s aspida:clean aspida:generate"
   },
   "dependencies": {
     "@aspida/axios": "^1.8.0",

@@ -119,12 +119,11 @@ components:
       description: メモオブジェクト
       type: object
       allOf:
-        - $ref: '#/components/schemas/MemoCreateProps'
         - type: object
           properties:
             id:
               description: ID
-              type: string
+              type: integer
               format: uuid
             createdAt:
               description: 登録日時(UTC)
@@ -143,3 +142,4 @@ components:
             - createdAt
             - updatedAt
             - isBookmarked
+        - $ref: '#/components/schemas/MemoCreateProps'

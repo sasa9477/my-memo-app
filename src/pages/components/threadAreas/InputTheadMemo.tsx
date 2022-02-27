@@ -1,9 +1,20 @@
 import { Box, IconButton, Input, Paper } from '@mui/material';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { useMemoApi } from '../../../hooks/useMemoApi';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FileIcon, SendIcon } from '../../icons/IconPack';
 
 const InputThreadMemo = (): JSX.Element => {
+  const { createMemo } = useMemoApi()
+  const inputRefObject = useRef<HTMLInputElement>(null)
+
+  const handleSend = useCallback(
+    async () => {
+      if (inputRefObject.current != null) {
+        const content = inputRefObject.current.value
+        await createMemo(content)
+      }
+    }, [])
 
   return (
     <Paper
@@ -18,7 +29,8 @@ const InputThreadMemo = (): JSX.Element => {
         minRows={2}
         maxRows={8}
         inputProps={{ spellCheck: false }}
-        placeholder='メモを書く'/>
+        placeholder='メモを書く'
+        inputRef={inputRefObject}/>
       <Box
         sx={{
           display: 'flex',
@@ -45,7 +57,7 @@ const InputThreadMemo = (): JSX.Element => {
           <IconButton>
             <FileIcon/>
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleSend()}>
             <SendIcon/>
           </IconButton>
         </Box>
