@@ -1,20 +1,34 @@
 import { Box, IconButton, Input, Paper } from '@mui/material';
-import React, { useCallback, useRef } from 'react';
-import { useMemoApi } from '../../../hooks/useMemoApi';
+import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FileIcon, SendIcon } from '../../icons/IconPack';
 
-const InputThreadMemo = (): JSX.Element => {
-  const { createMemo } = useMemoApi()
+type InputThreadMemoProps = {
+  handleSend: (content: string) => Promise<void>
+}
+
+const InputThreadMemo: FC<InputThreadMemoProps> = ({ handleSend }): JSX.Element => {
   const inputRefObject = useRef<HTMLInputElement>(null)
 
-  const handleSend = useCallback(
-    async () => {
-      if (inputRefObject.current != null) {
-        const content = inputRefObject.current.value
-        await createMemo(content)
+  const handleKeyDown = useCallback(
+    async (e: KeyboardEvent) => {
+      if(e.ctrlKey && e.key === 'Enter') {
+        if (inputRefObject.current) {
+          handleSend(inputRefObject.current.value)
+          inputRefObject.current.value = ''
+        }
       }
-    }, [])
+    }, []
+  )
+
+  const handleSendIconButtonClick = useCallback(
+    async () => {
+      if (inputRefObject.current) {
+        handleSend(inputRefObject.current.value)
+        inputRefObject.current.value = ''
+      }
+    }, []
+  )
 
   return (
     <Paper
@@ -30,7 +44,9 @@ const InputThreadMemo = (): JSX.Element => {
         maxRows={8}
         inputProps={{ spellCheck: false }}
         placeholder='メモを書く'
-        inputRef={inputRefObject}/>
+        autoFocus={true}
+        inputRef={inputRefObject}
+        onKeyDown={handleKeyDown}/>
       <Box
         sx={{
           display: 'flex',
@@ -57,7 +73,7 @@ const InputThreadMemo = (): JSX.Element => {
           <IconButton>
             <FileIcon/>
           </IconButton>
-          <IconButton onClick={() => handleSend()}>
+          <IconButton onClick={handleSendIconButtonClick}>
             <SendIcon/>
           </IconButton>
         </Box>
