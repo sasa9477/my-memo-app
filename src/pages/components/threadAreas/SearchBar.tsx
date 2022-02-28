@@ -1,8 +1,32 @@
-import React from 'react';
-import { Paper, InputBase, IconButton, Divider } from '@mui/material';
-import { SearchIcon, BookmarkBorderIcon } from '../../icons/IconPack';
+import { Divider, IconButton, InputBase, Paper } from '@mui/material';
+import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
+import { BookmarkBorderIcon, SearchIcon } from '../../icons/IconPack';
 
-const SearchBar = (): JSX.Element => {
+type SearchBarProps = {
+  handleSearch: (searchQuery: string) => Promise<void>
+}
+
+const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
+  const inputRefObject = useRef<HTMLInputElement>(null)
+
+  const handleSearchBarKeyDown = useCallback(
+    async (e: KeyboardEvent) => {
+      if(e.key === 'Enter') {
+        if (inputRefObject.current) {
+          handleSearch(inputRefObject.current.value)
+        }
+      }
+    }, []
+  )
+
+  const handleSearchIconButtonClick = useCallback(
+    async () => {
+      if (inputRefObject.current) {
+        handleSearch(inputRefObject.current.value)
+      }
+    }, []
+  )
+
   return (
     <Paper
       sx={{
@@ -20,8 +44,11 @@ const SearchBar = (): JSX.Element => {
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         inputProps={{ spellCheck: false }}
-        placeholder='メモを検索する'/>
-      <IconButton>
+        placeholder='メモを検索する'
+        inputRef={inputRefObject}
+        onKeyDown={handleSearchBarKeyDown}/>
+      <IconButton
+        onClick={handleSearchIconButtonClick}>
         <SearchIcon/>
       </IconButton>
     </Paper>

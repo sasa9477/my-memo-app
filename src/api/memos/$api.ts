@@ -12,16 +12,19 @@ import type { Methods as Methods2 } from './delete'
 // prettier-ignore
 import type { Methods as Methods3 } from './find'
 // prettier-ignore
-import type { Methods as Methods4 } from './update'
+import type { Methods as Methods4 } from './search'
+// prettier-ignore
+import type { Methods as Methods5 } from './update'
 
 // prettier-ignore
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
-  const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
+  const prefix = (baseURL === undefined ? 'http://localhost:3000/api/' : baseURL).replace(/\/$/, '')
   const PATH0 = '/memos/all'
   const PATH1 = '/memos/create'
   const PATH2 = '/memos/delete'
   const PATH3 = '/memos/find'
-  const PATH4 = '/memos/update'
+  const PATH4 = '/memos/search'
+  const PATH5 = '/memos/update'
   const GET = 'GET'
   const POST = 'POST'
   const PUT = 'PUT'
@@ -76,18 +79,32 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
       $path: (option?: { method?: 'get'; query: Methods3['get']['query'] }) =>
         `${prefix}${PATH3}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
     },
+    search: {
+      /**
+       * @returns 検索文字列で検索したメモを登録日時でソートして返します。
+       */
+      get: (option: { query: Methods4['get']['query'], config?: T }) =>
+        fetch<Methods4['get']['resBody'], BasicHeaders, Methods4['get']['status']>(prefix, PATH4, GET, option).json(),
+      /**
+       * @returns 検索文字列で検索したメモを登録日時でソートして返します。
+       */
+      $get: (option: { query: Methods4['get']['query'], config?: T }) =>
+        fetch<Methods4['get']['resBody'], BasicHeaders, Methods4['get']['status']>(prefix, PATH4, GET, option).json().then(r => r.body),
+      $path: (option?: { method?: 'get'; query: Methods4['get']['query'] }) =>
+        `${prefix}${PATH4}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
+    },
     update: {
       /**
        * @returns 更新されたメモを返します。
        */
-      put: (option: { body: Methods4['put']['reqBody'], config?: T }) =>
-        fetch<Methods4['put']['resBody'], BasicHeaders, Methods4['put']['status']>(prefix, PATH4, PUT, option).json(),
+      put: (option: { body: Methods5['put']['reqBody'], config?: T }) =>
+        fetch<Methods5['put']['resBody'], BasicHeaders, Methods5['put']['status']>(prefix, PATH5, PUT, option).json(),
       /**
        * @returns 更新されたメモを返します。
        */
-      $put: (option: { body: Methods4['put']['reqBody'], config?: T }) =>
-        fetch<Methods4['put']['resBody'], BasicHeaders, Methods4['put']['status']>(prefix, PATH4, PUT, option).json().then(r => r.body),
-      $path: () => `${prefix}${PATH4}`
+      $put: (option: { body: Methods5['put']['reqBody'], config?: T }) =>
+        fetch<Methods5['put']['resBody'], BasicHeaders, Methods5['put']['status']>(prefix, PATH5, PUT, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH5}`
     }
   }
 }

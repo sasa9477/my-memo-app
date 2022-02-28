@@ -3,6 +3,9 @@ info:
   title: MyMemoApp
   description: メモアプリのサーバーAPIです。
   version: 1.0.0
+servers:
+  - description: 開発サーバー
+    url: http://localhost:3000/api/
 tags:
   - name: Memos
     description: メモに関する API群です。
@@ -22,7 +25,6 @@ paths:
                   $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-      x-eov-operation-handler: controllers/MemosController
   /memos/find:
     get:
       operationId: memosFindGET
@@ -43,7 +45,36 @@ paths:
                 $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-      x-eov-operation-handler: controllers/MemosController
+  /memos/search:
+    get:
+      operationId: memosSearchGET
+      summary: 検索文字列で検索したメモを登録日時でソートして返します。
+      parameters:
+        - in: query
+          name: searchQuery
+          description: 検索文字列
+          required: true
+          examples:
+            string1:
+              summary: 検索文字列1
+              value: 文字列1
+            string2:
+              summary: 検索文字列2
+              description: スペースで区切り文字列を検索します。
+              value: 文字列1 文字列2
+          schema:
+            $ref: '#/components/schemas/searchQuery'
+      responses:
+        "200":
+          description: 検索文字列で検索したメモを登録日時でソートして返します。
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Memo'
+      tags:
+        - Memos
   /memos/create:
     post:
       operationId: memosCreatePOST
@@ -62,7 +93,6 @@ paths:
                 $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-      x-eov-operation-handler: controllers/MemosController
   /memos/update:
     put:
       operationId: memosUpdatePOST
@@ -81,7 +111,6 @@ paths:
                 $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-      x-eov-operation-handler: controllers/MemosController
   /memos/delete:
     delete:
       operationId: memosDeletePOST
@@ -98,12 +127,15 @@ paths:
           description: IDで指定されたメモを返します。
       tags:
         - Memos
-      x-eov-operation-handler: controllers/MemosController
 components:
   schemas:
     memoId:
       description: メモ識別子
       type: integer
+
+    searchQuery:
+      description: 検索クエリ
+      type: string
 
     MemoCreateProps:
       type: object

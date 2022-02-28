@@ -12,6 +12,16 @@ export const useMemoApi = () => {
         }
     }
 
+    const searchMemos = async (searchQuery: string) => {
+        try {
+            const response = await apiClient.memos.search.$get({ query: { searchQuery: searchQuery }})
+            return response
+        } catch(e) {
+            console.log(e)
+            return []
+        }
+    }
+
     const createMemo = async (content: string) => {
         try {
             const requestProps: MemoCreateProps = {
@@ -44,6 +54,7 @@ export const useMemoApi = () => {
 
     return {
         loadAllMemos,
+        searchMemos,
         createMemo,
         updateMemo,
         deleteMemo

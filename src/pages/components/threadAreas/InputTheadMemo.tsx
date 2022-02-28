@@ -10,7 +10,7 @@ type InputThreadMemoProps = {
 const InputThreadMemo: FC<InputThreadMemoProps> = ({ handleSend }): JSX.Element => {
   const inputRefObject = useRef<HTMLInputElement>(null)
 
-  const handleKeyDown = useCallback(
+  const handleInputKeyDown = useCallback(
     async (e: KeyboardEvent) => {
       if(e.ctrlKey && e.key === 'Enter') {
         if (inputRefObject.current) {
@@ -46,7 +46,7 @@ const InputThreadMemo: FC<InputThreadMemoProps> = ({ handleSend }): JSX.Element 
         placeholder='メモを書く'
         autoFocus={true}
         inputRef={inputRefObject}
-        onKeyDown={handleKeyDown}/>
+        onKeyDown={handleInputKeyDown}/>
       <Box
         sx={{
           display: 'flex',

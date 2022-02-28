@@ -6,7 +6,7 @@ import type { Methods as Methods0 } from '.'
 
 // prettier-ignore
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
-  const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
+  const prefix = (baseURL === undefined ? 'http://localhost:3000/api/' : baseURL).replace(/\/$/, '')
   const PATH0 = '/memos/all'
   const GET = 'GET'
 

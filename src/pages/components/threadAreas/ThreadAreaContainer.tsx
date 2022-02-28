@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 import ThreadArea from './ThreadArea';
 
 const ThreadAreaContainer = (): JSX.Element => {
-  const { loadAllMemos, createMemo } = useMemoApi()
+  const { loadAllMemos, createMemo, searchMemos } = useMemoApi()
   const [ memosGroupedByDate, setMemosGroupedByDate ] = useState(new Map<string, MemoViewModel[]>())
 
   const groupMemosByDate = (memos: MemoViewModel[]): Map<string, MemoViewModel[]> => {
@@ -25,6 +25,18 @@ const ThreadAreaContainer = (): JSX.Element => {
     const groupedMemosByDate = groupMemosByDate(loadedMemoViewModels)
     setMemosGroupedByDate(groupedMemosByDate)
   }
+
+  const handleSearch = useCallback(
+    async (searchQuery: string) => {
+      if (searchQuery) {
+        const memos = await searchMemos(searchQuery)
+        const memoViewModels = memos.map(memo => new MemoViewModel(memo))
+        const groupedMemosByDate = groupMemosByDate(memoViewModels)
+        setMemosGroupedByDate(groupedMemosByDate)
+      } else {
+        await loadMemos()
+      }
+    }, [])
 
   const handleSend = useCallback(
     async (content: string) => {
@@ -47,7 +59,7 @@ const ThreadAreaContainer = (): JSX.Element => {
         flexDirection: 'column',
         flex: 1
       }}>
-      <SearchBar/>
+      <SearchBar handleSearch={handleSearch}/>
       <ThreadArea memosGroupedByDate={memosGroupedByDate}/>
       <InputThreadMemo handleSend={handleSend}/>
     </Box>

@@ -2,6 +2,9 @@
 /** メモ識別子 */
 export type MemoId = number
 
+/** 検索クエリ */
+export type SearchQuery = string
+
 export type MemoCreateProps = {
   /** 投稿内容 */
   content: string

@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["dataProxy"]
+  previewFeatures = ["dataProxy", "extendedIndexes"]
 }
 
 datasource db {
@@ -17,4 +17,6 @@ model Memo {
   updatedAt     DateTime  @updatedAt
   content       String
   isBookmarked  Boolean   @default(false)
+
+  @@index([content])
 }
