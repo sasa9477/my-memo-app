@@ -14,7 +14,7 @@ export default class DateTime {
     this.month = datetime.getMonth() + 1;
     this.date = datetime.getDate();
 
-    const weekdays = [ '月', '火', '水', '木', '金', '土', '日' ];
+    const weekdays = [ '日', '月', '火', '水', '木', '金', '土' ];
     this.japaneseDay = weekdays[datetime.getDay()];
 
     this.hour = datetime.getHours();

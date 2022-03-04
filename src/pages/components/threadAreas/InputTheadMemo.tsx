@@ -1,32 +1,36 @@
 import { Box, IconButton, Input, Paper } from '@mui/material';
 import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useMemoApi } from '../../../hooks/useMemoApi';
 import { FileIcon, SendIcon } from '../../icons/IconPack';
 
 type InputThreadMemoProps = {
-  handleSend: (content: string) => Promise<void>
+  loadMemosRequest: () => Promise<void>
 }
 
-const InputThreadMemo: FC<InputThreadMemoProps> = ({ handleSend }): JSX.Element => {
+const InputThreadMemo: FC<InputThreadMemoProps> = ({ loadMemosRequest }): JSX.Element => {
+  const { createMemo } = useMemoApi()
   const inputRefObject = useRef<HTMLInputElement>(null)
+
+  const handleSend = async () => {
+    if (inputRefObject.current) {
+      const content = inputRefObject.current.value
+      inputRefObject.current.value = ''
+      await createMemo(content)
+      await loadMemosRequest()
+    }
+  }
 
   const handleInputKeyDown = useCallback(
     async (e: KeyboardEvent) => {
       if(e.ctrlKey && e.key === 'Enter') {
-        if (inputRefObject.current) {
-          handleSend(inputRefObject.current.value)
-          inputRefObject.current.value = ''
-        }
+        await handleSend()
       }
     }, []
   )
 
   const handleSendIconButtonClick = useCallback(
     async () => {
-      if (inputRefObject.current) {
-        handleSend(inputRefObject.current.value)
-        inputRefObject.current.value = ''
-      }
+      await handleSend()
     }, []
   )
 

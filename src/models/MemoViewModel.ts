@@ -2,7 +2,7 @@ import { Memo } from "../api/@types";
 import DateTime from "./DateTime";
 
 export default class MemoViewModel {
-  id: string
+  id: number
   date: string
   time: string
   content: string

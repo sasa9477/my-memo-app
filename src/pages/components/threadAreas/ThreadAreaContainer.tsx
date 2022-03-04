@@ -19,7 +19,7 @@ const ThreadAreaContainer = (): JSX.Element => {
       }, new Map<string, MemoViewModel[]>())
   }
 
-  const loadMemos = async () => {
+  const loadMemosRequest = async () => {
     const loadedMemos = await loadAllMemos()
     const loadedMemoViewModels = loadedMemos.map(memo => new MemoViewModel(memo))
     const groupedMemosByDate = groupMemosByDate(loadedMemoViewModels)
@@ -34,21 +34,13 @@ const ThreadAreaContainer = (): JSX.Element => {
         const groupedMemosByDate = groupMemosByDate(memoViewModels)
         setMemosGroupedByDate(groupedMemosByDate)
       } else {
-        await loadMemos()
-      }
-    }, [])
-
-  const handleSend = useCallback(
-    async (content: string) => {
-      if (content) {
-        await createMemo(content)
-        await loadMemos()
+        await loadMemosRequest()
       }
     }, [])
 
   useEffect(() => {
     (async () => {
-      await loadMemos()
+      await loadMemosRequest()
     })()
   },[])
 
@@ -60,8 +52,8 @@ const ThreadAreaContainer = (): JSX.Element => {
         flex: 1
       }}>
       <SearchBar handleSearch={handleSearch}/>
-      <ThreadArea memosGroupedByDate={memosGroupedByDate}/>
-      <InputThreadMemo handleSend={handleSend}/>
+      <ThreadArea loadMemosRequest={loadMemosRequest} memosGroupedByDate={memosGroupedByDate}/>
+      <InputThreadMemo loadMemosRequest={loadMemosRequest}/>
     </Box>
   );
 };
