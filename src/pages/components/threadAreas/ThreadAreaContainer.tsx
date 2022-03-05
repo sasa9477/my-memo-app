@@ -20,6 +20,7 @@ const ThreadAreaContainer = (): JSX.Element => {
   }
 
   const loadMemosRequest = async () => {
+    console.log('called function loadMemoRequest')
     const loadedMemos = await loadAllMemos()
     const loadedMemoViewModels = loadedMemos.map(memo => new MemoViewModel(memo))
     const groupedMemosByDate = groupMemosByDate(loadedMemoViewModels)

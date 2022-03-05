@@ -13,7 +13,7 @@ const InputThreadMemo: FC<InputThreadMemoProps> = ({ loadMemosRequest }): JSX.El
 
   const handleSend = async () => {
     if (inputRefObject.current) {
-      const content = inputRefObject.current.value
+      const content = inputRefObject.current.value.trim().replace(/\n\n$/, '\n')
       inputRefObject.current.value = ''
       await createMemo(content)
       await loadMemosRequest()

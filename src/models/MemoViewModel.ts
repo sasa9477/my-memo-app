@@ -3,6 +3,8 @@ import DateTime from "./DateTime";
 
 export default class MemoViewModel {
   id: number
+  createdAt: string
+  updatedAt: string
   date: string
   time: string
   content: string
@@ -10,6 +12,8 @@ export default class MemoViewModel {
 
   constructor(memo: Memo) {
     this.id = memo.id
+    this.createdAt = memo.createdAt
+    this.updatedAt = memo.updatedAt
     const datetime = new DateTime(memo.createdAt)
     this.date = datetime.getJapaneseShortDate()
     this.time = datetime.getShortTime()

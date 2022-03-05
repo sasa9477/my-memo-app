@@ -35,6 +35,7 @@ export const useMemoApi = () => {
     }
 
     const updateMemo = async (memo: Memo) => {
+        console.log('called updateMemo function')
         try {
             const response = apiClient.memos.update.$put({ body: memo })
             return response

@@ -1,8 +1,7 @@
-import { IconButton, List, ListItem, ListItemText, ListSubheader, Stack, Typography } from '@mui/material';
-import React, { FC, useCallback, useEffect, useRef } from 'react';
-import { useMemoApi } from '../../../hooks/useMemoApi';
+import { List, ListItem, ListSubheader } from '@mui/material';
+import React, { FC, useEffect, useRef } from 'react';
 import MemoViewModel from '../../../models/MemoViewModel';
-import { DeleteIcon, EditIcon } from '../../icons/IconPack';
+import MemoContents from './MemoContents';
 
 type ThreadAreaProps = {
   memosGroupedByDate: Map<string, MemoViewModel[]>
@@ -13,15 +12,6 @@ type ThreadAreaProps = {
 
 const ThreadArea: FC<ThreadAreaProps> = ({ memosGroupedByDate, loadMemosRequest }): JSX.Element => {
   const endOfContentRef = useRef<HTMLDivElement>(null)
-
-  const { deleteMemo } = useMemoApi()
-
-  const handleDelete = useCallback(
-    async (memoId: number) => {
-      await deleteMemo(memoId)
-      await loadMemosRequest()
-    }, []
-  )
 
   useEffect(() => {
     endOfContentRef.current?.scrollIntoView()
@@ -45,35 +35,12 @@ const ThreadArea: FC<ThreadAreaProps> = ({ memosGroupedByDate, loadMemosRequest 
                   {date}
                 </ListSubheader>
                 {memoList.map((memo) => (
-                  <ListItem
+                  // TODO: fix error
+                  <MemoContents
                     key={`item-${date}-${memo.id}`}
-                    alignItems='flex-start'
-                    sx={{ paddingX: '0.2em', paddingY: '0.5em' }}>
-                    <Stack>
-                      <IconButton>
-                        <EditIcon
-                          fontSize='small'/>
-                      </IconButton>
-                      <IconButton
-                        onClick={() => handleDelete(memo.id)}>
-                        <DeleteIcon
-                          fontSize='small'/>
-                      </IconButton>
-                    </Stack>
-                    <ListItemText
-                      primary={
-                        <Typography
-                          fontSize='0.9em'
-                          color='gray'>
-                          {memo.time}
-                        </Typography>
-                      }
-                      secondary={
-                        <Typography display="inline">
-                        {memo.content.split("\n").map((line, key) => <span key={key}>{line}<br/></span>)}
-                        </Typography>
-                      }/>
-                  </ListItem>
+                    memo={memo}
+                    loadMemosRequest={loadMemosRequest}
+                  />
                 ))}
               </List>
             </ListItem>
