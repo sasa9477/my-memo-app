@@ -25,26 +25,6 @@ paths:
                   $ref: '#/components/schemas/Memo'
       tags:
         - Memos
-  /memos/find:
-    get:
-      operationId: memosFindGET
-      summary: IDで指定されたメモを返します。
-      parameters:
-        - in: query
-          name: memoId
-          description: 取得対象のメモID
-          required: true
-          schema:
-            $ref: '#/components/schemas/memoId'
-      responses:
-        "200":
-          description: IDで指定されたメモを返します。
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Memo'
-      tags:
-        - Memos
   /memos/search:
     get:
       operationId: memosSearchGET
