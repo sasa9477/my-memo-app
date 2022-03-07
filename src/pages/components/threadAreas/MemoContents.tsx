@@ -117,29 +117,28 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
             fontSize='small'/>
         </IconButton>
       </Stack>
-      <ListItemText
-        primary={
-          <Typography
-            fontSize='0.9em'
-            color='gray'>
-            {memo.time}
-          </Typography>
-        }
-        secondary={
-          <Input
-            inputRef={inputRefObject}
-            fullWidth
-            multiline
-            autoComplete='off'
-            size='small'
-            margin='none'
-            disableUnderline={!isEditContent}
-            inputProps={{
-              readOnly: !isEditContent
-            }}
-            onKeyDown={handleInputKeyDown}
-          />
-        }/>
+      <Stack>
+        <ListItemText
+          primary={
+            <Typography
+              fontSize='0.9em'
+              color='gray'>
+              {memo.time}
+            </Typography>
+          }/>
+        <Input
+          inputRef={inputRefObject}
+          fullWidth
+          multiline
+          autoComplete='off'
+          size='small'
+          margin='none'
+          disableUnderline={!isEditContent}
+          inputProps={{
+            readOnly: !isEditContent
+          }}
+          onKeyDown={handleInputKeyDown}/>
+      </Stack>
   </ListItem>
   )
 }
