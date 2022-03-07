@@ -1,19 +1,26 @@
-import { Divider, IconButton, InputBase, Paper } from '@mui/material';
-import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
-import { BookmarkBorderIcon, SearchIcon } from '../../icons/IconPack';
+import { Divider, IconButton, InputBase, Paper, ToggleButton } from '@mui/material';
+import React, { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { BookmarkBorderIcon, BookmarkIcon, SearchIcon } from '../../icons/IconPack';
 
 type SearchBarProps = {
-  handleSearch: (searchQuery: string) => Promise<void>
+  handleSearch: (searchQuery: string, bookmarkSearch: boolean) => Promise<void>
 }
 
 const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
+  const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
   const inputRefObject = useRef<HTMLInputElement>(null)
+
+  const handleBookmarkSearchButtonClick = useCallback(
+    () => {
+      setBookmarkSearch(bookmarkSearch => !bookmarkSearch)
+    }, []
+  )
 
   const handleSearchBarKeyDown = useCallback(
     async (e: KeyboardEvent) => {
       if(e.key === 'Enter') {
         if (inputRefObject.current) {
-          handleSearch(inputRefObject.current.value)
+          handleSearch(inputRefObject.current.value, bookmarkSearch)
         }
       }
     }, []
@@ -22,10 +29,16 @@ const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
   const handleSearchIconButtonClick = useCallback(
     async () => {
       if (inputRefObject.current) {
-        handleSearch(inputRefObject.current.value)
+        handleSearch(inputRefObject.current.value, bookmarkSearch)
       }
     }, []
   )
+
+  useEffect(() => {
+    if (inputRefObject.current) {
+      handleSearch(inputRefObject.current.value, bookmarkSearch)
+    }
+  }, [bookmarkSearch])
 
   return (
     <Paper
@@ -33,10 +46,13 @@ const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
         display: 'flex',
         alignItems: 'center',
       }}>
-      <IconButton>
-        {/* TODO: Toggle BookmarkBarIcon*/}
-        <BookmarkBorderIcon/>
-      </IconButton>
+        <ToggleButton
+          value='BookmarkSearchButton'
+          onChange={handleBookmarkSearchButtonClick}>
+          {bookmarkSearch
+          ? <BookmarkIcon/>
+          : <BookmarkBorderIcon/>}
+        </ToggleButton>
       <Divider
         orientation='vertical'
         variant='middle'

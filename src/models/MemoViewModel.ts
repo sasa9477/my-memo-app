@@ -18,6 +18,6 @@ export default class MemoViewModel {
     this.date = datetime.getJapaneseShortDate()
     this.time = datetime.getShortTime()
     this.content = memo.content
-    this.isBookmarked = false
+    this.isBookmarked = memo.isBookmarked
   }
 }

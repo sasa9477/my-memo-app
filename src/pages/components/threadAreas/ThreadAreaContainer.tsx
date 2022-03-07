@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 import ThreadArea from './ThreadArea';
 
 const ThreadAreaContainer = (): JSX.Element => {
-  const { loadAllMemos, createMemo, searchMemos } = useMemoApi()
+  const { loadAllMemos, searchMemos } = useMemoApi()
   const [ memosGroupedByDate, setMemosGroupedByDate ] = useState(new Map<string, MemoViewModel[]>())
 
   const groupMemosByDate = (memos: MemoViewModel[]): Map<string, MemoViewModel[]> => {
@@ -20,7 +20,6 @@ const ThreadAreaContainer = (): JSX.Element => {
   }
 
   const loadMemosRequest = async () => {
-    console.log('called function loadMemoRequest')
     const loadedMemos = await loadAllMemos()
     const loadedMemoViewModels = loadedMemos.map(memo => new MemoViewModel(memo))
     const groupedMemosByDate = groupMemosByDate(loadedMemoViewModels)
@@ -28,15 +27,11 @@ const ThreadAreaContainer = (): JSX.Element => {
   }
 
   const handleSearch = useCallback(
-    async (searchQuery: string) => {
-      if (searchQuery) {
-        const memos = await searchMemos(searchQuery)
-        const memoViewModels = memos.map(memo => new MemoViewModel(memo))
-        const groupedMemosByDate = groupMemosByDate(memoViewModels)
-        setMemosGroupedByDate(groupedMemosByDate)
-      } else {
-        await loadMemosRequest()
-      }
+    async (searchQuery: string, bookmarkSearch: boolean) => {
+      const memos = await searchMemos(searchQuery, bookmarkSearch)
+      const memoViewModels = memos.map(memo => new MemoViewModel(memo))
+      const groupedMemosByDate = groupMemosByDate(memoViewModels)
+      setMemosGroupedByDate(groupedMemosByDate)
     }, [])
 
   useEffect(() => {

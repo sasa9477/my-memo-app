@@ -2,7 +2,7 @@ import type { Memo, MemoCreateProps } from "../api/@types";
 import apiClient from "./apiClient";
 
 export const useMemoApi = () => {
-    const loadAllMemos = async () => {
+    const loadAllMemos = async (): Promise<Memo[]> => {
         try {
             const response = await apiClient.memos.all.$get()
             return response
@@ -12,9 +12,17 @@ export const useMemoApi = () => {
         }
     }
 
-    const searchMemos = async (searchQuery: string) => {
+    const searchMemos = async (
+        searchQuery: string,
+        bookmarkSearch: boolean
+        ): Promise<Memo[]> => {
         try {
-            const response = await apiClient.memos.search.$get({ query: { searchQuery: searchQuery }})
+            const response = await apiClient.memos.search.$get({
+                query: {
+                    searchQuery: searchQuery,
+                    bookmarkSearch: bookmarkSearch
+                }
+            })
             return response
         } catch(e) {
             console.log(e)
@@ -22,7 +30,7 @@ export const useMemoApi = () => {
         }
     }
 
-    const createMemo = async (content: string) => {
+    const createMemo = async (content: string): Promise<Memo | undefined> => {
         try {
             const requestProps: MemoCreateProps = {
                 content: content
@@ -34,7 +42,7 @@ export const useMemoApi = () => {
         }
     }
 
-    const updateMemo = async (memo: Memo) => {
+    const updateMemo = async (memo: Memo): Promise<Memo | undefined> => {
         console.log('called updateMemo function')
         try {
             const response = apiClient.memos.update.$put({ body: memo })
@@ -44,7 +52,7 @@ export const useMemoApi = () => {
         }
     }
 
-    const deleteMemo = async (memoId: number) => {
+    const deleteMemo = async (memoId: number): Promise<Memo | undefined> => {
         try {
             const response = apiClient.memos.delete.$delete({ query: { memoId: memoId} })
             return response

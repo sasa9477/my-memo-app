@@ -33,7 +33,6 @@ paths:
         - in: query
           name: searchQuery
           description: 検索文字列
-          required: true
           examples:
             string1:
               summary: 検索文字列1
@@ -44,6 +43,11 @@ paths:
               value: 文字列1 文字列2
           schema:
             $ref: '#/components/schemas/searchQuery'
+        - in: query
+          name: bookmarkSearch
+          description: ブックマーク検索フラグ
+          schema:
+            $ref: '#/components/schemas/bookmarkSearch'
       responses:
         "200":
           description: 検索文字列で検索したメモを登録日時でソートして返します。
@@ -116,6 +120,11 @@ components:
     searchQuery:
       description: 検索クエリ
       type: string
+
+    bookmarkSearch:
+      description: ブックマーク検索フラグ
+      type: boolean
+      default: false
 
     MemoCreateProps:
       type: object

@@ -5,6 +5,9 @@ export type MemoId = number
 /** 検索クエリ */
 export type SearchQuery = string
 
+/** ブックマーク検索フラグ */
+export type BookmarkSearch = boolean
+
 export type MemoCreateProps = {
   /** 投稿内容 */
   content: string

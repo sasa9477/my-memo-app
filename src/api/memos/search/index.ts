@@ -6,6 +6,8 @@ export type Methods = {
     query: {
       /** 検索文字列 */
       searchQuery: Types.SearchQuery
+      /** ブックマーク検索フラグ */
+      bookmarkSearch: Types.BookmarkSearch
     }
 
     status: 200

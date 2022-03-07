@@ -3,7 +3,7 @@ import { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'rea
 import { Memo } from '../../../api/@types';
 import { useMemoApi } from '../../../hooks/useMemoApi';
 import MemoViewModel from '../../../models/MemoViewModel';
-import { DeleteIcon, EditIcon } from '../../icons/IconPack';
+import { BookmarkBorderIcon, BookmarkIcon, DeleteIcon, EditIcon } from '../../icons/IconPack';
 
 type MemoContentsProps = {
   //memosGroupedByDate: Map<string, MemoViewModel[]>
@@ -15,12 +15,11 @@ type MemoContentsProps = {
 
 const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Element => {
   const { updateMemo, deleteMemo } = useMemoApi()
+  const [ isEditContent, setIsEditContent ] = useState(false)
+  const [ isBookmarked, setIsBookmarked ] = useState(memo.isBookmarked)
   const inputRefObject = useRef<HTMLInputElement>(null)
-  const [ isEditContent, SetIsEditContent ] = useState(false)
 
   const handleEdit = async () => {
-    console.log('isEditContent', isEditContent)
-
     if (inputRefObject.current) {
       const inputValue = inputRefObject.current?.value.trim().replace(/\n\n$/, '\n')
       inputRefObject.current.value = inputValue
@@ -34,10 +33,21 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
           isBookmarked: memo.isBookmarked
         }
         await updateMemo(req)
-        await loadMemosRequest()
       }
     }
-    SetIsEditContent(isEditContent => !isEditContent)
+    setIsEditContent(isEditContent => !isEditContent)
+  }
+
+  const handleBookmark = async () => {
+    const req: Memo = {
+      id: memo.id,
+      createdAt: memo.createdAt,
+      updatedAt: memo.updatedAt,
+      content: memo.content,
+      isBookmarked: !isBookmarked
+    }
+    await updateMemo(req)
+    setIsBookmarked(isBookmarked => !isBookmarked)
   }
 
   const handleInputKeyDown = useCallback(
@@ -54,6 +64,12 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
     }, []
   )
 
+  const handleBookmarkButtonClick = useCallback(
+    async () => {
+      await handleBookmark()
+    }, []
+  )
+
   const handleDelete = useCallback(
     async (memoId: number) => {
       await deleteMemo(memoId)
@@ -65,6 +81,7 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
     if(inputRefObject.current) {
       inputRefObject.current.value = memo.content
     }
+    setIsBookmarked(memo.isBookmarked)
   }, [])
 
   return (
@@ -73,12 +90,21 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
       sx={{ paddingX: '0.2em', paddingY: '0.5em' }}>
       <Stack
         sx={{
-          marginX: '0.2em'
+          marginRight: '0.5em'
         }}>
+        <ToggleButton
+          value='bookmarkToggleButton'
+          size='small'
+          onChange={handleBookmarkButtonClick}>
+          {isBookmarked
+          ? <BookmarkIcon
+              fontSize='small'/>
+          : <BookmarkBorderIcon
+              fontSize='small'/>}
+        </ToggleButton>
         <ToggleButton
           value='editToggleButton'
           size='small'
-          disableRipple={true}
           selected={isEditContent}
           onChange={handleEditButtonClick}>
           <EditIcon
