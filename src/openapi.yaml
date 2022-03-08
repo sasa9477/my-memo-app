@@ -108,7 +108,7 @@ paths:
             $ref: '#/components/schemas/memoId'
       responses:
         "200":
-          description: IDで指定されたメモを返します。
+          description: IDで指定されたメモを削除します。
       tags:
         - Memos
 components:

@@ -45,17 +45,16 @@ export const useMemoApi = () => {
     const updateMemo = async (memo: Memo): Promise<Memo | undefined> => {
         console.log('called updateMemo function')
         try {
-            const response = apiClient.memos.update.$put({ body: memo })
+            const response = await apiClient.memos.update.$put({ body: memo })
             return response
         } catch(e) {
             console.log(e)
         }
     }
 
-    const deleteMemo = async (memoId: number): Promise<Memo | undefined> => {
+    const deleteMemo = async (memoId: number): Promise<void> => {
         try {
-            const response = apiClient.memos.delete.$delete({ query: { memoId: memoId} })
-            return response
+            await apiClient.memos.delete.$delete({ query: { memoId: memoId} })
         } catch(e) {
             console.log(e)
         }
