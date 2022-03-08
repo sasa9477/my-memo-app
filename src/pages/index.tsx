@@ -14,10 +14,16 @@ const Index = (): JSX.Element => {
 
   if (!session) {
     return (
-      <Button
-        onClick={() => signIn()}>
-          Sign In
-      </Button>
+      <Box
+        sx={{
+          height: '97vh',
+          display: 'flex'
+        }}>
+        <Button
+          onClick={() => signIn()}>
+            Sign In
+        </Button>
+      </Box>
     )
   }
 
