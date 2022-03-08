@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Box, Button } from '@mui/material';
+import { signIn, useSession } from 'next-auth/react';
 import React from 'react';
 import SideBar from './components/sideBars/SideBar';
 import ThreadAreaContainer from './components/threadAreas/ThreadAreaContainer';
@@ -7,10 +7,19 @@ import ThreadAreaContainer from './components/threadAreas/ThreadAreaContainer';
 const drawerWidth = 80;
 
 const Index = (): JSX.Element => {
-  const theme = useTheme()
+  const {data: session } = useSession()
   // const isShowSidebar = useMediaQuery(theme.breakpoints.up('sm'))
   // サイドバーを一旦非表示
   const isShowSidebar = false
+
+  if (!session) {
+    return (
+      <Button
+        onClick={() => signIn()}>
+          Sign In
+      </Button>
+    )
+  }
 
   return (
     <Box
