@@ -3,6 +3,7 @@ import axios from "axios";
 import api from "../api/$api";
 
 const baseURL = (() => {
+    console.log(`process.env.serverURL : ${process.env.serverURL}`)
     if (process.env.serverURL) {
         return `${process.env.serverURL}/api/`
     }
