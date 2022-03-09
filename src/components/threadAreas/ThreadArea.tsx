@@ -1,6 +1,6 @@
 import { List, ListItem, ListSubheader } from '@mui/material';
 import React, { FC, useEffect, useRef } from 'react';
-import MemoViewModel from '../../../models/MemoViewModel';
+import MemoViewModel from '../../models/MemoViewModel';
 import MemoContents from './MemoContents';
 
 type ThreadAreaProps = {
@@ -35,7 +35,6 @@ const ThreadArea: FC<ThreadAreaProps> = ({ memosGroupedByDate, loadMemosRequest 
                   {date}
                 </ListSubheader>
                 {memoList.map((memo) => (
-                  // TODO: fix error
                   <MemoContents
                     key={`item-${date}-${memo.id}`}
                     memo={memo}
