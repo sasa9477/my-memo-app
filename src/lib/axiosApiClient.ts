@@ -6,6 +6,6 @@ const axiosClient = axios.create({
     baseURL: "http://localhost:3000/api/"
 })
 
-const apiClient = api(aspida(axiosClient))
+const axiosApiClient = api(aspida(axiosClient))
 
-export default apiClient
+export default axiosApiClient

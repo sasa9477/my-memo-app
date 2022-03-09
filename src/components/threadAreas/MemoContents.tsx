@@ -1,9 +1,9 @@
 import { IconButton, Input, ListItem, ListItemText, Stack, ToggleButton, Typography } from '@mui/material';
 import { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Memo } from '../../../api/@types';
-import { useMemoApi } from '../../../hooks/useMemoApi';
-import MemoViewModel from '../../../models/MemoViewModel';
+import { Memo } from '../../api/@types';
+import { useMemoApi } from '../../hooks/useMemoApi';
 import { BookmarkBorderIcon, BookmarkIcon, DeleteIcon, EditIcon } from '../../icons/IconPack';
+import MemoViewModel from '../../models/MemoViewModel';
 
 type MemoContentsProps = {
   //memosGroupedByDate: Map<string, MemoViewModel[]>
@@ -39,14 +39,6 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
   }
 
   const handleBookmark = async () => {
-    const req: Memo = {
-      id: memo.id,
-      createdAt: memo.createdAt,
-      updatedAt: memo.updatedAt,
-      content: memo.content,
-      isBookmarked: !isBookmarked
-    }
-    await updateMemo(req)
     setIsBookmarked(isBookmarked => !isBookmarked)
   }
 
@@ -76,6 +68,20 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
       await loadMemosRequest()
     }, []
   )
+
+  useEffect(() => {
+    (async () => {
+      memo.isBookmarked = isBookmarked
+      const req: Memo = {
+        id: memo.id,
+        createdAt: memo.createdAt,
+        updatedAt: memo.updatedAt,
+        content: memo.content,
+        isBookmarked: memo.isBookmarked
+      }
+      await updateMemo(req)
+    })()
+  }, [ isBookmarked ])
 
   useEffect(() => {
     if(inputRefObject.current) {

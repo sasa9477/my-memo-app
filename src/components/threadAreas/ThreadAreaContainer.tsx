@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useMemoApi } from '../../../hooks/useMemoApi';
-import MemoViewModel from '../../../models/MemoViewModel';
+import { useMemoApi } from '../../hooks/useMemoApi';
+import MemoViewModel from '../../models/MemoViewModel';
 import InputThreadMemo from './InputTheadMemo';
 import SearchBar from './SearchBar';
 import ThreadArea from './ThreadArea';

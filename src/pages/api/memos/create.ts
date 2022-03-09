@@ -1,11 +1,11 @@
 import { NextApiHandler } from "next";
-import prismaApiClient from "./../prismaApiClient";
+import prisma from "../../../lib/prisma";
 
 const handler: NextApiHandler = async (req, res) => {
   const memo = {
     content: req.body.content
   }
-  const createdMemo = await prismaApiClient.memo.create({
+  const createdMemo = await prisma.memo.create({
     data: memo
   })
 

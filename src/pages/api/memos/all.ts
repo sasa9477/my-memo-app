@@ -1,8 +1,8 @@
 import { NextApiHandler } from 'next';
-import prismaApiClient from './../prismaApiClient';
+import prisma from '../../../lib/prisma';
 
 const handler: NextApiHandler = async (req, res) => {
-  const memos = await prismaApiClient.memo.findMany({
+  const memos = await prisma.memo.findMany({
     orderBy: [
       {
         createdAt: 'asc'

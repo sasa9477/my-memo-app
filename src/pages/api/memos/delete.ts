@@ -1,5 +1,5 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import prismaApiClient from "./../prismaApiClient";
+import prisma from "../../../lib/prisma";
 
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (typeof req.query.memoId === 'string') {
@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
       return
     }
 
-    const deletedMemo = await prismaApiClient.memo.delete({
+    const deletedMemo = await prisma.memo.delete({
       where: {
         id: id
       }

@@ -1,6 +1,6 @@
 import { Box, IconButton, Input, Paper } from '@mui/material';
 import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
-import { useMemoApi } from '../../../hooks/useMemoApi';
+import { useMemoApi } from '../../hooks/useMemoApi';
 import { FileIcon, SendIcon } from '../../icons/IconPack';
 
 type InputThreadMemoProps = {

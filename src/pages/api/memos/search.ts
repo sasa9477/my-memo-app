@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { NextApiHandler } from "next";
-import prismaApiClient from "../prismaApiClient";
+import prisma from "../../../lib/prisma";
 
 type QueryProp = {
   searchQuery: string,
@@ -32,14 +32,14 @@ const handler: NextApiHandler = async ( req, res ) => {
   }
 
   if (searchQuery.length === 0) {
-    const memos = await prismaApiClient.memo.findMany({
+    const memos = await prisma.memo.findMany({
       orderBy: {
         createdAt: 'asc'
       }
     })
     res.status(200).json(memos)
   } else {
-    const memos = await prismaApiClient.memo.findMany({
+    const memos = await prisma.memo.findMany({
       where: {
         AND: searchQuery
       },

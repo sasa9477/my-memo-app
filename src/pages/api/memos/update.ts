@@ -1,6 +1,6 @@
 import { Memo } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import prismaApiClient from "./../prismaApiClient";
+import prisma from "../../../lib/prisma";
 
 const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const memo: Memo = {
@@ -8,7 +8,7 @@ const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse
     updatedAt: new Date()
   };
 
-  const updatedMemo = await prismaApiClient.memo.update({
+  const updatedMemo = await prisma.memo.update({
     where: {
       id: memo.id
     },
