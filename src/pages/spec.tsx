@@ -8,9 +8,17 @@ type Props = {
   spec: Record<string, any>
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  const spec = load(readFileSync('./src/openapi.yaml', 'utf8')) as Record<string, any>
+export const getStaticProps: GetStaticProps = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
 
+  const spec = load(readFileSync('./src/openapi.yaml', 'utf8')) as Record<string, any>
   return {
     props: {
       spec,
