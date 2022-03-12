@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 const nextConfig = {
-  reactStrictMode: true
+  reactStrictMode: true,
+  env: {
+    apiBaseURL: isProduction ? '/api/' : 'http://localhost:3000/api/'
+  }
 }
-console.log('process.env.NODE_ENV : ', process.env.NODE_ENV)
-console.log('process.env.VERCEL_URL : ', process.env.VERCEL_URL)
+
+console.log('nextConfig ', nextConfig)
 
 module.exports = nextConfig

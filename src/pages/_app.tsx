@@ -5,14 +5,14 @@ import CommonMeta from '../components/CommonMeta';
 import '../styles/globals.css';
 import theme from '../themes/theme';
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function MyApp({ Component, pageProps:{ session, ...pageProps }}: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <ThemeProvider theme={theme}>
         <CommonMeta/>
         <Component {...pageProps} />
-      </SessionProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </SessionProvider>
   )
 }
 

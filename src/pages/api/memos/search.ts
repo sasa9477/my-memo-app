@@ -27,7 +27,7 @@ const handler: NextApiHandler = async ( req, res ) => {
 
   if (bookmarkSearchRequest && typeof bookmarkSearchRequest === 'string' && bookmarkSearchRequest === 'true') {
     searchQuery.push({
-      isBookmarked: true
+      bookmarkFlag: true
     })
   }
 
