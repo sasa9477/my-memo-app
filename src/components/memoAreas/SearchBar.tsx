@@ -2,19 +2,13 @@ import { Divider, IconButton, InputBase, Paper, ToggleButton } from '@mui/materi
 import React, { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { BookmarkBorderIcon, BookmarkIcon, SearchIcon } from '../../icons/IconPack';
 
-type SearchBarProps = {
+type Props = {
   handleSearch: (searchQuery: string, bookmarkSearch: boolean) => Promise<void>
 }
 
-const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
+const SearchBar: FC<Props> = ({ handleSearch }): JSX.Element => {
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
   const inputRefObject = useRef<HTMLInputElement>(null)
-
-  const handleBookmarkSearchButtonClick = useCallback(
-    () => {
-      setBookmarkSearch(bookmarkSearch => !bookmarkSearch)
-    }, []
-  )
 
   const handleSearchBarKeyDown = useCallback(
     async (e: KeyboardEvent) => {
@@ -48,7 +42,7 @@ const SearchBar: FC<SearchBarProps> = ({ handleSearch }): JSX.Element => {
       }}>
         <ToggleButton
           value='BookmarkSearchButton'
-          onChange={handleBookmarkSearchButtonClick}>
+          onChange={() => setBookmarkSearch(bookmarkSearch => !bookmarkSearch)}>
           {bookmarkSearch
           ? <BookmarkIcon/>
           : <BookmarkBorderIcon/>}

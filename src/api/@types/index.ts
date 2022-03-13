@@ -22,5 +22,5 @@ export type Memo = {
   /** 登録日時(UTC) */
   updatedAt: string
   /** ブックマークフラグ */
-  isBookmarked: boolean
+  bookmarkFlag: boolean
 } & MemoCreateProps

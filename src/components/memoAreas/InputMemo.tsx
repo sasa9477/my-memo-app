@@ -3,11 +3,11 @@ import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
 import { useMemoApi } from '../../hooks/useMemoApi';
 import { FileIcon, SendIcon } from '../../icons/IconPack';
 
-type InputThreadMemoProps = {
+type Props = {
   loadMemosRequest: () => Promise<void>
 }
 
-const InputThreadMemo: FC<InputThreadMemoProps> = ({ loadMemosRequest }): JSX.Element => {
+const InputMemo: FC<Props> = ({ loadMemosRequest }): JSX.Element => {
   const { createMemo } = useMemoApi()
   const inputRefObject = useRef<HTMLInputElement>(null)
 
@@ -86,4 +86,4 @@ const InputThreadMemo: FC<InputThreadMemoProps> = ({ loadMemosRequest }): JSX.El
   );
 };
 
-export default InputThreadMemo;
+export default InputMemo;

@@ -1,8 +1,8 @@
 import { Box, Button } from '@mui/material';
 import { signIn, useSession } from 'next-auth/react';
 import React from 'react';
+import MemoArea from '../components/memoAreas/MemoArea';
 import SideBar from '../components/sideBars/SideBar';
-import ThreadAreaContainer from '../components/threadAreas/ThreadAreaContainer';
 
 const drawerWidth = 80;
 
@@ -38,7 +38,7 @@ const Index = (): JSX.Element => {
         display: 'flex'
       }}>
       { isShowSidebar ? <SideBar sideBarWidth={drawerWidth}/> : null }
-      <ThreadAreaContainer/>
+      <MemoArea/>
     </Box>
   );
 }

@@ -3,20 +3,17 @@ import { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'rea
 import { Memo } from '../../api/@types';
 import { useMemoApi } from '../../hooks/useMemoApi';
 import { BookmarkBorderIcon, BookmarkIcon, DeleteIcon, EditIcon } from '../../icons/IconPack';
-import MemoViewModel from '../../models/MemoViewModel';
+import MemoItem from '../../models/MemoItem';
 
-type MemoContentsProps = {
-  //memosGroupedByDate: Map<string, MemoViewModel[]>
-  // handleEdit: (memo: MemoViewModel) => Promise<void>
-  // handleDelete: (memoId: number) => Promise<void>
-  memo: MemoViewModel
+type Props = {
+  memo: MemoItem
   loadMemosRequest: () => Promise<void>
 }
 
-const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Element => {
+const MemoContents:FC<Props> = ({ memo, loadMemosRequest }): JSX.Element => {
   const { updateMemo, deleteMemo } = useMemoApi()
   const [ isEditContent, setIsEditContent ] = useState(false)
-  const [ isBookmarked, setIsBookmarked ] = useState(memo.isBookmarked)
+  const [ isBookmarked, setIsBookmarked ] = useState(memo.bookmarkFlag)
   const inputRefObject = useRef<HTMLInputElement>(null)
 
   const handleEdit = async () => {
@@ -30,7 +27,7 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
           createdAt: memo.createdAt,
           updatedAt: memo.updatedAt,
           content: memo.content,
-          isBookmarked: memo.isBookmarked
+          bookmarkFlag: memo.bookmarkFlag
         }
         await updateMemo(req)
       }
@@ -71,13 +68,13 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
 
   useEffect(() => {
     (async () => {
-      memo.isBookmarked = isBookmarked
+      memo.bookmarkFlag = isBookmarked
       const req: Memo = {
         id: memo.id,
         createdAt: memo.createdAt,
         updatedAt: memo.updatedAt,
         content: memo.content,
-        isBookmarked: memo.isBookmarked
+        bookmarkFlag: memo.bookmarkFlag
       }
       await updateMemo(req)
     })()
@@ -87,7 +84,7 @@ const MemoContents:FC<MemoContentsProps> = ({ memo, loadMemosRequest }): JSX.Ele
     if(inputRefObject.current) {
       inputRefObject.current.value = memo.content
     }
-    setIsBookmarked(memo.isBookmarked)
+    setIsBookmarked(memo.bookmarkFlag)
   }, [])
 
   return (

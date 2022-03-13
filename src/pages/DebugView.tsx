@@ -69,7 +69,7 @@ const DebugView = () => {
               <td>{memo.createdAt ? format(new Date(memo.createdAt), 'yyyy-MM-dd HH:mm:ss') : null}</td>
               <td>{memo.updatedAt ? format(new Date(memo.updatedAt), 'yyyy-MM-dd HH:mm:ss') : null}</td>
               <td>{memo.content}</td>
-              <td>{memo.isBookmarked ? 'True' : 'False'}</td>
+              <td>{memo.bookmarkFlag ? 'True' : 'False'}</td>
               <td><input type="button" value="更新" onClick={() => handleUpdate(memo)}/></td>
               <td><input type="button" value="削除" onClick={() => handleDelete(memo.id)}/></td>
             </tr>
