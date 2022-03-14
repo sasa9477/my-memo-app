@@ -9,6 +9,7 @@
     "lint": "next lint",
     "prisma-init": "prisma db push",
     "prisma-generate": "prisma generate",
+    "api:build": "aspida",
     "aspida:clean": "rimraf ./src/api",
     "aspida:generate": "openapi2aspida -i ./src/openapi.yaml -o ./src/api",
     "openapi-generate": "run-s aspida:clean aspida:generate"
