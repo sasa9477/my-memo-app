@@ -7,12 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma-init": "prisma db push",
-    "prisma-generate": "prisma generate",
-    "api:build": "aspida",
-    "aspida:clean": "rimraf ./src/api",
-    "aspida:generate": "openapi2aspida -i ./src/openapi.yaml -o ./src/api",
-    "openapi-generate": "run-s aspida:clean aspida:generate"
+    "prisma:init": "prisma db push",
+    "api:build": "aspida"
   },
   "dependencies": {
     "@aspida/axios": "^1.8.0",
@@ -24,8 +20,6 @@
     "@prisma/client": "^3.10.0",
     "axios": "^0.26.0",
     "date-fns-tz": "^1.2.2",
-    "express": "^4.17.3",
-    "js-yaml": "^4.1.0",
     "next": "12.1.0",
     "next-auth": "^4.2.1",
     "react": "17.0.2",
@@ -33,17 +27,10 @@
     "react-hook-form": "^7.27.1"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.5",
-    "@types/node": "17.0.18",
     "@types/react": "17.0.39",
-    "@types/swagger-ui-react": "^4.1.1",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
-    "npm-run-all": "^4.1.5",
-    "openapi2aspida": "^0.17.0",
     "prisma": "^3.10.0",
-    "rimraf": "^3.0.2",
-    "swagger-ui-react": "^4.6.2",
     "typescript": "4.5.5"
   }
 }
