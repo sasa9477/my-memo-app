@@ -26,7 +26,7 @@ const DebugView = () => {
   const { searchMemos, createMemo, updateMemo, deleteMemo } = useMemoApi()
   const [ memos, setMemos ] = useState<Memo[]>([])
 
-  const loadAllMemos = () => searchMemos({ keywords: '' })
+  const loadAllMemos = () => searchMemos({ keywords: '', bookmarkFlag: false })
 
   const handleCreate = useCallback(
     async (values: FormValues) => {
