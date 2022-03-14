@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
   const createdMemo = await prisma.memo.create({
     data: {
       content: req.body.content,
-      user: { connect: { id: session?.user?.id } }
+      user: { connect: { id: session.user.id } }
     }
   })
 

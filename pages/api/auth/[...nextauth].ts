@@ -14,7 +14,7 @@ export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET ?? '',
   callbacks: {
     session: ({session, user}) => {
-      session.user.id = Number(user.id)
+      session.user.id = user.id
       return session
     }
   },
