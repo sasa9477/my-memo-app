@@ -55,13 +55,13 @@ const MemoArea = (): JSX.Element => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        flex: 1
+        flex: 1,
+        height: '100vh'
       }}>
       <SearchBar handleChangeSearchQuery={handleChangeSearchQuery}/>
       <List
       sx={{
         flexGrow: 1,
-        marginY: '10px',
         overflowY: 'scroll',
         padding: 0
       }}>

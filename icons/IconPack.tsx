@@ -6,6 +6,7 @@ export { default as FileIcon } from '@mui/icons-material/Description';
 export { default as EditIcon } from '@mui/icons-material/Edit';
 export { default as FormatBoldIcon } from '@mui/icons-material/FormatBold';
 export { default as FormatItalicIcon } from '@mui/icons-material/FormatItalic';
+export { default as MenuIcon } from '@mui/icons-material/menu';
 export { default as SearchIcon } from '@mui/icons-material/Search';
 export { default as SendIcon } from '@mui/icons-material/Send';
 export { default as StrikeThroughSIcon } from '@mui/icons-material/StrikethroughS';
