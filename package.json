@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prisma:init": "prisma db push",
-    "api:build": "aspida"
+    "api:build": "aspida",
+    "license:build": "license-checker --customPath ./customFormat.json --json --out ./licenses.json"
   },
   "dependencies": {
     "@aspida/axios": "^1.8.0",
@@ -29,6 +30,7 @@
     "@types/react": "17.0.39",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
+    "license-checker": "^25.0.1",
     "prisma": "^3.10.0",
     "typescript": "4.5.5"
   }
