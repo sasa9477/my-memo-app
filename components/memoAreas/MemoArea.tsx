@@ -93,7 +93,7 @@ const MemoArea = (): JSX.Element => {
         loadMemosRequest={loadMemosRequest}
         scrollEndOfContent={scrollEndOfContent}/>
     </Box>
-  );
-};
+  )
+}
 
-export default MemoArea;
+export default MemoArea

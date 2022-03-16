@@ -38,6 +38,7 @@ const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
       sx={{
         display: 'flex',
         alignItems: 'center',
+        height: '48px'
       }}>
         <ToggleButton
           value='BookmarkSearchButton'

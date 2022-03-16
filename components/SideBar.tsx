@@ -1,22 +1,22 @@
-import { Divider, List, ListItem, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemText } from '@mui/material';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import React from 'react';
 
 const SideBar = (): JSX.Element => {
-  const menuItems = ['メモ', '英単語']
-
   return (
     <List>
-      {menuItems.map((text) => (
-        <ListItem
-          button
-          key={text}>
-          <ListItemText
-            primary={text} />
+      <Link href='/' passHref>
+        <ListItem button component='a'>
+          <ListItemText primary='メモ'/>
         </ListItem>
-      ))}
-      <Divider/>
-      <ListItem button key="signout" onClick={() => signOut()}>
+      </Link>
+      <Link href='/license' passHref>
+        <ListItem button component='a'>
+          <ListItemText primary='ライセンス'/>
+        </ListItem>
+      </Link>
+      <ListItem button onClick={() => signOut()}>
         <ListItemText primary='サインアウト'/>
       </ListItem>
     </List>
