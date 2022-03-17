@@ -35,10 +35,10 @@ const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
 
   return (
     <Paper
+      elevation={1}
       sx={{
         display: 'flex',
-        alignItems: 'center',
-        height: '48px'
+        alignItems: 'center'
       }}>
         <ToggleButton
           value='BookmarkSearchButton'
@@ -51,16 +51,16 @@ const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
         orientation='vertical'
         variant='middle'
         flexItem/>
+      <IconButton
+        onClick={() => changeSearchQuery()}>
+        <SearchIcon/>
+      </IconButton>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         inputProps={{ spellCheck: false }}
         placeholder='メモを検索する'
         inputRef={inputRefObject}
         onKeyDown={handleSearchBarKeyDown}/>
-      <IconButton
-        onClick={() => changeSearchQuery()}>
-        <SearchIcon/>
-      </IconButton>
     </Paper>
   )
 };

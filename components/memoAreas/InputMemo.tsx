@@ -1,7 +1,6 @@
-import { Box, IconButton, Input, Paper } from '@mui/material';
-import React, { FC, KeyboardEvent, useCallback, useRef } from 'react';
+import { Input, Paper } from '@mui/material';
+import React, { FC, KeyboardEvent, useRef } from 'react';
 import { useMemoApi } from '../../hooks/useMemoApi';
-import { FileIcon, SendIcon } from '../../icons/IconPack';
 
 type Props = {
   loadMemosRequest: (isScrollEndOfContent?: boolean) => Promise<void>
@@ -24,44 +23,35 @@ const InputMemo: FC<Props> = ({ loadMemosRequest, scrollEndOfContent }): JSX.Ele
     }
   }
 
-  const handleInputKeyDown = useCallback(
-    async (e: KeyboardEvent) => {
-      if(e.ctrlKey && e.key === 'Enter') {
-        await handleSend()
-      }
-    }, []
-  )
-
-  const handleSendIconButtonClick = useCallback(
-    async () => {
+  const handleInputKeyDown = async (e: KeyboardEvent) => {
+    if(e.ctrlKey && e.key === 'Enter') {
       await handleSend()
-    }, []
-  )
+    }
+  }
 
   return (
     <Paper
+      elevation={1}
       sx={{
-        // padding bottom is 0, others 0.5em
-        padding: '0.5em 0.5em 0 0.5em'
-      }}
-      elevation={2}>
+        padding: '0.5em',
+        mb: '2px'
+      }}>
       <Input
         fullWidth
         multiline
         minRows={2}
         maxRows={8}
         inputProps={{ spellCheck: false }}
-        placeholder='メモを書く'
+        placeholder='メモを書く(Ctrl + Enter で送信)'
         autoFocus={true}
         inputRef={inputRefObject}
         onKeyDown={handleInputKeyDown}/>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          // justifyContent: 'flex-end',
           // justifyContent: 'space-between',
         }}>
-        {/*
         <Box>
           <IconButton>
             <FormatBoldIcon/>
@@ -76,16 +66,15 @@ const InputMemo: FC<Props> = ({ loadMemosRequest, scrollEndOfContent }): JSX.Ele
             <CodeIcon/>
           </IconButton>
         </Box>
-        */}
         <Box>
-          <IconButton>
-            <FileIcon/>
-          </IconButton>
           <IconButton onClick={(handleSendIconButtonClick)}>
             <SendIcon/>
           </IconButton>
+          <IconButton>
+            <FileIcon/>
+          </IconButton>
         </Box>
-      </Box>
+      </Box> */}
     </Paper>
   );
 };

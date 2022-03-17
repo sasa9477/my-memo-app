@@ -23,19 +23,20 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
       }}>
       <AppBar
         position="fixed"
+        elevation={1}
         sx={{
-          width: { sm: `calc(100% - ${sideBarWidth}px)`},
-          ml: { sm: `${sideBarWidth}px`}
+          display: { sm: 'none' }
         }}>
         <Toolbar>
           <IconButton
             color='inherit'
-            aria-label='open side bar'
             onClick={handleSideBarToggle}
+            size='small'
             sx={{ mr: 2, display: { sm: 'none' } }}>
-            <MenuIcon/>
+            <MenuIcon
+              fontSize='small'/>
           </IconButton>
-          <Typography variant='h6' noWrap component='div'>
+          <Typography noWrap component='div'>
             My Memo App
           </Typography>
         </Toolbar>
@@ -74,10 +75,8 @@ const Layout: FC<Props> = ({ children }): JSX.Element => {
       <Box
         component='main'
         sx={{
-          flexGrow: 1,
-          width:{ sm: `calc(100% - ${sideBarWidth}px)`}
+          flexGrow: 1
         }}>
-        <Toolbar/>
         {children}
       </Box>
     </Box>

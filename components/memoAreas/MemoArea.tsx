@@ -1,4 +1,4 @@
-import { Box, List, ListItem, ListSubheader } from '@mui/material';
+import { Box, List, ListItem, ListSubheader, Toolbar } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchQuery } from '../../api/@types';
 import { useMemoApi } from '../../hooks/useMemoApi';
@@ -38,7 +38,6 @@ const MemoArea = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-//      console.log('called loadMemosRequest on cahnge searchQuery', searchQuery)
       await loadMemosRequest()
     })()
   }, [searchQuery])
@@ -55,21 +54,22 @@ const MemoArea = (): JSX.Element => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        flex: 1,
         height: '100vh'
       }}>
+      <Toolbar sx={{ display: { sm: 'none' },  }}/>
       <SearchBar handleChangeSearchQuery={handleChangeSearchQuery}/>
       <List
       sx={{
         flexGrow: 1,
         overflowY: 'scroll',
-        padding: 0
+        padding: 0,
+        marginTop: '2px'
       }}>
       {(() => {
         const jsxElements = new Array<JSX.Element>()
         memosGroupedByDate.forEach((memoList, date) => {
           jsxElements.push(
-            <ListItem key={date} sx={{ paddingX: 0 }}>
+            <ListItem key={date} sx={{ padding: 0 }}>
               <List>
                 <ListSubheader>
                   {date}
