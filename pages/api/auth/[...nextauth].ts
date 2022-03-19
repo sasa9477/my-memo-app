@@ -18,6 +18,5 @@ export default NextAuth({
       return session
     }
   },
-  // debug: process.env.NODE_ENV !== 'production'
-  debug: true
+  debug: process.env.NODE_ENV !== 'production'
 })
