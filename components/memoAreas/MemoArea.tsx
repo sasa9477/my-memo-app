@@ -13,7 +13,6 @@ const MemoArea = (): JSX.Element => {
     keywords : '',
     bookmarkFlag: false
   })
-  const [ requestScrollEndOfContent, SetRequestScrollEndOfContent ] = useState(false)
   const [ memosGroupedByDate, setMemoItemsGroupedByDate ] = useState(new Map<string, MemoItem[]>())
   const endOfContentRef = useRef<HTMLDivElement>(null)
 
@@ -57,7 +56,7 @@ const MemoArea = (): JSX.Element => {
         memosGroupedByDate.forEach((memoList, date) => {
           jsxElements.push(
             <ListItem key={date} sx={{ padding: 0 }}>
-              <List>
+              <List sx={{ padding: 0 }}>
                 <ListSubheader>
                   {date}
                 </ListSubheader>
