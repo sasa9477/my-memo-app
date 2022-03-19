@@ -1,7 +1,7 @@
 import { Divider, InputBase, Paper, ToggleButton } from '@mui/material';
 import React, { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { SearchQuery } from '../../api/@types';
 import { BookmarkBorderIcon, BookmarkIcon, SearchIcon } from '../../icons/IconPack';
+import { SearchQuery } from '../../interfaces/@types';
 
 type Props = {
   setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>

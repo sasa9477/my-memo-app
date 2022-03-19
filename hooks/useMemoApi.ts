@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Memo, MemoCreateProps, MemoId, SearchQuery } from "../api/@types";
+import type { Memo, MemoCreateProps, MemoId, SearchQuery } from "../interfaces/@types";
 import axiosApiClient from "../lib/axiosApiClient";
 
 export const useMemoApi = () => {

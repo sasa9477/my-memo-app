@@ -27,31 +27,23 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   return {
     memos: {
       create: {
-        post: (option: { body: Methods0['post']['reqBody'], config?: T }) =>
-          fetch<Methods0['post']['resBody']>(prefix, PATH0, POST, option).json(),
         $post: (option: { body: Methods0['post']['reqBody'], config?: T }) =>
           fetch<Methods0['post']['resBody']>(prefix, PATH0, POST, option).json().then(r => r.body),
         $path: () => `${prefix}${PATH0}`
       },
       delete: {
-        delete: (option: { query: Methods1['delete']['query'], config?: T }) =>
-          fetch<void, BasicHeaders, Methods1['delete']['status']>(prefix, PATH1, DELETE, option).send(),
         $delete: (option: { query: Methods1['delete']['query'], config?: T }) =>
           fetch<void, BasicHeaders, Methods1['delete']['status']>(prefix, PATH1, DELETE, option).send().then(r => r.body),
         $path: (option?: { method: 'delete'; query: Methods1['delete']['query'] }) =>
           `${prefix}${PATH1}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
       },
       search: {
-        get: (option: { query: Methods2['get']['query'], config?: T }) =>
-          fetch<Methods2['get']['resBody']>(prefix, PATH2, GET, option).json(),
         $get: (option: { query: Methods2['get']['query'], config?: T }) =>
           fetch<Methods2['get']['resBody']>(prefix, PATH2, GET, option).json().then(r => r.body),
         $path: (option?: { method?: 'get'; query: Methods2['get']['query'] }) =>
           `${prefix}${PATH2}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
       },
       update: {
-        put: (option: { body: Methods3['put']['reqBody'], config?: T }) =>
-          fetch<Methods3['put']['resBody']>(prefix, PATH3, PUT, option).json(),
         $put: (option: { body: Methods3['put']['reqBody'], config?: T }) =>
           fetch<Methods3['put']['resBody']>(prefix, PATH3, PUT, option).json().then(r => r.body),
         $path: () => `${prefix}${PATH3}`

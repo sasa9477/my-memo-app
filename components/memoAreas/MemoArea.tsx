@@ -1,6 +1,6 @@
 import { Box, List, ListItem, ListSubheader, Toolbar } from '@mui/material';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { SearchQuery } from '../../api/@types';
+import { SearchQuery } from '../../interfaces/@types';
 import axiosApiClient from '../../lib/axiosApiClient';
 import MemoItem from '../../models/MemoItem';
 import MemoItemsCollection from '../../models/MemoItemsCollection';
