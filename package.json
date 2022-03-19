@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm-run-all license:build next:build",
+    "next:build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:init": "prisma db push",
@@ -31,6 +32,7 @@
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "license-checker": "^25.0.1",
+    "npm-run-all": "^4.1.5",
     "prisma": "^3.10.0",
     "typescript": "4.5.5"
   }
