@@ -43,3 +43,5 @@ yarn-error.log*
 
 # Ignore Licenses
 licenses.json
+
+*.code-workspace
