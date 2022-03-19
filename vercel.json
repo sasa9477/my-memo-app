@@ -1,5 +1,4 @@
 {
-    "$comment": "Vercel Botからのプルリクへのコメントをオフにする",
     "github": {
         "silent": true
     }
