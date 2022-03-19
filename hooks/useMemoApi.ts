@@ -1,17 +1,25 @@
+import { useEffect, useState } from "react";
 import type { Memo, MemoCreateProps, MemoId, SearchQuery } from "../api/@types";
 import axiosApiClient from "../lib/axiosApiClient";
 
 export const useMemoApi = () => {
-  const searchMemos = async (searchQuery: SearchQuery): Promise<Memo[]> => {
-    try {
-        const response = await axiosApiClient.memos.search.$get({
-          query: searchQuery
-        })
-        return response
-      } catch(e) {
-        console.log(e)
-        return []
-    }
+  const searchMemos = (searchQuery: SearchQuery): Memo[] => {
+    const [ memos, setMemos ] = useState<Memo[]>([])
+    useEffect(() => {
+      const fetch = async () => {
+        try {
+          const res = await axiosApiClient.memos.search.$get({
+            query: searchQuery
+          })
+          setMemos(res)
+        } catch(e) {
+          console.log(e)
+        }
+      }
+      fetch()
+    }, [searchQuery, setMemos])
+
+    return memos
   }
 
   const createMemo = async (memoCreateProps: MemoCreateProps): Promise<Memo | undefined> => {

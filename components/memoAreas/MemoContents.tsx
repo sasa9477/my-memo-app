@@ -6,7 +6,7 @@ import MemoItem from '../../models/MemoItem';
 
 type Props = {
   memoItem: MemoItem
-  loadMemosRequest: (isScrollEndOfContent?: boolean) => Promise<void>
+  loadMemosRequest: () => Promise<void>
 }
 
 const MemoContents:FC<Props> = ({ memoItem, loadMemosRequest }): JSX.Element => {
@@ -16,27 +16,27 @@ const MemoContents:FC<Props> = ({ memoItem, loadMemosRequest }): JSX.Element => 
   const [ content, setContent ] = useState(memoItem.content)
   const inputRefObject = useRef<HTMLInputElement>(null)
 
-  const handleEdit = async () => {
+  const handleEdit = useCallback(() => {
     if (inputRefObject.current) {
       const inputValue = inputRefObject.current.value.trim().replace(/\n\n$/, '\n')
       setContent(inputValue)
     }
     setIsEditContent(editingContent => !editingContent)
-  }
+  }, [])
 
   const handleInputKeyDown = useCallback(
     async (e: KeyboardEvent) => {
       if(e.ctrlKey && e.key === 'Enter') {
         await handleEdit()
       }
-    }, []
+    }, [handleEdit]
   )
 
   const handleDelete = useCallback(
     async (memoId: number) => {
       await deleteMemo(memoId)
-      loadMemosRequest()
-    }, []
+      await loadMemosRequest()
+    }, [deleteMemo, loadMemosRequest]
   )
 
   useEffect(() => {
@@ -48,13 +48,13 @@ const MemoContents:FC<Props> = ({ memoItem, loadMemosRequest }): JSX.Element => 
         await loadMemosRequest()
       }
     })()
-  }, [ content, isBookmarked ])
+  }, [ memoItem, content, isBookmarked, updateMemo, loadMemosRequest ])
 
   useEffect(() => {
     if(inputRefObject.current) {
       inputRefObject.current.value = memoItem.content
     }
-  }, [])
+  }, [memoItem])
 
   return (
     <ListItem

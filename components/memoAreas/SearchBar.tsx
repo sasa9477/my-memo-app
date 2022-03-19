@@ -1,22 +1,16 @@
-import { Divider, IconButton, InputBase, Paper, ToggleButton } from '@mui/material';
+import { Divider, InputBase, Paper, ToggleButton } from '@mui/material';
 import React, { FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { SearchQuery } from '../../api/@types';
 import { BookmarkBorderIcon, BookmarkIcon, SearchIcon } from '../../icons/IconPack';
 
 type Props = {
-  handleChangeSearchQuery: (query: SearchQuery) => void
+  setSearchQuery: React.Dispatch<React.SetStateAction<SearchQuery>>
 }
 
-const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
+const SearchBar: FC<Props> = ({ setSearchQuery }): JSX.Element => {
   const [ keywords, setKeywords ] = useState('')
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
   const inputRefObject = useRef<HTMLInputElement>(null)
-
-  const changeSearchQuery = () => {
-    if (inputRefObject.current) {
-      setKeywords(inputRefObject.current.value)
-    }
-  }
 
   const handleSearchBarKeyDown = useCallback(
     async (e: KeyboardEvent) => {
@@ -27,11 +21,11 @@ const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
   )
 
   useEffect(() => {
-    handleChangeSearchQuery({
+    setSearchQuery({
       keywords: keywords,
       bookmarkFlag: bookmarkSearch
     })
-  }, [bookmarkSearch, keywords])
+  }, [setSearchQuery, bookmarkSearch, keywords])
 
   return (
     <Paper
@@ -51,10 +45,8 @@ const SearchBar: FC<Props> = ({ handleChangeSearchQuery }): JSX.Element => {
         orientation='vertical'
         variant='middle'
         flexItem/>
-      <IconButton
-        onClick={() => changeSearchQuery()}>
-        <SearchIcon/>
-      </IconButton>
+      <SearchIcon
+        sx={{ color: 'gray' }}/>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         inputProps={{ spellCheck: false }}

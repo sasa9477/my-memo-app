@@ -1,7 +1,7 @@
 import { Box, List, ListItem, ListSubheader, Toolbar } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { SearchQuery } from '../../api/@types';
-import { useMemoApi } from '../../hooks/useMemoApi';
+import axiosApiClient from '../../lib/axiosApiClient';
 import MemoItem from '../../models/MemoItem';
 import MemoItemsCollection from '../../models/MemoItemsCollection';
 import InputMemo from './InputMemo';
@@ -9,45 +9,32 @@ import MemoContents from './MemoContents';
 import SearchBar from './SearchBar';
 
 const MemoArea = (): JSX.Element => {
-  const { searchMemos } = useMemoApi()
   const [ searchQuery, setSearchQuery ] = useState<SearchQuery>({
     keywords : '',
     bookmarkFlag: false
   })
+  const [ requestScrollEndOfContent, SetRequestScrollEndOfContent ] = useState(false)
   const [ memosGroupedByDate, setMemoItemsGroupedByDate ] = useState(new Map<string, MemoItem[]>())
   const endOfContentRef = useRef<HTMLDivElement>(null)
 
-  const loadMemosRequest = async () => {
-    const allMemos = await searchMemos(searchQuery)
+  // searchQueryが変化した場合に再計算した結果を返す
+  const loadMemosRequest = useCallback(async () => {
+    const allMemos = await axiosApiClient.memos.search.$get({ query: searchQuery })
     const memoItemsCollection = new MemoItemsCollection(allMemos.map(memo => new MemoItem(memo)))
     const groupedMemoItemsByDate = memoItemsCollection.groupMemoItemsByDate()
     setMemoItemsGroupedByDate(groupedMemoItemsByDate)
-  }
-
-  const handleChangeSearchQuery = (query: SearchQuery) => {
-    if (query.keywords !== searchQuery.keywords
-      || query.bookmarkFlag !== searchQuery.bookmarkFlag)
-    {
-      setSearchQuery({...query})
-    }
-  }
-
-  const scrollEndOfContent = () => {
-    endOfContentRef.current?.scrollIntoView()
-  }
-
-  useEffect(() => {
-    (async () => {
-      await loadMemosRequest()
-    })()
   }, [searchQuery])
+
+  const scrollEndOfContent = useCallback(() => {
+    endOfContentRef.current?.scrollIntoView()
+  }, [endOfContentRef])
 
   useEffect(() => {
     (async () => {
       await loadMemosRequest()
       scrollEndOfContent()
     })()
-  }, [])
+  }, [loadMemosRequest, scrollEndOfContent])
 
   return (
     <Box
@@ -57,7 +44,7 @@ const MemoArea = (): JSX.Element => {
         height: '100vh'
       }}>
       <Toolbar sx={{ display: { sm: 'none' },  }}/>
-      <SearchBar handleChangeSearchQuery={handleChangeSearchQuery}/>
+      <SearchBar setSearchQuery={setSearchQuery}/>
       <List
       sx={{
         flexGrow: 1,

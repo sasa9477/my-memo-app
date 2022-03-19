@@ -3,7 +3,7 @@ import React, { FC, KeyboardEvent, useRef } from 'react';
 import { useMemoApi } from '../../hooks/useMemoApi';
 
 type Props = {
-  loadMemosRequest: (isScrollEndOfContent?: boolean) => Promise<void>
+  loadMemosRequest: () => Promise<void>
   scrollEndOfContent: () => void
 }
 
@@ -18,7 +18,7 @@ const InputMemo: FC<Props> = ({ loadMemosRequest, scrollEndOfContent }): JSX.Ele
       await createMemo({
         content: content
       })
-      await loadMemosRequest(true)
+      await loadMemosRequest()
       scrollEndOfContent()
     }
   }
