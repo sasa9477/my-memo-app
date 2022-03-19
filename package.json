@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm-run-all license:build next:build",
+    "build": "run-s prisma:generate license:build next:build",
     "next:build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:init": "prisma db push",
+    "prisma:generate": "prisma generate",
     "api:build": "aspida",
     "license:build": "license-checker --customPath ./customFormat.json --json --out ./licenses.json"
   },
