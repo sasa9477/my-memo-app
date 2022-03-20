@@ -41,9 +41,6 @@ yarn-error.log*
 # Ignore dist
 /dist
 
-# Ignore Licenses
-licenses.json
-
 *.code-workspace
 
 .vscode
