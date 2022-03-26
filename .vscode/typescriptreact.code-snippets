@@ -1,0 +1,27 @@
+{
+  "React Component Template": {
+		"prefix": "template",
+		"body": [
+			"type ${TM_FILENAME_BASE}Props = {",
+			"}",
+			"",
+			"const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = (): JSX.Element => {",
+			" return (",
+			"   <>",
+			"   </>",
+			" )",
+			"}",
+			"",
+			"export default ${TM_FILENAME_BASE}"
+		],
+		"description": "React コンポーネントのテンプレートです。"
+	},
+	"React Hooks Use State Template": {
+		"scope": "typescriptreact",
+		"prefix": "useState",
+		"body": [
+			"const [ ${1:state}, set${1/^(.)(.*)$/${1:/upcase}${2}/} ] = useState($2)"
+		],
+		"description": "ReactHooksの useStateのテンプレートです。"
+	}
+}
