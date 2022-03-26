@@ -1,40 +1,24 @@
 {
-  "name": "my-memo-app",
+  "name": "my-memo-app2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "run-s prisma:generate license:build next:build",
-    "next:build": "next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prisma:init": "prisma db push",
-    "prisma:generate": "prisma generate",
-    "api:build": "aspida",
-    "license:build": "license-checker --customPath ./customFormat.json --json --out ./licenses.json"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@aspida/axios": "^1.8.0",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.4.2",
-    "@mui/material": "^5.4.3",
-    "@next-auth/prisma-adapter": "^1.0.1",
-    "@prisma/client": "^3.10.0",
-    "axios": "^0.26.0",
-    "next": "12.1.0",
-    "next-auth": "^4.2.1",
+    "next": "12.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@types/node": "^17.0.21",
-    "@types/react": "17.0.39",
-    "eslint": "8.9.0",
-    "eslint-config-next": "12.1.0",
-    "license-checker": "^25.0.1",
-    "npm-run-all": "^4.1.5",
-    "prisma": "^3.10.0",
-    "typescript": "4.5.5"
+    "@types/node": "17.0.23",
+    "@types/react": "17.0.43",
+    "@types/react-dom": "17.0.14",
+    "eslint": "8.12.0",
+    "eslint-config-next": "12.1.1",
+    "typescript": "4.6.3"
   }
 }
