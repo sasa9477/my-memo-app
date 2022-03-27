@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import InputArea from '../components/InputArea'
 import SearchBar from '../components/SearchBar'
 import { HelloData } from './api/hello'
 
@@ -21,6 +22,7 @@ const Home: NextPage = () => {
       <h1>Hello world!</h1>
       <div>{johnDoe}</div>
       <SearchBar></SearchBar>
+      <InputArea/>
     </>
   )
 }
