@@ -21,6 +21,13 @@ const Home: NextPage = () => {
     fetchHello()
   }, [setJohnDoe])
 
+  const StyledBox = styled(Box)(({theme}) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    height: `calc(100vh - ${theme.spacing(2)})`,
+    margin: 0,
+  }))
+
   const StyledPaper = styled(Paper)(({ theme }) => ({
     margin: 0,
     [theme.breakpoints.down('sm')]: {
@@ -29,20 +36,14 @@ const Home: NextPage = () => {
   }))
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height:(theme) => `calc(100vh - ${theme.spacing(2)})`,
-        margin: 0
-      }}>
+    <StyledBox>
       <StyledPaper>
         <SearchBar/>
       </StyledPaper>
       <MemoList/>
       <InputArea/>
       <AppFab/>
-    </Box>
+    </StyledBox>
   )
 }
 

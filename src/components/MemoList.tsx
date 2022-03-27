@@ -11,6 +11,7 @@ const MemoList: React.FC<MemoListProps> = (): JSX.Element => {
   const MemoListBase = styled(List)(({theme}) => ({
     flexGrow: 1,
     overflowY: 'scroll',
+    width: '100%',
     marginTop: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
       marginBottom: theme.mixins.toolbar.minHeight
