@@ -30,7 +30,7 @@
 		"body": "export { default as ${TM_FILENAME_BASE} } from '@mui/icons-material/${TM_FILENAME_BASE/Icon//}'",
 		"description": "Material UI IConの デフォルトエクスポートテンプレートです。"
 	},
-	"Material UI Styled Theme Template": {
+	"Material UI Styled Using Theme Template": {
 		"scope": "typescriptreact",
 		"prefix": "styledtheme",
 		"body": [
@@ -38,6 +38,16 @@
 			"",
 			"}))"
 		],
-		"description": "Material UI Theme Styledのテンプレートです。"
+		"description": "Material UI Using Theme Styledのテンプレートです。"
+	},
+	"Material UI Styled Template": {
+		"scope": "typescriptreact",
+		"prefix": "styled",
+		"body": [
+			"styled(${1:baseComponent})({",
+			"",
+			"})"
+		],
+		"description": "Material UI Styledのテンプレートです。"
 	}
 }
