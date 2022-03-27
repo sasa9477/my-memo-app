@@ -13,11 +13,11 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
 
-  const SearchBarBase = styled(Paper)(({ theme }) => ({
+  const SearchBarBase = styled(Paper)({
     display: 'flex',
     alignItems: 'center',
     padding: '0.5em'
-  }))
+  })
 
   const SearchArea = styled(Box)(({ theme }) => ({
     borderRadius: 4,
@@ -32,8 +32,20 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
     margin: `0 ${theme.spacing(1)}`
   }))
 
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  const StyledInputBase = styled(InputBase)({
     flexGrow: 1,
+  })
+
+  const BackspaceIconButton = styled(IconButton)(({ theme }) => ({
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
+  }))
+
+  const CheckCircleIconButton = styled(IconButton)(({ theme }) => ({
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
   }))
 
   return (
@@ -50,13 +62,13 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
           <SearchIcon/>
         </SearchIconWrapper>
         <StyledInputBase/>
-        <IconButton>
+        <BackspaceIconButton>
           <BackspaceIcon/>
-        </IconButton>
+        </BackspaceIconButton>
       </SearchArea>
-      <IconButton>
+      <CheckCircleIconButton>
         <CheckCircleIcon/>
-      </IconButton>
+      </CheckCircleIconButton>
     </SearchBarBase>
   )
 }
