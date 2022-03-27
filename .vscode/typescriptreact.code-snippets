@@ -26,7 +26,7 @@
 	},
 	"Material UI Icon Default Export Template": {
 		"scope": "typescriptreact",
-		"prefix": "icontemplate",
+		"prefix": "iconstemplate",
 		"body": "export { default as ${TM_FILENAME_BASE} } from '@mui/icons-material/${TM_FILENAME_BASE/Icon//}'",
 		"description": "Material UI IConの デフォルトエクスポートテンプレートです。"
 	},
