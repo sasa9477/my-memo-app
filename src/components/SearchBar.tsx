@@ -1,4 +1,3 @@
-import { ApprovalSharp } from "@mui/icons-material"
 import { alpha, Box, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
 import { useState } from "react"
 import { BackspaceIcon } from "./icons/BackspaceIcon"
@@ -13,13 +12,10 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
 
-  const SearchBarBase = styled(Paper)(({ theme }) => ({
+  const SearchBarBase = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: '0.5em',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
+    padding: theme.spacing(1)
   }))
 
   const SearchArea = styled(Box)(({ theme }) => ({
@@ -28,36 +24,44 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
     flexGrow: 1,
     alignItems: 'center',
     marginLeft: theme.spacing(1),
-    backgroundColor: alpha(theme.palette.common.black, 0.05)
+    color: 'inherit',
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    [theme.breakpoints.up('sm')]: {
+      backgroundColor: alpha(theme.palette.common.black, 0.05)
+    }
   }))
 
   const SearchIconWrapper = styled(Icon)(({ theme }) => ({
+    color: 'inherit',
     margin: `0 ${theme.spacing(1)}`
   }))
 
   const StyledInputBase = styled(InputBase)({
+    color: 'inherit',
     flexGrow: 1,
   })
 
   const BackspaceIconButton = styled(IconButton)(({ theme }) => ({
+    color: 'inherit',
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   }))
 
   const CheckCircleIconButton = styled(IconButton)(({ theme }) => ({
+    color: 'inherit',
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
   }))
 
   return (
-    <SearchBarBase
-      elevation={1}>
+    <SearchBarBase>
       <ToggleButton
         value='bookmarkSerchToogleButton'
         onChange={() => setBookmarkSearch(bookmarkSearch => !bookmarkSearch)}
-        size='small'>
+        size='small'
+        sx={{ color: 'inherit' }}>
         {bookmarkSearch ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
       </ToggleButton>
       <SearchArea>

@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     <Box>
       <h1>Hello world!</h1>
       <div>{johnDoe}</div>
-      <SearchBar></SearchBar>
+      <SearchBar/>
       <AppFab/>
       <InputArea/>
 

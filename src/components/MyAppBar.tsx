@@ -1,6 +1,7 @@
 import { AppBar, Box, IconButton, styled, Toolbar } from "@mui/material"
 import { AccountCircleIcon } from "./icons/AccountCircleIcon"
 import { SearchIcon } from "./icons/SearchIcon"
+import SearchBar from "./SearchBar"
 
 type MyAppBarProps = {
 }
@@ -25,14 +26,11 @@ const MyAppBar: React.FC<MyAppBarProps> = (): JSX.Element => {
 
  return (
    <StyledAppBar>
-     <Toolbar>
+     <Toolbar sx={{ padding: 0 }}>
       <StyledIconButton>
         <AccountCircleIcon/>
       </StyledIconButton>
-      <SpaceBox/>
-      <StyledIconButton>
-        <SearchIcon/>
-      </StyledIconButton>
+      <SearchBar/>
      </Toolbar>
    </StyledAppBar>
  )
