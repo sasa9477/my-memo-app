@@ -32,7 +32,7 @@
 	},
 	"Material UI Styled Using Theme Template": {
 		"scope": "typescriptreact",
-		"prefix": "styledtheme",
+		"prefix": "styledusingtheme",
 		"body": [
 			"styled(${1:baseComponent})(({ theme }) => ({",
 			"",
