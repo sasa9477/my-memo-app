@@ -1,0 +1,1 @@
+export { default as BackspaceIcon } from '@mui/icons-material/Backspace'
