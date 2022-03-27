@@ -7,8 +7,8 @@ type AppFabProps = {
 const AppFab: React.FC<AppFabProps> = (): JSX.Element => {
   const StyledFab = styled(Fab)(({ theme }) => ({
     position: 'absolute',
-    right: theme.spacing(2),
-    bottom: `calc(${theme.mixins.toolbar.minHeight}px + ${theme.spacing(2)})`,
+    right: theme.spacing(3),
+    bottom: `calc(${theme.mixins.toolbar.minHeight}px + ${theme.spacing(3)})`,
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
