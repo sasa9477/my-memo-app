@@ -23,5 +23,21 @@
 			"const [ ${1:state}, set${1/^(.)(.*)$/${1:/upcase}${2}/} ] = useState($2)"
 		],
 		"description": "ReactHooksの useStateのテンプレートです。"
+	},
+	"Material UI Icon Default Export Template": {
+		"scope": "typescriptreact",
+		"prefix": "icontemplate",
+		"body": "export { default as ${TM_FILENAME_BASE} } from '@mui/icons-material/${TM_FILENAME_BASE/Icon//}'",
+		"description": "Material UI IConの デフォルトエクスポートテンプレートです。"
+	},
+	"Material UI Styled Theme Template": {
+		"scope": "typescriptreact",
+		"prefix": "styledtheme",
+		"body": [
+			"styled(${1:baseComponent})(({ theme }) => ({",
+			"",
+			"}))"
+		],
+		"description": "Material UI Theme Styledのテンプレートです。"
 	}
 }
