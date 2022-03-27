@@ -8,7 +8,10 @@ type InputAreaProps = {
 const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
   const InputAreaBase = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
   }))
 
   const FunctionBox = styled(Box)({

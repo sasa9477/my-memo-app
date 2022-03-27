@@ -8,11 +8,14 @@ const AppFab: React.FC<AppFabProps> = (): JSX.Element => {
   const StyledFab = styled(Fab)(({ theme }) => ({
     position: 'absolute',
     right: theme.spacing(2),
-    bottom: theme.spacing(2)
+    bottom: `calc(${theme.mixins.toolbar.minHeight}px + ${theme.spacing(2)})`,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
   }))
 
  return (
-   <StyledFab>
+   <StyledFab color="primary">
      <AddIcon/>
    </StyledFab>
  )

@@ -13,11 +13,14 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
 
-  const SearchBarBase = styled(Paper)({
+  const SearchBarBase = styled(Paper)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: '0.5em'
-  })
+    padding: '0.5em',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  }))
 
   const SearchArea = styled(Box)(({ theme }) => ({
     borderRadius: 4,
