@@ -16,22 +16,22 @@ const MyAppBar: React.FC<MyAppBarProps> = (): JSX.Element => {
     }
   }))
 
+  const StyledToolbar = styled(Toolbar)({
+    padding: '0 0.5em'
+  })
+
   const StyledIconButton = styled(IconButton)({
     color: 'inherit'
   })
 
-  const SpaceBox = styled(Box)({
-    flexGrow: 1
-  })
-
  return (
    <StyledAppBar>
-     <Toolbar sx={{ padding: 0 }}>
+     <StyledToolbar>
       <StyledIconButton>
         <AccountCircleIcon/>
       </StyledIconButton>
       <SearchBar/>
-     </Toolbar>
+     </StyledToolbar>
    </StyledAppBar>
  )
 }

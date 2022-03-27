@@ -15,8 +15,13 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
   const SearchBarBase = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+    flexGrow: 1,
     padding: theme.spacing(1)
   }))
+
+  const StyledToggleButton = styled(ToggleButton)({
+    color: 'inherit'
+  })
 
   const SearchArea = styled(Box)(({ theme }) => ({
     borderRadius: 4,
@@ -57,13 +62,12 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
 
   return (
     <SearchBarBase>
-      <ToggleButton
+      <StyledToggleButton
         value='bookmarkSerchToogleButton'
         onChange={() => setBookmarkSearch(bookmarkSearch => !bookmarkSearch)}
-        size='small'
-        sx={{ color: 'inherit' }}>
+        size='small'>
         {bookmarkSearch ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
-      </ToggleButton>
+      </StyledToggleButton>
       <SearchArea>
         <SearchIconWrapper>
           <SearchIcon/>

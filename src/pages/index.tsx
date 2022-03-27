@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Paper, styled } from '@mui/material'
 import axios from 'axios'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
@@ -20,14 +20,21 @@ const Home: NextPage = () => {
     fetchHello()
   }, [setJohnDoe])
 
+  const StyledPaper = styled(Paper)(({ theme }) => ({
+    [theme.breakpoints.down('sm')]: {
+      display: 'none'
+    }
+  }))
+
   return (
     <Box>
+      <StyledPaper>
+        <SearchBar/>
+      </StyledPaper>
       <h1>Hello world!</h1>
       <div>{johnDoe}</div>
-      <SearchBar/>
       <AppFab/>
       <InputArea/>
-
     </Box>
   )
 }
