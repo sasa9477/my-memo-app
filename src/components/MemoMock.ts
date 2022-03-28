@@ -90,9 +90,7 @@ export default function loadMemos(): Memo[] {
   ]
 }
 
-export function loadGroupedMemos(): Memo[][] {
-  const memos = loadMemos()
-
+export function loadGroupedMemos(memos: Memo[]): Memo[][] {
   return memos.reduce((previous: Memo[][], current: Memo) => {
     const lastArray: Memo[] = previous[previous.length - 1] ?? []
     const firstItem: Memo = lastArray[0]
