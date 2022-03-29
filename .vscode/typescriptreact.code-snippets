@@ -16,26 +16,40 @@
 		],
 		"description": "React コンポーネントのテンプレートです。"
 	},
-	"React Hooks Use State Template": {
-		"scope": "typescriptreact",
+
+	"React Hooks useState Template": {
+		"scope": "typescript, typescriptreact",
 		"prefix": "useState",
 		"body": [
 			"const [ ${1:state}, set${1/^(.)(.*)$/${1:/upcase}${2}/} ] = useState($2)"
 		],
-		"description": "ReactHooksの useStateのテンプレートです。"
+		"description": "ReactHooks useStateのテンプレートです。"
 	},
+
+	"React Hooks useEffect Async Function Template": {
+		"scope": "typescript, typescriptreact",
+		"prefix": "useEffectAsyncFunction",
+		"body": [
+			"useEffect(() => {",
+			"  (async () => {",
+			"  })()",
+			"}, [])"
+		],
+		"description": "ReactHooks useEffectの非同期関数テンプレートです。"
+	},
+
 	"Material UI Icon Default Export Template": {
 		"scope": "typescriptreact",
 		"prefix": "iconstemplate",
 		"body": "export { default as ${TM_FILENAME_BASE} } from '@mui/icons-material/${TM_FILENAME_BASE/Icon//}'",
 		"description": "Material UI IConの デフォルトエクスポートテンプレートです。"
 	},
+
 	"Material UI Styled Using Theme Template": {
 		"scope": "typescriptreact",
 		"prefix": "styledusingtheme",
 		"body": [
 			"styled(${1:baseComponent})(({ theme }) => ({",
-			"",
 			"}))"
 		],
 		"description": "Material UI Using Theme Styledのテンプレートです。"
@@ -45,7 +59,6 @@
 		"prefix": "styled",
 		"body": [
 			"styled(${1:baseComponent})({",
-			"",
 			"})"
 		],
 		"description": "Material UI Styledのテンプレートです。"
