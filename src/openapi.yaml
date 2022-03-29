@@ -16,7 +16,7 @@ paths:
   /memos/search:
     get:
       operationId: memosSearchGET
-      summary: 検索文字列で検索したメモを登録日時でソートして返します。
+      summary: 検索文字列で検索したメモを登録日付でグルーピングした配列で返します。
       parameters:
         - in: query
           name: SearchQuery
@@ -25,13 +25,15 @@ paths:
             $ref: '#/components/schemas/SearchQuery'
       responses:
         "200":
-          description: 検索文字列で検索したメモを登録日時でソートして返します。
+          description: 検索文字列で検索したメモを登録日付でグルーピングした配列で返します。
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Memo'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Memo'
       tags:
         - Memos
 

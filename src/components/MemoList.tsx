@@ -6,8 +6,7 @@ import useMediaSize from "../hooks/useMediaSize"
 import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "./icons/BookmarkIcon"
 import { DeleteIcon } from "./icons/DeleteIcon"
-import { loadGroupedMemos } from "./MemoMock"
-import axiosClient from "@aspida/axios"
+import apiClient from "../lib/apiClient"
 
 type MemoListProps = {
 }
@@ -18,10 +17,8 @@ const MemoList: React.FC<MemoListProps> = (): JSX.Element => {
 
   useEffect(() => {
     (async () => {
-      const client = api(axiosClient())
-      const res = await client.memos.search.$get()
-      const grouped = loadGroupedMemos(res)
-      setMemos(grouped)
+      const memos = await apiClient.memos.search.$get()
+      setMemos(memos)
     })()
   }, [])
 
