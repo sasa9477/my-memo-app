@@ -1,7 +1,6 @@
-import { alpha, Box, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
-import { ChangeEvent, useRef, useState, KeyboardEvent, useEffect, useCallback, useMemo } from "react"
+import { alpha, Box, Icon, IconButton, InputBase, styled, ToggleButton } from "@mui/material"
+import { useRef, useState, KeyboardEvent, useEffect, useCallback } from "react"
 import { SearchQuery } from "../apis/@types"
-import apiClient from "../lib/apiClient"
 import { BackspaceIcon } from "./icons/BackspaceIcon"
 import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "./icons/BookmarkIcon"
@@ -57,9 +56,10 @@ const CheckCircleIconButton = styled(IconButton)(({ theme }) => ({
 }))
 
 type SearchBarProps = {
+  searchRequestCallback: (searchQuery: SearchQuery) => Promise<void>
 }
 
-const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
+const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Element => {
   const [ keywords, setKeywords ] = useState('')
   const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -82,18 +82,12 @@ const SearchBar: React.FC<SearchBarProps> = (): JSX.Element => {
     }
   }
 
-  const searchRequestCallback = useCallback(async (searchQuery: SearchQuery) => {
-    const res = await apiClient.memos.search.$get({ query: { searchQuery: searchQuery }})
-    console.log(res)
-  },[])
-
   useEffect(() => {
     (async () => {
       const searchQuery: SearchQuery = {
         keywords: keywords,
         bookmarkSearch: bookmarkSearch
       }
-
       await searchRequestCallback(searchQuery)
     })()
   }, [keywords, bookmarkSearch, searchRequestCallback])

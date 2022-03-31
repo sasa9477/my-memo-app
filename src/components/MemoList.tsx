@@ -9,18 +9,11 @@ import { DeleteIcon } from "./icons/DeleteIcon"
 import apiClient from "../lib/apiClient"
 
 type MemoListProps = {
+  memos: Memo[][]
 }
 
-const MemoList: React.FC<MemoListProps> = (): JSX.Element => {
+const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
   const { isMobileSize } = useMediaSize()
-  const [ memos, setMemos ] = useState<Memo[][]>([])
-
-  useEffect(() => {
-    (async () => {
-      const memos = await apiClient.memos.search.$get()
-      setMemos(memos)
-    })()
-  }, [])
 
   const MemoListBase = styled(List)(({theme}) => ({
     flexGrow: 1,
