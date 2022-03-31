@@ -9,6 +9,20 @@ import MemoList from '../components/MemoList'
 import SearchBar from '../components/SearchBar'
 import { HelloData } from './api/hello'
 
+const StyledBox = styled(Box)(({theme}) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: `calc(100vh - ${theme.spacing(2)})`,
+  margin: 0,
+}))
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  margin: 0,
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  }
+}))
+
 const Home: NextPage = () => {
   const [ johnDoe, setJohnDoe ] = useState('')
 
@@ -20,20 +34,6 @@ const Home: NextPage = () => {
     }
     fetchHello()
   }, [setJohnDoe])
-
-  const StyledBox = styled(Box)(({theme}) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    height: `calc(100vh - ${theme.spacing(2)})`,
-    margin: 0,
-  }))
-
-  const StyledPaper = styled(Paper)(({ theme }) => ({
-    margin: 0,
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    }
-  }))
 
   return (
     <StyledBox>

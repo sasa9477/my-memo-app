@@ -19,7 +19,7 @@ paths:
       summary: 検索文字列で検索したメモを登録日付でグルーピングした配列で返します。
       parameters:
         - in: query
-          name: SearchQuery
+          name: searchQuery
           description: 検索文字列
           schema:
             $ref: '#/components/schemas/SearchQuery'
