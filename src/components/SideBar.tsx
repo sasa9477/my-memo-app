@@ -1,11 +1,24 @@
 import { Box, Drawer, List, ListItem, ListItemText, styled } from "@mui/material"
+import { useSession } from "next-auth/react"
 import { default as NextLink } from "next/link"
+import UserCard from "./UserCard"
 
 type SideBarProps = {
   sideBarWidth: number
 }
 
 const SideBar: React.FC<SideBarProps> = ({ sideBarWidth }): JSX.Element => {
+  const { data, status } = useSession();
+
+  if (status === "loading")
+  {
+    return (
+      <p>
+        loading...
+      </p>
+    )
+  }
+
   const SideBarBase = styled(Box)(({theme}) => ({
     width: sideBarWidth,
     flexShrink: 0,
@@ -28,11 +41,12 @@ const SideBar: React.FC<SideBarProps> = ({ sideBarWidth }): JSX.Element => {
         variant='permanent'
         open>
         <List>
-        <NextLink href='/' passHref>
-          <ListItem button component='a'>
-            <ListItemText primary='メモ'/>
-          </ListItem>
-        </NextLink>
+          <UserCard user={data!.user}/>
+          <NextLink href='/' passHref>
+            <ListItem button component='a'>
+              <ListItemText primary='メモ'/>
+            </ListItem>
+          </NextLink>
       </List>
       </StyledDrawer>
     </SideBarBase>

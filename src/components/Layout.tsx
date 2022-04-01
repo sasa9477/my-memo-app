@@ -4,7 +4,7 @@ import useMediaSize from "../hooks/useMediaSize"
 import MyAppBar from "./MyAppBar"
 import SideBar from "./SideBar"
 
-const SIDEBAR_WIDTH = 128
+const SIDEBAR_WIDTH = 280
 
 const StyledBox = styled(Box)({
   display: 'flex'
