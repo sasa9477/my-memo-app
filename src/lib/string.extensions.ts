@@ -9,5 +9,5 @@ declare global {
 
 String.prototype.removeConsecutiveNewlines = function () {
   const value = this as string
-  return value.replace(/\n\n$/, '\n')
+  return value.replace(/\n\n+/g, '\n\n')
 }

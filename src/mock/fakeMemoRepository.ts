@@ -20,7 +20,7 @@ let memos: Memo[] = [
   {
     id: 3,
     content: 'this is three.',
-    bookmarkFlag: true,
+    bookmarkFlag: false,
     createdDate: '3月28日(月)',
     createdTime: '22:21',
   },
@@ -41,7 +41,7 @@ let memos: Memo[] = [
   {
     id: 6,
     content: 'this is six.',
-    bookmarkFlag: false,
+    bookmarkFlag: true,
     createdDate: '3月29日(火)',
     createdTime: '22:30',
   },

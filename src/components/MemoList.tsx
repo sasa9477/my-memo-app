@@ -1,5 +1,5 @@
 import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import api from "../apis/$api"
 import { Memo } from "../apis/@types"
 import useMediaSize from "../hooks/useMediaSize"
@@ -7,6 +7,21 @@ import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "./icons/BookmarkIcon"
 import { DeleteIcon } from "./icons/DeleteIcon"
 import apiClient from "../lib/apiClient"
+import MemoListItem from "./MemoListItem"
+
+const MemoListBase = styled(List)(({theme}) => ({
+  flexGrow: 1,
+  overflowY: 'scroll',
+  width: '100%',
+  marginTop: theme.spacing(1),
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.mixins.toolbar.minHeight
+  }
+}))
+
+const ItemList = styled(List)({
+  width: '100%',
+})
 
 type MemoListProps = {
   memos: Memo[][]
@@ -14,24 +29,7 @@ type MemoListProps = {
 
 const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
   const { isMobileSize } = useMediaSize()
-
-  const MemoListBase = styled(List)(({theme}) => ({
-    flexGrow: 1,
-    overflowY: 'scroll',
-    width: '100%',
-    marginTop: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.mixins.toolbar.minHeight
-    }
-  }))
-
-  const ItemList = styled(List)({
-    width: '100%',
-  })
-
-  const MemoTextField = styled(TextField)(({ theme }) => ({
-    margin: `0 ${theme.spacing(1)}`
-  }))
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   return (
     <MemoListBase
@@ -44,24 +42,9 @@ const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
               {memoList[0].createdDate}
             </ListSubheader>
             {memoList.map(memo => (
-              <ListItem key={memo.id} disablePadding>
-                <IconButton size="small">
-                  <BookmarkBorderIcon/>
-                </IconButton>
-                <MemoTextField
-                  variant="standard"
-                  fullWidth
-                  multiline
-                  label={memo.updatedDatetime ? `${memo.createdTime} ( ${memo.updatedDatetime} 更新 )` : memo.createdTime}
-                  value={memo.content}
-                  InputProps = {{
-                    disableUnderline: true,
-                    endAdornment: (!isMobileSize) ? null :
-                      <InputAdornment position='end'>
-                      <IconButton><DeleteIcon/></IconButton>
-                      </InputAdornment>
-                  }}/>
-              </ListItem>
+              <MemoListItem
+                key={memo.id}
+                memo={memo}/>
             ))}
           </ItemList>
         </ListItem>
