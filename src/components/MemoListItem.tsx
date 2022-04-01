@@ -1,5 +1,5 @@
 import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react"
+import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import api from "../apis/$api"
 import { Memo } from "../apis/@types"
 import useMediaSize from "../hooks/useMediaSize"
@@ -51,13 +51,21 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
     }
   }
 
+  const deleteMemo = useCallback(async (memoId: number) => {
+    await apiClient.memos.delete.$delete({ query: { memoId: memoId } })
+  }, [])
+
+  const handleDeleteIconClick = async () => {
+    await deleteMemo(memo.id)
+  }
+
   useEffect(() => {
     (async () => {
       if (bookmark !== memo.bookmarkFlag) {
         await updateMemo()
       }
     })()
-  }, [updateMemo, bookmark, memo])
+  }, [bookmark, memo, updateMemo])
 
   useEffect(() => {
     if (inputRef.current) {
@@ -82,7 +90,7 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
           disableUnderline: true,
           endAdornment: (!isMobileSize) ? null :
             <InputAdornment position='end'>
-              <IconButton>
+              <IconButton onClick={handleDeleteIconClick}>
                 <DeleteIcon/>
               </IconButton>
             </InputAdornment>

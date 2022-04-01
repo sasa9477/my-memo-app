@@ -45,11 +45,13 @@ const MemoArea: React.FC<MemoAreaProps> = (): JSX.Element => {
       <MemoList
         memos={memos}/>
       <InputArea/>
-      <AppFab/>
       {(!isMobileSize)
       ? null
-      : <MyAppBar
-        searchRequestCallback={searchRequestCallback}/>}
+      : <>
+          <AppFab/>
+          <MyAppBar
+            searchRequestCallback={searchRequestCallback}/>
+        </>}
     </StyledBox>
   )
 }

@@ -28,9 +28,6 @@ type MemoListProps = {
 }
 
 const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
-  const { isMobileSize } = useMediaSize()
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-
   return (
     <MemoListBase
       dense

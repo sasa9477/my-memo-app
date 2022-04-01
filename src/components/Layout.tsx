@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material"
-import { ReactNode, useCallback, useState } from "react"
+import { ReactNode, useCallback, useEffect, useState } from "react"
 import useMediaSize from "../hooks/useMediaSize"
 import MyAppBar from "./MyAppBar"
 import SideBar from "./SideBar"
