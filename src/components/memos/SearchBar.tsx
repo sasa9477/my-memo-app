@@ -30,6 +30,9 @@ const SearchArea = styled(Box)(({ theme }) => ({
 
 const SearchIconWrapper = styled(Icon)(({ theme }) => ({
   color: 'inherit',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   margin: `0 ${theme.spacing(1)}`
 }))
 
