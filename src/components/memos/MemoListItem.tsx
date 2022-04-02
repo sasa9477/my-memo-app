@@ -1,12 +1,11 @@
 import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
 import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import api from "../apis/$api"
-import { Memo } from "../apis/@types"
-import useMediaSize from "../hooks/useMediaSize"
-import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
-import { BookmarkIcon } from "./icons/BookmarkIcon"
-import { DeleteIcon } from "./icons/DeleteIcon"
-import apiClient from "../lib/apiClient"
+import { Memo } from "../../apis/@types"
+import useMediaSize from "../../hooks/useMediaSize"
+import { BookmarkBorderIcon } from "../icons/BookmarkBorderIcon"
+import { BookmarkIcon } from "../icons/BookmarkIcon"
+import { DeleteIcon } from "../icons/DeleteIcon"
+import apiClient from "../../lib/apiClient"
 
 const MemoTextField = styled(TextField)(({ theme }) => ({
   margin: `0 ${theme.spacing(1)}`
@@ -19,7 +18,7 @@ type MemoListItemProps = {
 const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
   const { isMobileSize } = useMediaSize()
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const [ bookmark, setBookmark ] = useState(memo.bookmarkFlag)
+  const [bookmark, setBookmark] = useState(memo.bookmarkFlag)
 
   const updateMemo = useCallback(async () => {
     if (inputRef.current) {
@@ -78,7 +77,7 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
       <IconButton
         size="small"
         onClick={handleBookmarkButtonClick}>
-        {bookmark ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
+        {bookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </IconButton>
       <MemoTextField
         variant="standard"
@@ -86,17 +85,17 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
         multiline
         inputRef={inputRef}
         label={memo.updatedDatetime ? `${memo.createdTime} ( ${memo.updatedDatetime} 更新 )` : memo.createdTime}
-        InputProps = {{
+        InputProps={{
           disableUnderline: true,
           endAdornment: (!isMobileSize) ? null :
             <InputAdornment position='end'>
               <IconButton onClick={handleDeleteIconClick}>
-                <DeleteIcon/>
+                <DeleteIcon />
               </IconButton>
             </InputAdornment>
         }}
         onKeyDown={handleInputKeyDown}
-        onBlur={handleInputBlur}/>
+        onBlur={handleInputBlur} />
     </ListItem>
   )
 }

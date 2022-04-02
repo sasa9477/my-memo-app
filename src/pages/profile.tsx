@@ -1,9 +1,7 @@
 import { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import React from "react";
-import { SearchQuery } from "../apis/@types";
-import MyAppBar from "../components/MyAppBar";
-import UserCard from "../components/UserCard";
+import UserCard from "../components/profiles/UserCard";
 
 const ProfilePage: NextPage = () => {
   const { data, status } = useSession();
@@ -23,14 +21,9 @@ const ProfilePage: NextPage = () => {
     return null
   }
 
-  const searchRequestCallback = async (searchQuery: SearchQuery) => {
-  }
-
   return(
     <>
       <UserCard user={data.user}/>
-      <MyAppBar
-            searchRequestCallback={searchRequestCallback}/>
     </>
   )
 }

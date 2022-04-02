@@ -1,22 +1,12 @@
 import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import api from "../apis/$api"
-import { Memo } from "../apis/@types"
-import useMediaSize from "../hooks/useMediaSize"
-import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
-import { BookmarkIcon } from "./icons/BookmarkIcon"
-import { DeleteIcon } from "./icons/DeleteIcon"
-import apiClient from "../lib/apiClient"
+import { Memo } from "../../apis/@types"
 import MemoListItem from "./MemoListItem"
 
-const MemoListBase = styled(List)(({theme}) => ({
+const MemoListBase = styled(List)(({ theme }) => ({
   flexGrow: 1,
   overflowY: 'scroll',
-  width: '100%',
-  marginTop: theme.spacing(1),
-  [theme.breakpoints.down('sm')]: {
-    marginBottom: theme.mixins.toolbar.minHeight
-  }
+  marginTop: theme.spacing(1)
 }))
 
 const ItemList = styled(List)({
@@ -31,7 +21,7 @@ const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
   return (
     <MemoListBase
       dense
-      subheader={<ListItem/>}>
+      subheader={<ListItem />}>
       {memos.map(memoList => (
         <ListItem key={`list-${memoList[0].createdDate}`} disablePadding>
           <ItemList disablePadding>
@@ -41,7 +31,7 @@ const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
             {memoList.map(memo => (
               <MemoListItem
                 key={memo.id}
-                memo={memo}/>
+                memo={memo} />
             ))}
           </ItemList>
         </ListItem>

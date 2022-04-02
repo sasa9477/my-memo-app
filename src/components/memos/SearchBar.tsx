@@ -1,16 +1,16 @@
-import { alpha, Box, Icon, IconButton, InputBase, styled, ToggleButton } from "@mui/material"
+import { alpha, Box, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
 import { useRef, useState, KeyboardEvent, useEffect, useCallback } from "react"
-import { SearchQuery } from "../apis/@types"
-import { BackspaceIcon } from "./icons/BackspaceIcon"
-import { BookmarkBorderIcon } from "./icons/BookmarkBorderIcon"
-import { BookmarkIcon } from "./icons/BookmarkIcon"
-import { CheckCircleIcon } from "./icons/CheckCircleIcon"
-import { SearchIcon } from "./icons/SearchIcon"
+import { SearchQuery } from "../../apis/@types"
+import { BackspaceIcon } from "../icons/BackspaceIcon"
+import { BookmarkBorderIcon } from "../icons/BookmarkBorderIcon"
+import { BookmarkIcon } from "../icons/BookmarkIcon"
+import { CheckCircleIcon } from "../icons/CheckCircleIcon"
+import { SearchIcon } from "../icons/SearchIcon"
 
-const SearchBarBase = styled(Box)(({ theme }) => ({
+const SearchBarBase = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  flexGrow: 1,
+  margin: 0,
   padding: theme.spacing(1)
 }))
 
@@ -25,10 +25,7 @@ const SearchArea = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   marginLeft: theme.spacing(1),
   color: 'inherit',
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  [theme.breakpoints.up('sm')]: {
-    backgroundColor: alpha(theme.palette.common.black, 0.05)
-  }
+  backgroundColor: alpha(theme.palette.common.black, 0.05)
 }))
 
 const SearchIconWrapper = styled(Icon)(({ theme }) => ({
@@ -60,12 +57,12 @@ type SearchBarProps = {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Element => {
-  const [ keywords, setKeywords ] = useState('')
-  const [ bookmarkSearch, setBookmarkSearch ] = useState(false)
+  const [keywords, setKeywords] = useState('')
+  const [bookmarkSearch, setBookmarkSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const handleSearch = () => {
-    if(searchInputRef.current) {
+    if (searchInputRef.current) {
       setKeywords(searchInputRef.current.value.trim())
     }
   }
@@ -98,26 +95,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
         value='bookmarkSerchToogleButton'
         onChange={() => setBookmarkSearch(bookmarkSearch => !bookmarkSearch)}
         size='small'>
-        {bookmarkSearch ? <BookmarkIcon/> : <BookmarkBorderIcon/>}
+        {bookmarkSearch ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </StyledToggleButton>
       <SearchArea>
         <SearchIconWrapper>
-          <SearchIcon/>
+          <SearchIcon />
         </SearchIconWrapper>
         <SearchInputBase
           fullWidth
           inputProps={{ spellCheck: false }}
           placeholder='メモを検索する'
           inputRef={searchInputRef}
-          onKeyDown={handleSearchInputKeydown}/>
+          onKeyDown={handleSearchInputKeydown} />
         <BackspaceIconButton
           onClick={() => handleClearSearchInputs()}>
-          <BackspaceIcon/>
+          <BackspaceIcon />
         </BackspaceIconButton>
       </SearchArea>
       <CheckCircleIconButton
         onClick={() => handleSearch()}>
-        <CheckCircleIcon/>
+        <CheckCircleIcon />
       </CheckCircleIconButton>
     </SearchBarBase>
   )

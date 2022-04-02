@@ -10,13 +10,6 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET ?? ''
     })
   ],
-  session: {
-    // セッションの保存方法
-    // アダプターを使用すると デフォルトが'database'になるが middlewareが機能しないため
-    // 'jwt'を設定する
-    // https://next-auth.js.org/configuration/options#session
-    strategy: 'jwt'
-  },
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET ?? '',
   callbacks: {
@@ -25,9 +18,9 @@ export default NextAuth({
       return baseUrl
     }
   },
-  // theme: {
-  //   colorScheme: 'auto',
-  //   logo: '../../favicons/android-chrome-192x192.png'
-  // },
+  theme: {
+    colorScheme: 'auto',
+    logo: '../../favicons/android-chrome-192x192.png'
+  },
   debug: process.env.NODE_ENV !== 'production'
 })
