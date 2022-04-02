@@ -29,6 +29,10 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
     }
   }, [memo, bookmark])
 
+  const deleteMemo = useCallback(async (memoId: number) => {
+    await apiClient.memos.delete.$delete({ query: { memoId: memoId } })
+  }, [])
+
   const handleBookmarkButtonClick = async () => {
     setBookmark(bookmark => !bookmark)
   }
@@ -44,15 +48,16 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
     if (inputRef.current) {
       inputRef.current.value = inputRef.current.value.trim().removeConsecutiveNewlines()
 
+      if (inputRef.current.value.length === 0) {
+        await deleteMemo(memo.id)
+        return
+      }
+
       if (inputRef.current.value !== memo.content) {
         await updateMemo()
       }
     }
   }
-
-  const deleteMemo = useCallback(async (memoId: number) => {
-    await apiClient.memos.delete.$delete({ query: { memoId: memoId } })
-  }, [])
 
   const handleDeleteIconClick = async () => {
     await deleteMemo(memo.id)
