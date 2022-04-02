@@ -20,12 +20,12 @@ type InputAreaProps = {
 }
 
 const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
-  const inputRefObject = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSend = async () => {
-    if (inputRefObject.current) {
-      const content = inputRefObject.current.value.trim().removeConsecutiveNewlines()
-      inputRefObject.current.value = ''
+    if (inputRef.current) {
+      const content = inputRef.current.value.trim().removeConsecutiveNewlines()
+      inputRef.current.value = ''
       await apiClient.memos.create.$post({ body: { content: content } })
     }
   }
@@ -46,7 +46,7 @@ const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
         inputProps={{ spellCheck: false }}
         placeholder='メモを書く(Ctrl + Enter で送信)'
         autoFocus={true}
-        inputRef={inputRefObject}
+        inputRef={inputRef}
         onKeyDown={handleKeyDown}
       />
       <FunctionBox>
