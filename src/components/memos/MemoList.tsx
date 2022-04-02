@@ -5,8 +5,7 @@ import MemoListItem from "./MemoListItem"
 
 const MemoListBase = styled(List)(({ theme }) => ({
   flexGrow: 1,
-  overflowY: 'scroll',
-  marginTop: theme.spacing(1)
+  overflowY: 'scroll'
 }))
 
 const ItemList = styled(List)({
@@ -20,8 +19,7 @@ type MemoListProps = {
 const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
   return (
     <MemoListBase
-      dense
-      subheader={<ListItem />}>
+      disablePadding>
       {memos.map(memoList => (
         <ListItem key={`list-${memoList[0].createdDate}`} disablePadding>
           <ItemList disablePadding>

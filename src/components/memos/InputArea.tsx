@@ -4,7 +4,6 @@ import apiClient from "../../lib/apiClient"
 import { DescriptionIcon } from "../icons/DescriptionIcon"
 import { SendIcon } from "../icons/SendIcon"
 
-
 const InputAreaBase = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   [theme.breakpoints.down('sm')]: {

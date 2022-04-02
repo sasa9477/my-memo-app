@@ -4,7 +4,7 @@ import { AddIcon } from "../icons/AddIcon"
 const StyledFab = styled(Fab)(({ theme }) => ({
   position: 'absolute',
   right: theme.spacing(5),
-  bottom: theme.spacing(3),
+  bottom: theme.spacing(10),
   [theme.breakpoints.up('sm')]: {
     display: 'none',
   }
@@ -21,7 +21,6 @@ const MemoCreateFab: React.FC<MemoCreateFabProps> = ({ transitionCreatePage }): 
 
   return (
     <StyledFab
-      color="primary"
       onClick={handleFabClick}>
       <AddIcon />
     </StyledFab>
