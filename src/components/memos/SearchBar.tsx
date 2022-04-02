@@ -1,10 +1,10 @@
-import { alpha, Box, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
+import { alpha, Box, Button, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
 import { useRef, useState, KeyboardEvent, useEffect, useCallback } from "react"
 import { SearchQuery } from "../../apis/@types"
+import useMediaSize from "../../hooks/useMediaSize"
 import { BackspaceIcon } from "../icons/BackspaceIcon"
 import { BookmarkBorderIcon } from "../icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "../icons/BookmarkIcon"
-import { CheckCircleIcon } from "../icons/CheckCircleIcon"
 import { SearchIcon } from "../icons/SearchIcon"
 
 const SearchBarBase = styled(Paper)(({ theme }) => ({
@@ -24,6 +24,7 @@ const SearchArea = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   alignItems: 'center',
   marginLeft: theme.spacing(1),
+  marginRight: theme.spacing(1),
   color: 'inherit',
   backgroundColor: alpha(theme.palette.common.black, 0.05)
 }))
@@ -48,8 +49,7 @@ const BackspaceIconButton = styled(IconButton)(({ theme }) => ({
   }
 }))
 
-const CheckCircleIconButton = styled(IconButton)(({ theme }) => ({
-  color: 'inherit',
+const SearchButton = styled(Button)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     display: 'none'
   }
@@ -63,6 +63,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
   const [keywords, setKeywords] = useState('')
   const [bookmarkSearch, setBookmarkSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const { isMobileSize } = useMediaSize()
 
   const handleSearch = () => {
     if (searchInputRef.current) {
@@ -80,6 +81,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
     if (searchInputRef.current) {
       searchInputRef.current.value = ''
     }
+  }
+
+  const handleSearchButtonClick = () => {
+    handleSearch()
   }
 
   useEffect(() => {
@@ -107,7 +112,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
         <SearchInputBase
           fullWidth
           inputProps={{ spellCheck: false }}
-          placeholder='メモを検索する'
+          placeholder={isMobileSize ? 'メモを検索する' : 'メモを検索する（Enterキーで検索）'}
           inputRef={searchInputRef}
           onKeyDown={handleSearchInputKeydown} />
         <BackspaceIconButton
@@ -115,10 +120,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
           <BackspaceIcon />
         </BackspaceIconButton>
       </SearchArea>
-      <CheckCircleIconButton
-        onClick={() => handleSearch()}>
-        <CheckCircleIcon />
-      </CheckCircleIconButton>
+      <SearchButton
+        variant='contained'
+        onClick={handleSearchButtonClick}>
+        検索
+      </SearchButton>
     </SearchBarBase>
   )
 }
