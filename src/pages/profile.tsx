@@ -1,13 +1,12 @@
 import { NextPage } from "next";
 import { signIn, useSession } from "next-auth/react";
 import React from "react";
-import UserCard from "../components/profiles/UserCard";
+import ProfilePage from "../components/profiles/ProfilePage";
 
-const ProfilePage: NextPage = () => {
+const Page: NextPage = () => {
   const { data, status } = useSession();
 
-  if (status === "loading")
-  {
+  if (status === "loading") {
     return (
       <p>
         loading...
@@ -15,17 +14,15 @@ const ProfilePage: NextPage = () => {
     )
   }
 
-  if (!data)
-  {
+  if (!data) {
     signIn()
     return null
   }
 
-  return(
-    <>
-      <UserCard user={data.user}/>
-    </>
+  return (
+    <ProfilePage
+      user={data.user} />
   )
 }
 
-export default ProfilePage
+export default Page

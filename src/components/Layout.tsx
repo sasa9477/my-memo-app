@@ -4,8 +4,6 @@ import BottomNavigationTab from "./navigations/AppBottomNavigation"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
 import { useRouter } from "next/router"
 
-const sideNavigationWidth = 180
-
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -51,7 +49,8 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     <TopComponent>
       <SecondComponent>
         <SideNavigationDrawer
-          sideNavigationWidth={sideNavigationWidth} />
+          transitionHomePage={transitionHomePage}
+          transitionProfilePage={transitionProfilePage} />
         <MainComponentBox>
           {children}
         </MainComponentBox>

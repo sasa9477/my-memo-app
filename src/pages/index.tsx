@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react'
 import { route } from 'next/dist/server/router'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import MemoArea from '../components/memos/MemoArea'
+import MemoPage from '../components/memos/MemoPage'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   }, [router])
 
   return (
-    <MemoArea
+    <MemoPage
       transitionCreatePage={transitionCreatePage} />
   )
 }

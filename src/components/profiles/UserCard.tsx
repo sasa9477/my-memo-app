@@ -1,8 +1,17 @@
 import LogoutIcon from "@mui/icons-material/Logout"
-import { Avatar, Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material"
+import { Avatar, Box, Button, Card, CardActions, CardContent, styled, Typography } from "@mui/material"
 import { DefaultSession } from "next-auth"
 import { signOut } from "next-auth/react"
 import React from "react"
+
+const UserCardBase = styled(Card)(({ theme }) => ({
+  margin: theme.spacing(1)
+}))
+
+const UserCardContent = styled(CardContent)({
+  display: 'flex',
+  alignItems: 'center'
+})
 
 type UserCardProps = {
   user: DefaultSession['user']
@@ -12,13 +21,13 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
   if (!user) return null
 
   return (
-    <Card>
-      <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+    <UserCardBase>
+      <UserCardContent>
         <Avatar
           alt={user.name ?? ''}
           src={user.image ?? ''}
-          sx={{ mr: 2 }}/>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          sx={{ mr: 2 }} />
+        <Box>
           <Typography variant='h6' component='div'>
             {user.name}
           </Typography>
@@ -26,13 +35,16 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             {user.email}
           </Typography>
         </Box>
-      </CardContent>
+      </UserCardContent>
       <CardActions>
-        <Button variant="outlined" startIcon={<LogoutIcon/>}  onClick={() => signOut()}>
-          Sign Out
+        <Button
+          variant="outlined"
+          startIcon={<LogoutIcon />}
+          onClick={() => signOut()}>
+          サインアウト
         </Button>
       </CardActions>
-    </Card>
+    </UserCardBase>
   )
 }
 

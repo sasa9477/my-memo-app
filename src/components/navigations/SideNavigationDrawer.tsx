@@ -1,31 +1,36 @@
 import { Box, Drawer, List, ListItem, ListItemText, styled, Tab, Tabs } from "@mui/material"
-import { useState } from "react"
-import { AccountCircleIcon } from "../icons/AccountCircleIcon"
-import { EditIcon } from "../icons/EditIcon"
 
-const LeftJustifiedTab = styled(Tab)({
-  justifyContent: 'start'
-})
+const sideNavigationWidth = 180
+
+const SideBarBase = styled(Box)(({ theme }) => ({
+  width: sideNavigationWidth,
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
+  },
+}))
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  display: 'block',
+  '& .MuiDrawer-paper': {
+    boxSizing: 'border-box',
+    width: sideNavigationWidth
+  }
+}))
 
 type SideNavigationDrawerProps = {
-  sideNavigationWidth: number
+  transitionHomePage: () => void,
+  transitionProfilePage: () => void
 }
 
-const SideNavigationDrawer: React.FC<SideNavigationDrawerProps> = ({ sideNavigationWidth }): JSX.Element => {
-  const SideBarBase = styled(Box)(({ theme }) => ({
-    width: sideNavigationWidth,
-    [theme.breakpoints.down('sm')]: {
-      display: 'none'
-    },
-  }))
+const SideNavigationDrawer: React.FC<SideNavigationDrawerProps> = ({ transitionHomePage, transitionProfilePage }): JSX.Element => {
 
-  const StyledDrawer = styled(Drawer)(({ theme }) => ({
-    display: 'block',
-    '& .MuiDrawer-paper': {
-      boxSizing: 'border-box',
-      width: sideNavigationWidth
-    }
-  }))
+  const handleMemoButtonClick = () => {
+    transitionHomePage()
+  }
+
+  const handleProfileButtonClick = () => {
+    transitionProfilePage()
+  }
 
   return (
     <SideBarBase>
@@ -33,8 +38,17 @@ const SideNavigationDrawer: React.FC<SideNavigationDrawerProps> = ({ sideNavigat
         variant='permanent'
         open>
         <List>
-          <ListItem button component='a'>
+          <ListItem
+            button
+            component='a'
+            onClick={handleMemoButtonClick}>
             <ListItemText primary='メモ' />
+          </ListItem>
+          <ListItem
+            button
+            component='a'
+            onClick={handleProfileButtonClick}>
+            <ListItemText primary='アカウント' />
           </ListItem>
         </List>
       </StyledDrawer>
