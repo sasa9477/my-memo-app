@@ -8,13 +8,13 @@ const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100vh',
-  width: '100vw'
+  width: '100vw',
 }))
 
 const SecondComponent = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   display: 'flex',
-  overflowY: 'scroll'
+  overflow: 'auto',
 }))
 
 const MainComponentBox = styled(Box)(({ theme }) => ({

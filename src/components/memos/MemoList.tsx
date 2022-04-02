@@ -5,7 +5,10 @@ import MemoListItem from "./MemoListItem"
 
 const MemoListBase = styled(List)(({ theme }) => ({
   flexGrow: 1,
-  overflowY: 'scroll'
+  overflowY: 'scroll',
+  [theme.breakpoints.up('sm')]: {
+    marginTop: theme.spacing(1)
+  }
 }))
 
 const ItemList = styled(List)({
