@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import InputMemoMobile from '../components/memos/InputMemoMobile'
+import CreateMemoMobilePage from '../components/memos/CreateMemoMobilePage'
 
 const CreatePage: NextPage = () => {
   const router = useRouter()
@@ -12,7 +12,7 @@ const CreatePage: NextPage = () => {
   }
 
   return (
-    <InputMemoMobile
+    <CreateMemoMobilePage
       transitionHomePage={transitionHomePage} />
   )
 }

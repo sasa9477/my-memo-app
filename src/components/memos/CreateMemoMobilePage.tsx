@@ -3,7 +3,7 @@ import { useRef, useState } from "react"
 import apiClient from "../../lib/apiClient"
 import { SendIcon } from "../icons/SendIcon"
 
-const InputMemoMobileBase = styled(Box)(({ theme }) => ({
+const CreateMemoMobilePageBase = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
@@ -20,11 +20,11 @@ const FunctionBox = styled(Box)({
   justifyContent: 'space-between'
 })
 
-type InputMemoMobileProps = {
+type CreateMemoMobilePageProps = {
   transitionHomePage: () => void
 }
 
-const InputMemoMobile: React.FC<InputMemoMobileProps> = ({ transitionHomePage }): JSX.Element => {
+const CreateMemoMobilePage: React.FC<CreateMemoMobilePageProps> = ({ transitionHomePage }): JSX.Element => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [enableSendButton, setEnableSendButton] = useState(false)
 
@@ -52,7 +52,7 @@ const InputMemoMobile: React.FC<InputMemoMobileProps> = ({ transitionHomePage })
   }
 
   return (
-    <InputMemoMobileBase>
+    <CreateMemoMobilePageBase>
       <StyledInput
         fullWidth
         multiline
@@ -74,8 +74,8 @@ const InputMemoMobile: React.FC<InputMemoMobileProps> = ({ transitionHomePage })
           登録
         </Button>
       </FunctionBox>
-    </InputMemoMobileBase>
+    </CreateMemoMobilePageBase>
   )
 }
 
-export default InputMemoMobile
+export default CreateMemoMobilePage
