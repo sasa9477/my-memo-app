@@ -97,6 +97,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
     })()
   }, [keywords, bookmarkSearch, searchRequestCallback])
 
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.placeholder = isMobileSize ? 'メモを検索する' : 'メモを検索する（Enterキーで検索）'
+    }
+  }, [isMobileSize])
+
   return (
     <SearchBarBase>
       <StyledToggleButton
@@ -112,7 +118,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
         <SearchInputBase
           fullWidth
           inputProps={{ spellCheck: false }}
-          placeholder={isMobileSize ? 'メモを検索する' : 'メモを検索する（Enterキーで検索）'}
           inputRef={searchInputRef}
           onKeyDown={handleSearchInputKeydown} />
         <BackspaceIconButton
