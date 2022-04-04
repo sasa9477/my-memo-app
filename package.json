@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "16.14.x"
+    "node": "14.x"
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@simbathesailor/use-what-changed": "^2.0.0",
-    "@types/date-fns": "^2.6.0",
     "@types/node": "17.0.23",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
