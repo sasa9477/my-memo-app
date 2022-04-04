@@ -1,7 +1,6 @@
 import { alpha, Box, Button, Icon, IconButton, InputBase, Paper, styled, ToggleButton } from "@mui/material"
-import { useRef, useState, KeyboardEvent, useEffect, useCallback } from "react"
+import { useRef, useState, KeyboardEvent, useEffect, useCallback, ChangeEventHandler, ChangeEvent } from "react"
 import { SearchQuery } from "../../apis/@types"
-import useMediaSize from "../../hooks/useMediaSize"
 import { BackspaceIcon } from "../icons/BackspaceIcon"
 import { BookmarkBorderIcon } from "../icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "../icons/BookmarkIcon"
@@ -63,7 +62,6 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallback }): JSX.Element => {
   const [bookmarkSearch, setBookmarkSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const { isMobileSize } = useMediaSize()
 
   const handleSearch = useCallback(async () => {
     if (searchInputRef.current) {
@@ -80,10 +78,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallba
     setBookmarkSearch(bookmarkSearch => !bookmarkSearch)
   }
 
-  const handleSearchInputKeydown = async (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      await handleSearch()
-    }
+  const handleSearchInputChange = async (event: ChangeEvent<HTMLTextAreaElement>) => {
+    event.preventDefault()
+    await handleSearch()
   }
 
   const handleBackspaceButtonClick = async () => {
@@ -92,10 +89,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallba
 
       await handleSearch()
     }
-  }
-
-  const handleSearchButtonClick = async () => {
-    await handleSearch()
   }
 
   useEffect(() => {
@@ -110,12 +103,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallba
       await handleSearch()
     })()
   }, [bookmarkSearch, handleSearch])
-
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.placeholder = isMobileSize ? 'メモを検索する' : 'メモを検索する（Enterキーで検索）'
-    }
-  }, [isMobileSize])
 
   return (
     <SearchBarBase>
@@ -133,17 +120,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallba
           fullWidth
           inputProps={{ spellCheck: false }}
           inputRef={searchInputRef}
-          onKeyDown={handleSearchInputKeydown} />
+          placeholder='メモを検索する'
+          onChange={handleSearchInputChange} />
         <BackspaceIconButton
           onClick={handleBackspaceButtonClick}>
           <BackspaceIcon />
         </BackspaceIconButton>
       </SearchArea>
-      <SearchButton
-        variant='contained'
-        onClick={handleSearchButtonClick}>
-        検索
-      </SearchButton>
     </SearchBarBase>
   )
 }
