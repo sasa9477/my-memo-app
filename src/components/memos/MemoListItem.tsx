@@ -1,4 +1,4 @@
-import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
+import { Box, IconButton, Input, InputAdornment, InputBase, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
 import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Memo } from "../../apis/@types"
 import useMediaSize from "../../hooks/useMediaSize"
@@ -7,10 +7,6 @@ import { BookmarkIcon } from "../icons/BookmarkIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
 import apiClient from "../../lib/apiClient"
 import { SearchRequest } from "./MemoPage"
-
-const MemoTextField = styled(TextField)(({ theme }) => ({
-  margin: `0 ${theme.spacing(1)}`
-}))
 
 type MemoListItemProps = {
   memo: Memo,
@@ -88,23 +84,31 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo, searchRequest }): JSX
         onClick={handleBookmarkButtonClick}>
         {bookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </IconButton>
-      <MemoTextField
-        variant="standard"
-        fullWidth
-        multiline
-        inputRef={inputRef}
-        label={memo.updatedDatetime ? `${memo.createdTime} ( ${memo.updatedDatetime} 更新 )` : memo.createdTime}
-        InputProps={{
-          disableUnderline: true,
-          endAdornment: (!isMobileSize) ? null :
+      <Box>
+        <ListItemText
+          primary={
+            <Typography
+              fontSize='0.9em'
+              color='gray'>
+              {memo.updatedDatetime ? `${memo.createdTime} ( ${memo.updatedDatetime} 更新 )` : memo.createdTime}
+            </Typography>} />
+        <Input
+          fullWidth
+          margin='none'
+          multiline
+          disableUnderline
+          inputRef={inputRef}
+          spellCheck={false}
+          autoComplete='off'
+          endAdornment={(!isMobileSize) ? null :
             <InputAdornment position='end'>
               <IconButton onClick={handleDeleteIconClick}>
                 <DeleteIcon />
               </IconButton>
-            </InputAdornment>
-        }}
-        onKeyDown={handleInputKeyDown}
-        onBlur={handleInputBlur} />
+            </InputAdornment>}
+          onKeyDown={handleInputKeyDown}
+          onBlur={handleInputBlur} />
+      </Box>
     </ListItem>
   )
 }
