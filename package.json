@@ -7,11 +7,12 @@
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
+    "build": "run-s api:build next:build",
     "start": "next start",
     "lint": "next lint",
-    "build:apis": "run-s clean:apis openapi2aspida",
-    "clean:apis": "rimraf src/apis",
+    "next:build": "next build",
+    "api:build": "run-s api:clean openapi2aspida",
+    "api:clean": "rimraf src/apis",
     "openapi2aspida": "openapi2aspida"
   },
   "dependencies": {
