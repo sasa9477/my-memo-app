@@ -1,11 +1,24 @@
 import { Box, Container, Paper, styled, Toolbar } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Memo, SearchQuery } from '../../apis/@types'
 import apiClient from '../../lib/apiClient'
+import valueEquals from '../../lib/valueEquals'
 import InputArea from './InputArea'
 import MemoCreateFab from './MemoCreateFab'
 import MemoList from './MemoList'
 import SearchBar from './SearchBar'
+
+export type SearchRequest = (requestScrollEnd: boolean) => Promise<void>
+
+export type SearchResult = {
+  memos: Memo[][],
+  scrollEndElement: boolean
+}
+
+const emptySearchQuery: SearchQuery = {
+  keywords: '',
+  bookmarkSearch: false
+}
 
 const MemoAreaBase = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -23,22 +36,43 @@ type MemoPageProps = {
 }
 
 const MemoPage: React.FC<MemoPageProps> = ({ transitionCreatePage }): JSX.Element => {
-  const [memos, setMemos] = useState<Memo[][]>([])
+  const [searchResult, setSearchResult] = useState<SearchResult>({
+    memos: [],
+    scrollEndElement: true
+  })
+  const [searchQuery, setSearchQuery] = useState<SearchQuery>(emptySearchQuery)
 
-  const searchRequestCallback = useCallback(async (searchQuery: SearchQuery) => {
+  const searchRequest: SearchRequest = useCallback(async (requestScrollEnd) => {
     const res = await apiClient.memos.search.$get({ query: { searchQuery: searchQuery } })
-    setMemos(res)
+    setSearchResult({
+      memos: res,
+      scrollEndElement: requestScrollEnd
+    })
+  }, [searchQuery, setSearchResult])
+
+  const setSearchQueryRequest = useCallback((newSearchQuery: SearchQuery) => {
+    setSearchQuery(newSearchQuery)
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      await searchRequest(true)
+    })()
+  }, [searchQuery, searchRequest])
 
   return (
     <MemoAreaBase>
       <SearchBar
-        searchRequestCallback={searchRequestCallback} />
+        searchQuery={searchQuery}
+        setSearchQueryCallback={setSearchQueryRequest} />
       <MemoList
-        memos={memos} />
-      <InputArea />
+        searchResult={searchResult}
+        searchRequest={searchRequest} />
+      <InputArea
+        searchRequest={searchRequest} />
       <MemoCreateFab
         transitionCreatePage={transitionCreatePage} />
+
     </MemoAreaBase>
   )
 }

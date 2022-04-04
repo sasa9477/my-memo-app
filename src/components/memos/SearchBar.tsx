@@ -56,46 +56,60 @@ const SearchButton = styled(Button)(({ theme }) => ({
 }))
 
 type SearchBarProps = {
-  searchRequestCallback: (searchQuery: SearchQuery) => Promise<void>
+  searchQuery: SearchQuery,
+  setSearchQueryCallback: (searchQuery: SearchQuery) => void
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Element => {
-  const [keywords, setKeywords] = useState('')
+const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallback }): JSX.Element => {
   const [bookmarkSearch, setBookmarkSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
   const { isMobileSize } = useMediaSize()
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(async () => {
     if (searchInputRef.current) {
-      setKeywords(searchInputRef.current.value.trim())
+      const inputKeywords = searchInputRef.current.value.trim()
+      const searchQuery: SearchQuery = {
+        keywords: inputKeywords,
+        bookmarkSearch: bookmarkSearch
+      }
+      setSearchQueryCallback(searchQuery)
     }
+  }, [bookmarkSearch, setSearchQueryCallback])
+
+  const handleBookmarkSearchToggle = () => {
+    setBookmarkSearch(bookmarkSearch => !bookmarkSearch)
   }
 
-  const handleSearchInputKeydown = (e: KeyboardEvent) => {
+  const handleSearchInputKeydown = async (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleSearch()
+      await handleSearch()
     }
   }
 
-  const handleClearSearchInputs = () => {
+  const handleBackspaceButtonClick = async () => {
     if (searchInputRef.current) {
       searchInputRef.current.value = ''
+
+      await handleSearch()
     }
   }
 
-  const handleSearchButtonClick = () => {
-    handleSearch()
+  const handleSearchButtonClick = async () => {
+    await handleSearch()
   }
 
   useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.value = searchQuery.keywords
+    }
+    setBookmarkSearch(searchQuery.bookmarkSearch)
+  }, [searchQuery])
+
+  useEffect(() => {
     (async () => {
-      const searchQuery: SearchQuery = {
-        keywords: keywords,
-        bookmarkSearch: bookmarkSearch
-      }
-      await searchRequestCallback(searchQuery)
+      await handleSearch()
     })()
-  }, [keywords, bookmarkSearch, searchRequestCallback])
+  }, [bookmarkSearch, handleSearch])
 
   useEffect(() => {
     if (searchInputRef.current) {
@@ -107,7 +121,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
     <SearchBarBase>
       <StyledToggleButton
         value='bookmarkSerchToogleButton'
-        onChange={() => setBookmarkSearch(bookmarkSearch => !bookmarkSearch)}
+        onChange={handleBookmarkSearchToggle}
         size='small'>
         {bookmarkSearch ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </StyledToggleButton>
@@ -121,7 +135,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchRequestCallback }): JSX.Ele
           inputRef={searchInputRef}
           onKeyDown={handleSearchInputKeydown} />
         <BackspaceIconButton
-          onClick={() => handleClearSearchInputs()}>
+          onClick={handleBackspaceButtonClick}>
           <BackspaceIcon />
         </BackspaceIconButton>
       </SearchArea>

@@ -112,12 +112,13 @@ let memos: Memo[] = [
 ]
 
 const loadAllMemos = (): Memo[] => {
-  return memos;
+  return memos.sort((a, b) => a.id - b.id);
 }
 
 const addMemo = (content: string): Memo => {
+  const memoHasMaxId = memos.reduceRight((previous, current) => previous.id > current.id ? previous : current)
   const memo: Memo = {
-    id: memos.length + 1,
+    id: memoHasMaxId.id + 1,
     content: content,
     bookmarkFlag: false,
     createdDate: format(new Date(), 'MMMdo(E)', { locale: ja }),
@@ -129,13 +130,15 @@ const addMemo = (content: string): Memo => {
 }
 
 const updateMemo = (memo: Memo): Memo | undefined => {
-  const target = memos.find((value) => value.id === memo.id)
-  if (target) {
-    target.content = memo.content
-    target.bookmarkFlag = memo.bookmarkFlag
-    target.updatedDatetime = format(new Date(), 'MMMdo(E) HH:mm', { locale : ja })
-    console.log(target.updatedDatetime)
-    return target
+  const updatedMemo = memos.find((value) => value.id === memo.id)
+  if (updatedMemo) {
+    updatedMemo.content = memo.content
+    updatedMemo.bookmarkFlag = memo.bookmarkFlag
+    updatedMemo.updatedDatetime = format(new Date(), 'MMMdo(E) HH:mm', { locale : ja })
+
+    deleteMemo(memo.id)
+    memos.push(updatedMemo)
+    return updatedMemo
   }
   return undefined
 }

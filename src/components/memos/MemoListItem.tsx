@@ -6,16 +6,18 @@ import { BookmarkBorderIcon } from "../icons/BookmarkBorderIcon"
 import { BookmarkIcon } from "../icons/BookmarkIcon"
 import { DeleteIcon } from "../icons/DeleteIcon"
 import apiClient from "../../lib/apiClient"
+import { SearchRequest } from "./MemoPage"
 
 const MemoTextField = styled(TextField)(({ theme }) => ({
   margin: `0 ${theme.spacing(1)}`
 }))
 
 type MemoListItemProps = {
-  memo: Memo
+  memo: Memo,
+  searchRequest: SearchRequest
 }
 
-const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
+const MemoListItem: React.FC<MemoListItemProps> = ({ memo, searchRequest }): JSX.Element => {
   const { isMobileSize } = useMediaSize()
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [bookmark, setBookmark] = useState(memo.bookmarkFlag)
@@ -26,12 +28,14 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo }): JSX.Element => {
       memo.bookmarkFlag = bookmark
       const result = await apiClient.memos.update.$put({ body: memo })
       console.log('update memo! ', result)
+      searchRequest(false)
     }
-  }, [memo, bookmark])
+  }, [memo, bookmark, searchRequest])
 
   const deleteMemo = useCallback(async (memoId: number) => {
     await apiClient.memos.delete.$delete({ query: { memoId: memoId } })
-  }, [])
+    searchRequest(false)
+  }, [searchRequest])
 
   const handleBookmarkButtonClick = async () => {
     setBookmark(bookmark => !bookmark)

@@ -3,6 +3,7 @@ import { KeyboardEvent, useRef } from "react"
 import apiClient from "../../lib/apiClient"
 import { DescriptionIcon } from "../icons/DescriptionIcon"
 import { SendIcon } from "../icons/SendIcon"
+import { SearchRequest } from "./MemoPage"
 
 const InputAreaBase = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -16,9 +17,10 @@ const FunctionBox = styled(Box)({
 })
 
 type InputAreaProps = {
+  searchRequest: SearchRequest
 }
 
-const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
+const InputArea: React.FC<InputAreaProps> = ({ searchRequest }): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSend = async () => {
@@ -26,6 +28,7 @@ const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
       const content = inputRef.current.value.trim().removeConsecutiveNewlines()
       inputRef.current.value = ''
       await apiClient.memos.create.$post({ body: { content: content } })
+      searchRequest(true)
     }
   }
 
@@ -43,7 +46,7 @@ const InputArea: React.FC<InputAreaProps> = (): JSX.Element => {
         minRows={2}
         maxRows={8}
         inputProps={{ spellCheck: false }}
-        placeholder='メモを書く(Ctrl + Enter で送信)'
+        placeholder='メモを書く（Ctrl + Enter で送信）'
         autoFocus={true}
         inputRef={inputRef}
         onKeyDown={handleKeyDown}

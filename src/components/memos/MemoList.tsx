@@ -1,7 +1,9 @@
 import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { Memo } from "../../apis/@types"
+import { Memo, SearchQuery } from "../../apis/@types"
+import apiClient from "../../lib/apiClient"
 import MemoListItem from "./MemoListItem"
+import { SearchRequest, SearchResult } from "./MemoPage"
 
 const MemoListBase = styled(List)(({ theme }) => ({
   flexGrow: 1,
@@ -16,14 +18,23 @@ const ItemList = styled(List)({
 })
 
 type MemoListProps = {
-  memos: Memo[][]
+  searchResult: SearchResult,
+  searchRequest: SearchRequest
 }
 
-const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
+const MemoList: React.FC<MemoListProps> = ({ searchResult, searchRequest }): JSX.Element => {
+  const endElementRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (searchResult.scrollEndElement && endElementRef.current) {
+      endElementRef.current.scrollIntoView()
+    }
+  }, [searchResult])
+
   return (
     <MemoListBase
       disablePadding>
-      {memos.map(memoList => (
+      {searchResult.memos.map(memoList => (
         <ListItem key={`list-${memoList[0].createdDate}`} disablePadding>
           <ItemList disablePadding>
             <ListSubheader disableGutters>
@@ -32,11 +43,13 @@ const MemoList: React.FC<MemoListProps> = ({ memos }): JSX.Element => {
             {memoList.map(memo => (
               <MemoListItem
                 key={memo.id}
-                memo={memo} />
+                memo={memo}
+                searchRequest={searchRequest} />
             ))}
           </ItemList>
         </ListItem>
       ))}
+      <div ref={endElementRef}></div>
     </MemoListBase>
   )
 }
