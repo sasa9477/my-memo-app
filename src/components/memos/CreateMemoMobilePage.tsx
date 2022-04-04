@@ -1,5 +1,5 @@
 import { Box, Button, InputBase, styled } from "@mui/material"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import apiClient from "../../lib/apiClient"
 import { SendIcon } from "../icons/SendIcon"
 
@@ -51,12 +51,17 @@ const CreateMemoMobilePage: React.FC<CreateMemoMobilePageProps> = ({ transitionH
     }
   }
 
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
+
   return (
     <CreateMemoMobilePageBase>
       <StyledInput
         fullWidth
         multiline
-        autoFocus
         placeholder='メモを書く'
         inputRef={inputRef}
         inputProps={{ spellCheck: false }}

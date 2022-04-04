@@ -6,6 +6,7 @@ import MemoListItem from "./MemoListItem"
 import { SearchRequest, SearchResult } from "./MemoPage"
 
 const MemoListBase = styled(List)(({ theme }) => ({
+  padding: 0,
   flexGrow: 1,
   overflowY: 'scroll',
   [theme.breakpoints.up('sm')]: {
@@ -15,6 +16,7 @@ const MemoListBase = styled(List)(({ theme }) => ({
 
 const ItemList = styled(List)({
   width: '100%',
+  padding: 0
 })
 
 type MemoListProps = {
@@ -32,12 +34,14 @@ const MemoList: React.FC<MemoListProps> = ({ searchResult, searchRequest }): JSX
   }, [searchResult])
 
   return (
-    <MemoListBase
-      disablePadding>
+    <MemoListBase>
       {searchResult.memos.map(memoList => (
-        <ListItem key={`list-${memoList[0].createdDate}`} disablePadding>
-          <ItemList disablePadding>
-            <ListSubheader disableGutters>
+        <ListItem
+          key={`list-${memoList[0].createdDate}`}
+          disablePadding>
+          <ItemList>
+            <ListSubheader
+              disableGutters>
               {memoList[0].createdDate}
             </ListSubheader>
             {memoList.map(memo => (

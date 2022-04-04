@@ -8,6 +8,11 @@ import { DeleteIcon } from "../icons/DeleteIcon"
 import apiClient from "../../lib/apiClient"
 import { SearchRequest } from "./MemoPage"
 
+const ContentBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  marginLeft: theme.spacing(1)
+}))
+
 type MemoListItemProps = {
   memo: Memo,
   searchRequest: SearchRequest
@@ -84,7 +89,7 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo, searchRequest }): JSX
         onClick={handleBookmarkButtonClick}>
         {bookmark ? <BookmarkIcon /> : <BookmarkBorderIcon />}
       </IconButton>
-      <Box>
+      <ContentBox>
         <ListItemText
           primary={
             <Typography
@@ -108,7 +113,7 @@ const MemoListItem: React.FC<MemoListItemProps> = ({ memo, searchRequest }): JSX
             </InputAdornment>}
           onKeyDown={handleInputKeyDown}
           onBlur={handleInputBlur} />
-      </Box>
+      </ContentBox>
     </ListItem>
   )
 }
