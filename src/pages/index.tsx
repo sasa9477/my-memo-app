@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import MemoPage from '../components/memos/MemoPage'
 
 const Home: NextPage = () => {
+  const { data } = useSession()
   const router = useRouter()
 
   const transitionCreatePage = () => {
@@ -17,6 +18,12 @@ const Home: NextPage = () => {
   useEffect(() => {
     router.prefetch('/create')
   }, [router])
+
+  if (!data) {
+    return (
+      <></>
+    )
+  }
 
   return (
     <MemoPage

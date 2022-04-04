@@ -3,6 +3,7 @@ import { ReactNode, useCallback, useEffect, useState } from "react"
 import BottomNavigationTab from "./navigations/AppBottomNavigation"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
 import { useRouter } from "next/router"
+import { useSession } from "next-auth/react"
 
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,6 +27,9 @@ type LayoutProps = {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
+  const { status } = useSession({
+    required: true
+  })
   const router = useRouter()
 
   const transitionHomePage = () => {
@@ -44,6 +48,10 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     router.prefetch('/')
     router.prefetch('/profile')
   }, [router])
+
+  if (status === 'loading') {
+    <p>Now Loading...</p>
+  }
 
   return (
     <TopComponent>
