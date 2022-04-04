@@ -4,10 +4,10 @@ declare global {
   var prisma: PrismaClient
 }
 
-let prisma: PrismaClient;
+let prismaApiClient: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
+  prismaApiClient = new PrismaClient()
 } else {
   if (!global.prisma) {
     // global.prisma = new PrismaClient()
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
       log: ['query']
     })
   }
-  prisma = global.prisma
+  prismaApiClient = global.prisma
 }
 
-export default prisma;
+export default prismaApiClient;

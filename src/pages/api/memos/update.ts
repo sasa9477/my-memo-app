@@ -1,19 +1,30 @@
 import { NextApiHandler } from "next";
+import { getSession } from "next-auth/react";
 import { Memo } from "../../../apis/@types";
-import { updateMemo } from "../../../mock/fakeMemoRepository";
+import MemoRepository from "../../../repositories/MemoRepository";
 
-const handler: NextApiHandler = (req, res) => {
+const memoRepository = new MemoRepository()
+
+const handler: NextApiHandler = async (req, res) => {
+  const session = await getSession({ req })
+
+  if (!session) {
+    // Unauthorized
+    res.status(401).end()
+  }
+
   const memo = req.body as Memo
 
-  if (memo) {
-    const updatedMemo = updateMemo(memo)
-    console.log('updated memo:', updatedMemo)
-    res.json(updatedMemo)
+  if (!memo) {
+    // Baq request
+    res.status(400).end()
     return
   }
 
-  // Bad Request
-  res.status(403)
+  const updatedMemo = await memoRepository.updateMemo(memo)
+
+  // OK
+  res.status(200).json(updatedMemo)
 }
 
 export default handler

@@ -1,39 +1,32 @@
 import { NextApiHandler } from "next";
+import { getSession } from "next-auth/react";
 import { Memo, SearchQuery } from "../../../apis/@types";
-import { loadAllMemos } from "../../../mock/fakeMemoRepository";
+import MemoRepository from "../../../repositories/MemoRepository";
 
-const handler: NextApiHandler = async ( req, res) => {
-  console.log(req.query)
+const memoRepository = new MemoRepository()
 
-  let memos = loadAllMemos()
+const handler: NextApiHandler<Memo[][]> = async (req, res) => {
+  const session = await getSession({ req })
 
-  const searchQueryJson = req.query.searchQuery
-  if (typeof searchQueryJson === 'string') {
-    const searchQuery = JSON.parse(searchQueryJson) as SearchQuery
-
-    if (searchQuery.keywords) {
-      memos = memos.filter(memo => memo.content.includes(searchQuery.keywords))
-    }
-
-    if (searchQuery.bookmarkSearch) {
-      memos = memos.filter(memo => memo.bookmarkFlag === true)
-    }
+  if (!session) {
+    // Unauthorized
+    res.status(401).end()
   }
 
-  const result = memos.reduce((previous: Memo[][], current: Memo) => {
-    const lastArray: Memo[] = previous[previous.length - 1] ?? []
-    const firstItem: Memo = lastArray[0]
-    if (previous.length === 0 || (firstItem && firstItem.createdDate !== current.createdDate)) {
-      const newArray = [ current ]
-      previous.push(newArray)
-      return previous
-    }
+  const userEmail = session?.user?.email
+  const searchQueryJson = req.query.searchQuery as string
+  const searchQuery = JSON.parse(searchQueryJson) as SearchQuery
 
-    lastArray.push(current)
-    return previous
-  }, [])
+  if (!userEmail || !searchQueryJson) {
+    // Baq request
+    res.status(400).end()
+    return
+  }
 
-  res.json(result)
+  const memos = await memoRepository.searchMemo(searchQuery, userEmail)
+
+  // OK
+  res.status(200).json(memos)
 }
 
 export default handler
