@@ -1,9 +1,10 @@
-// @ts-check
-
-/** @type {Partial<import('aspida/dist/getConfigs').AspidaConfig>} */
-const aspidaConfig = {
-    input: 'interfaces',
-    outputMode: 'aliasOnly'
+/** @type {import('openapi2aspida/dist/getConfig').ConfigFile} */
+const config = {
+  input: "src/apis", // "input" of aspida is "output" for openapi2aspida
+  outputEachDir: false, // Generate $api.ts in each endpoint directory
+  openapi: {
+    inputFile: "src/openapi.yaml",
+   }
 }
 
-module.exports = aspidaConfig
+module.exports = config
