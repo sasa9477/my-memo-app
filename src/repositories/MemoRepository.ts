@@ -1,4 +1,4 @@
-import { Memo, Prisma, PrismaClient } from "@prisma/client"
+import { Memo, Prisma } from "@prisma/client"
 import { Memo as MemoDto, SearchQuery } from "../apis/@types"
 import prismaApiClient from "../lib/prismaApiClient"
 import { format } from "date-fns"
@@ -64,7 +64,7 @@ export default class MemoRepository {
       }
     })
 
-    const memos = await prisma.memo.findMany({
+    const memos = await  prismaApiClient.memo.findMany({
       where: {
         AND: whereQuery,
       },
