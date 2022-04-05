@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react"
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100vh',
+  height: '100%',
   width: '100vw',
 }))
 
@@ -54,7 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   }
 
   return (
-    <TopComponent>
+    <TopComponent component={'main'}>
       <SecondComponent>
         <SideNavigationDrawer
           transitionHomePage={transitionHomePage}
