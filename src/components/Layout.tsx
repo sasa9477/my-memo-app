@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react"
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
+  height: '100vh',
   width: '100vw',
 }))
 
@@ -27,6 +27,7 @@ type LayoutProps = {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
+  const [vh, setVH] = useState(0)
   const { status } = useSession({
     required: true
   })
@@ -49,12 +50,28 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     router.prefetch('/profile')
   }, [router])
 
+  useEffect(() => {
+    const resizeVH = () => {
+      if (vh !== window.visualViewport.height) {
+        setVH(window.visualViewport.height)
+      }
+    }
+
+    resizeVH()
+
+    window.addEventListener('resize', resizeVH)
+
+    return () => window.removeEventListener('resize', resizeVH)
+  })
+
   if (status === 'loading') {
     <p>Now Loading...</p>
   }
 
   return (
-    <TopComponent component={'main'}>
+    <TopComponent
+      component={'main'}
+      sx={{ height: vh }}>
       <SecondComponent>
         <SideNavigationDrawer
           transitionHomePage={transitionHomePage}
