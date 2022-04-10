@@ -72,6 +72,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     <TopComponent
       component={'main'}
       sx={{ height: vh }}>
+      <div>vh: {vh}</div>
       <SecondComponent>
         <SideNavigationDrawer
           transitionHomePage={transitionHomePage}
