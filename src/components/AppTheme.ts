@@ -27,19 +27,6 @@ const AppTheme = createTheme({
     ].join(','),
   },
   components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        html: {
-          height: '-webkit-fill-available'
-        },
-        body: {
-          height: '100%'
-        },
-        '#__next': {
-          height: '100%'
-        }
-      }
-    },
     MuiList: {
       styleOverrides: {
         root: customScrollbar

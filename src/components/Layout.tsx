@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react"
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  //  height: '-webkit-fill-available',
+  height: '-webkit-fill-available',
   width: '100vw',
   overflow: 'hidden'
 }))
