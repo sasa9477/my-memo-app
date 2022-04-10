@@ -29,6 +29,7 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
   const [innerHeight, setInnerHeight] = useState(0)
+  const [screenAvailHeight, setScreenAvailHeight] = useState(0)
 
   const { status } = useSession({
     required: true
@@ -61,11 +62,25 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       if (innerHeight !== window.innerHeight) {
         setInnerHeight(window.innerHeight)
       }
+
+      if (screenAvailHeight !== window.screen.availHeight) {
+        setScreenAvailHeight(window.screen.availHeight)
+      }
     }
 
     resizeVH()
 
     window.addEventListener('resize', resizeVH)
+
+    const inputs = document.getElementsByTagName('input')
+    for (const inputElement of inputs) {
+      inputElement.onfocus = resizeVH
+    }
+
+    for (const textAreaElement of document.getElementsByTagName('textarea')) {
+      textAreaElement.onfocus = resizeVH
+    }
+
 
     return () => window.removeEventListener('resize', resizeVH)
   })
@@ -85,6 +100,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
         <Box sx={{ flexGrow: 1 }}>
           <Typography>vh: {vh}px</Typography>
           <Typography>innerHeight: {innerHeight}px</Typography>
+          <Typography>screenAvailHeight: {screenAvailHeight}px</Typography>
         </Box>
         <MainComponentBox>
           {children}
