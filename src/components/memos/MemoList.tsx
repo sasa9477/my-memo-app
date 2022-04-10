@@ -1,7 +1,5 @@
-import { Box, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
+import { Box, CircularProgress, IconButton, Input, InputAdornment, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, styled, TextField, ToggleButton, Toolbar, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { Memo, SearchQuery } from "../../apis/@types"
-import apiClient from "../../lib/apiClient"
 import MemoListItem from "./MemoListItem"
 import { SearchRequest, SearchResult } from "./MemoPage"
 
@@ -45,12 +43,14 @@ const MemoList: React.FC<MemoListProps> = ({ searchResult, searchRequest }): JSX
               disableGutters>
               {memoList[0].createdDate}
             </ListSubheader>
-            {memoList.map(memo => (
-              <MemoListItem
-                key={memo.id}
-                memo={memo}
-                searchRequest={searchRequest} />
-            ))}
+            {memoList.length === 0
+              ? <CircularProgress />
+              : memoList.map(memo => (
+                <MemoListItem
+                  key={memo.id}
+                  memo={memo}
+                  searchRequest={searchRequest} />
+              ))}
           </ItemList>
         </ListItem>
       ))}
