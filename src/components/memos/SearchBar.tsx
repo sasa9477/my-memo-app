@@ -48,12 +48,6 @@ const BackspaceIconButton = styled(IconButton)(({ theme }) => ({
   }
 }))
 
-const SearchButton = styled(Button)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: {
-    display: 'none'
-  }
-}))
-
 type SearchBarProps = {
   searchQuery: SearchQuery,
   setSearchQueryCallback: (searchQuery: SearchQuery) => void
@@ -62,6 +56,7 @@ type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallback }): JSX.Element => {
   const [bookmarkSearch, setBookmarkSearch] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchTimeoutIdRef = useRef<NodeJS.Timeout>()
 
   const handleSearch = useCallback(async () => {
     if (searchInputRef.current) {
@@ -80,7 +75,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQueryCallba
 
   const handleSearchInputChange = async (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault()
-    await handleSearch()
+
+    if (searchTimeoutIdRef.current) {
+      clearTimeout(searchTimeoutIdRef.current)
+      searchTimeoutIdRef.current = undefined
+    }
+
+    searchTimeoutIdRef.current = setTimeout(async () => {
+      await handleSearch()
+      searchTimeoutIdRef.current = undefined
+    }, 500);
   }
 
   const handleBackspaceButtonClick = async () => {
