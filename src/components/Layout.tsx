@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material"
+import { Box, styled, Typography } from "@mui/material"
 import { ReactNode, useCallback, useEffect, useState } from "react"
 import BottomNavigationTab from "./navigations/AppBottomNavigation"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
@@ -28,6 +28,8 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
+  const [innerHeight, setInnerHeight] = useState(0)
+
   const { status } = useSession({
     required: true
   })
@@ -55,6 +57,10 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       if (vh !== window.visualViewport.height) {
         setVH(window.visualViewport.height)
       }
+
+      if (innerHeight !== window.innerHeight) {
+        setInnerHeight(window.innerHeight)
+      }
     }
 
     resizeVH()
@@ -72,11 +78,14 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     <TopComponent
       component={'main'}
       sx={{ height: vh }}>
-      <div>vh: {vh}</div>
       <SecondComponent>
         <SideNavigationDrawer
           transitionHomePage={transitionHomePage}
           transitionProfilePage={transitionProfilePage} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Typography>vh: {vh}px</Typography>
+          <Typography>innerHeight: {innerHeight}px</Typography>
+        </Box>
         <MainComponentBox>
           {children}
         </MainComponentBox>
