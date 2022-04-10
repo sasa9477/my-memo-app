@@ -6,25 +6,26 @@ export default class MyDocument extends NextDocument {
       <Html>
         <Head>
           {/* favicons */}
-          <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png"/>
-          <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png"/>
-          <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png"/>
-          <link rel="manifest" href="/favicons/site.webmanifest" crossOrigin="use-credentials"/>
-          <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5"/>
-          <meta name="msapplication-TileColor" content="#2b5797"/>
-          <meta name="theme-color" content="#ffffff"/>
+          <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
+          <link rel="manifest" href="/favicons/site.webmanifest" crossOrigin="use-credentials" />
+          <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5" />
+          <meta name="msapplication-TileColor" content="#2b5797" />
+          <meta name="theme-color" content="#ffffff" />
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
 
           {/* noindex:   Webページをインデックスに登録しない */}
           {/* nofollow:  クロールの際にページからのリンクを追跡しない */}
           {/* noarchive: 検索結果にページへのキャッシュリンクを表示しない */}
-          <meta name="robots" content="noindex, nofollow, noarchive"/>
+          <meta name="robots" content="noindex, nofollow, noarchive" />
 
           {/* 自動翻訳を表示しない */}
-          <meta httpEquiv="content-language" content="ja"/>
+          <meta httpEquiv="content-language" content="ja" />
         </Head>
         <body>
-          <Main/>
-          <NextScript/>
+          <Main />
+          <NextScript />
         </body>
       </Html>
     )
