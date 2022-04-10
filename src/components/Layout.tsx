@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from "react"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
-import MyAppBar from "./MyAppbar"
+import MyAppBar from "./MyAppBar"
 
 const sideNavigationDrawerWidth = 180
 
