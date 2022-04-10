@@ -26,8 +26,7 @@ const MemoPageBase = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   position: 'relative',
   [theme.breakpoints.down('sm')]: {
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
-    marginTop: theme.mixins.toolbar.minHeight
+    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px - ${theme.spacing(1)})`,
   }
 }))
 
