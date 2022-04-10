@@ -13,7 +13,6 @@ export default class MyDocument extends NextDocument {
           <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5" />
           <meta name="msapplication-TileColor" content="#2b5797" />
           <meta name="theme-color" content="#ffffff" />
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
 
           {/* noindex:   Webページをインデックスに登録しない */}
           {/* nofollow:  クロールの際にページからのリンクを追跡しない */}
