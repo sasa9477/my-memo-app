@@ -30,7 +30,7 @@ const AppTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         html: {
-          height: '100%'
+          height: '-webkit-fill-available'
         },
         body: {
           height: '100%'
