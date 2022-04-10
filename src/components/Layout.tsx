@@ -9,7 +9,7 @@ import { enableBodyScroll, disableBodyScroll, clearAllBodyScrollLocks } from "bo
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '-webkit-fill-available',
+  height: '100vh',
   width: '100vw'
 }))
 
@@ -55,12 +55,6 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     router.prefetch('/profile')
   }, [router])
 
-  // useEffect(() => {
-  //   scrollLockTarget = scrollLockTargetRef.current
-
-
-  // }, [scrollLockTargetRef])
-
   useEffect(() => {
     const resizeVH = () => {
       if (vh !== window.visualViewport.height) {
@@ -70,9 +64,6 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
 
     resizeVH()
 
-    // window.addEventListener('resize', resizeVH)
-    window.visualViewport.addEventListener('resize', resizeVH)
-
     const scrollLockOnInputsFocus = (ev: FocusEvent) => {
       const element = ev?.target as HTMLElement
       console.log('focus', element?.className)
@@ -80,6 +71,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       if (element) {
         scrollLockTargetRef.current = element
         disableBodyScroll(element)
+        setTimeout(resizeVH, 300)
       }
     }
 
@@ -107,11 +99,8 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       }
     }, 300)
 
-    return () => {
-      window.visualViewport.removeEventListener('resize', resizeVH)
-      clearAllBodyScrollLocks()
-    }
-  }, [vh, inputClassName])
+    return () => clearAllBodyScrollLocks()
+  }, [vh])
 
   if (status === 'loading') {
     <p>Now Loading...</p>
