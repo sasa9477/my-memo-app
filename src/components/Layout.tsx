@@ -30,6 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
   const [innerHeight, setInnerHeight] = useState(0)
   const [screenAvailHeight, setScreenAvailHeight] = useState(0)
+  const [inputClassName, setInputClassName] = useState('')
 
   const { status } = useSession({
     required: true
@@ -74,16 +75,22 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
 
     const inputs = document.getElementsByTagName('input')
     for (const inputElement of inputs) {
-      inputElement.onfocus = resizeVH
+      inputElement.onfocus = () => {
+        resizeVH()
+        setInputClassName(inputElement.className)
+      }
     }
 
-    for (const textAreaElement of document.getElementsByTagName('textarea')) {
-      textAreaElement.onfocus = resizeVH
+    for (const textareaElement of document.getElementsByTagName('textarea')) {
+      textareaElement.onfocus = () => {
+        resizeVH()
+        setInputClassName(textareaElement.className)
+      }
     }
 
 
     return () => window.removeEventListener('resize', resizeVH)
-  })
+  }, [vh, innerHeight, screenAvailHeight])
 
   if (status === 'loading') {
     <p>Now Loading...</p>
@@ -97,10 +104,11 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
         <SideNavigationDrawer
           transitionHomePage={transitionHomePage}
           transitionProfilePage={transitionProfilePage} />
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ width: '220px' }}>
           <Typography>vh: {vh}px</Typography>
           <Typography>innerHeight: {innerHeight}px</Typography>
           <Typography>screenAvailHeight: {screenAvailHeight}px</Typography>
+          <Typography>input class name : {inputClassName}</Typography>
         </Box>
         <MainComponentBox>
           {children}

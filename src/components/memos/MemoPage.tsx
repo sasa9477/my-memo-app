@@ -27,7 +27,7 @@ const MemoAreaBase = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
   position: 'relative',
   [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column-reverse'
+    // flexDirection: 'column-reverse'
   }
 }))
 
