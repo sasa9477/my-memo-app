@@ -28,8 +28,6 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
-  const [innerHeight, setInnerHeight] = useState(0)
-  const [screenAvailHeight, setScreenAvailHeight] = useState(0)
   const [inputClassName, setInputClassName] = useState('')
 
   const { status } = useSession({
@@ -59,40 +57,37 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       if (vh !== window.visualViewport.height) {
         setVH(window.visualViewport.height)
       }
-
-      if (innerHeight !== window.innerHeight) {
-        setInnerHeight(window.innerHeight)
-      }
-
-      if (screenAvailHeight !== window.screen.availHeight) {
-        setScreenAvailHeight(window.screen.availHeight)
-      }
     }
 
     resizeVH()
 
     window.addEventListener('resize', resizeVH)
 
-    const inputs = document.getElementsByTagName('input')
-    for (const inputElement of inputs) {
-      inputElement.onfocus = () => {
-        console.log(inputElement.className)
-        resizeVH()
-        setInputClassName(inputElement.className)
+    const resizeOnInputsFocus = (ev: FocusEvent) => {
+      const element = ev?.target as HTMLElement
+      console.log(element?.className)
+
+      if (element && element.className !== inputClassName) {
+        setInputClassName(element.className)
       }
+
+      setTimeout(resizeVH, 300)
     }
 
-    for (const textareaElement of document.getElementsByTagName('textarea')) {
-      textareaElement.onfocus = () => {
-        console.log(textareaElement.className)
-        resizeVH()
-        setInputClassName(textareaElement.className)
+    setTimeout(() => {
+      const inputs = document.getElementsByTagName('input')
+      for (const inputElement of inputs) {
+        inputElement.onfocus = resizeOnInputsFocus
       }
-    }
 
+      const textareas = document.getElementsByTagName('textarea')
+      for (const textareaElement of textareas) {
+        textareaElement.onfocus = resizeOnInputsFocus
+      }
+    }, 300)
 
     return () => window.removeEventListener('resize', resizeVH)
-  }, [vh, innerHeight, screenAvailHeight, inputClassName, setInputClassName])
+  }, [vh, inputClassName])
 
   if (status === 'loading') {
     <p>Now Loading...</p>
@@ -108,8 +103,6 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
           transitionProfilePage={transitionProfilePage} />
         <Box sx={{ width: '220px' }}>
           <Typography>vh: {vh}px</Typography>
-          <Typography>innerHeight: {innerHeight}px</Typography>
-          <Typography>screenAvailHeight: {screenAvailHeight}px</Typography>
           <Typography>input class name : {inputClassName}</Typography>
         </Box>
         <MainComponentBox>
