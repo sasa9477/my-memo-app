@@ -29,9 +29,7 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
-  const [inputClassName, setInputClassName] = useState('')
   const scrollLockTargetRef = useRef<HTMLElement>()
-  let scrollLockTarget: HTMLElement | undefined
 
   const { status } = useSession({
     required: true
@@ -82,6 +80,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
       if (element) {
         scrollLockTargetRef.current = element
         enableBodyScroll(element)
+        setTimeout(resizeVH, 300)
       }
     }
 
@@ -116,7 +115,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
           transitionProfilePage={transitionProfilePage} />
         <Box sx={{ width: '220px' }}>
           <Typography>vh: {vh}px</Typography>
-          <Typography>input class name : {inputClassName}</Typography>
+          <Typography>version: 1</Typography>
         </Box>
         <MainComponentBox>
           {children}
