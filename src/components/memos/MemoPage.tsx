@@ -22,12 +22,9 @@ const emptySearchQuery: SearchQuery = {
 const MemoPageBase = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100vh',
+  height: '100%',
   padding: theme.spacing(1),
-  position: 'relative',
-  [theme.breakpoints.down('sm')]: {
-    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px - ${theme.spacing(1)})`,
-  }
+  position: 'relative'
 }))
 
 type MemoPageProps = {

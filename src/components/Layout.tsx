@@ -8,7 +8,11 @@ import MyAppBar from "./MyAppBar"
 const sideNavigationDrawerWidth = 180
 
 const TopComponent = styled(Box)(({ theme }) => ({
-  display: 'flex'
+  display: 'flex',
+  height: '100vh',
+  '@supports (-webkit-touch-callout: none)': {
+    height: '-webkit-fill-available'
+  }
 }))
 
 const MainComponentBox = styled(Box)(({ theme }) => ({
