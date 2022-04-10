@@ -1,26 +1,21 @@
 import { Box, styled, Typography } from "@mui/material"
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react"
-import BottomNavigationTab from "./navigations/AppBottomNavigation"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
-import { enableBodyScroll, disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
+import MyAppBar from "./MyAppbar"
+
+const sideNavigationDrawerWidth = 180
 
 const TopComponent = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100vh',
-  width: '100vw'
-}))
-
-const SecondComponent = styled(Box)(({ theme }) => ({
-  flexGrow: 1,
-  display: 'flex',
-  overflow: 'auto',
+  display: 'flex'
 }))
 
 const MainComponentBox = styled(Box)(({ theme }) => ({
-  flexGrow: 1
+  flexGrow: 1,
+  [theme.breakpoints.down('sm')]: {
+    marginTop: theme.mixins.toolbar.minHeight
+  }
 }))
 
 type LayoutProps = {
@@ -28,9 +23,6 @@ type LayoutProps = {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
-  const [vh, setVH] = useState(0)
-  const scrollLockTargetRef = useRef<HTMLElement>()
-
   const { status } = useSession({
     required: true
   })
@@ -53,77 +45,24 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     router.prefetch('/profile')
   }, [router])
 
-  useEffect(() => {
-    const resizeVH = () => {
-      if (vh !== window.visualViewport.height) {
-        setVH(window.visualViewport.height)
-      }
-    }
-
-    resizeVH()
-
-    const scrollLockOnInputsFocus = (ev: FocusEvent) => {
-      const element = ev?.target as HTMLElement
-      console.log('focus', element?.className)
-
-      if (element) {
-        scrollLockTargetRef.current = element
-        disableBodyScroll(element)
-        setTimeout(resizeVH, 1000)
-      }
-    }
-
-    const scrollUnlockOnInputsBlur = (ev: FocusEvent) => {
-      const element = ev?.target as HTMLElement
-      console.log('blur', element?.className)
-
-      if (element) {
-        scrollLockTargetRef.current = element
-        enableBodyScroll(element)
-        setTimeout(resizeVH, 1000)
-      }
-    }
-
-    setTimeout(() => {
-      const inputs = document.getElementsByTagName('input')
-      for (const inputElement of inputs) {
-        inputElement.onfocus = scrollLockOnInputsFocus
-        inputElement.onblur = scrollUnlockOnInputsBlur
-      }
-
-      const textareas = document.getElementsByTagName('textarea')
-      for (const textareaElement of textareas) {
-        textareaElement.onfocus = scrollLockOnInputsFocus
-        textareaElement.onblur = scrollUnlockOnInputsBlur
-      }
-    }, 300)
-
-    return () => clearAllBodyScrollLocks()
-  }, [vh])
-
   if (status === 'loading') {
     <p>Now Loading...</p>
   }
 
   return (
-    <TopComponent
-      component={'main'}
-      sx={{ height: vh }}>
-      <SecondComponent>
-        <SideNavigationDrawer
-          transitionHomePage={transitionHomePage}
-          transitionProfilePage={transitionProfilePage} />
-        <Box sx={{ width: '220px' }}>
-          <Typography>vh: {vh}px</Typography>
-          <Typography>version: 2</Typography>
-        </Box>
-        <MainComponentBox>
-          {children}
-        </MainComponentBox>
-      </SecondComponent>
-      <BottomNavigationTab
+    <TopComponent>
+      <MyAppBar
+        sideNavigationDrawerWidth={sideNavigationDrawerWidth}
         transitionHomePage={transitionHomePage}
         transitionProfilePage={transitionProfilePage} />
+      <SideNavigationDrawer
+        sideNavigationDrawerWidth={sideNavigationDrawerWidth}
+        transitionHomePage={transitionHomePage}
+        transitionProfilePage={transitionProfilePage} />
+      <MainComponentBox
+        component={'main'}>
+        {children}
+      </MainComponentBox>
     </TopComponent>
   )
 }

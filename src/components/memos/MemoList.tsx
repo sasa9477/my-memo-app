@@ -9,6 +9,7 @@ const MemoListBase = styled(List)(({ theme }) => ({
   padding: 0,
   flexGrow: 1,
   overflowY: 'scroll',
+  marginTop: theme.spacing(1),
   [theme.breakpoints.up('sm')]: {
     marginTop: theme.spacing(1)
   }

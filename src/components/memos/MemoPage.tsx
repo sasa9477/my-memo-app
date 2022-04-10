@@ -2,7 +2,6 @@ import { Box, Container, Paper, styled, Toolbar } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Memo, SearchQuery } from '../../apis/@types'
 import apiClient from '../../lib/apiClient'
-import valueEquals from '../../lib/valueEquals'
 import InputArea from './InputArea'
 import MemoCreateFab from './MemoCreateFab'
 import MemoList from './MemoList'
@@ -20,14 +19,14 @@ const emptySearchQuery: SearchQuery = {
   bookmarkSearch: false
 }
 
-const MemoAreaBase = styled(Box)(({ theme }) => ({
+const MemoPageBase = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
+  height: '100vh',
   padding: theme.spacing(1),
   position: 'relative',
   [theme.breakpoints.down('sm')]: {
-    // flexDirection: 'column-reverse'
+    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`
   }
 }))
 
@@ -61,7 +60,7 @@ const MemoPage: React.FC<MemoPageProps> = ({ transitionCreatePage }): JSX.Elemen
   }, [searchQuery, searchRequest])
 
   return (
-    <MemoAreaBase>
+    <MemoPageBase>
       <SearchBar
         searchQuery={searchQuery}
         setSearchQueryCallback={setSearchQueryRequest} />
@@ -73,7 +72,7 @@ const MemoPage: React.FC<MemoPageProps> = ({ transitionCreatePage }): JSX.Elemen
       <MemoCreateFab
         transitionCreatePage={transitionCreatePage} />
 
-    </MemoAreaBase>
+    </MemoPageBase>
   )
 }
 

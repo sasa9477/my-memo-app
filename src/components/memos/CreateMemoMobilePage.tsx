@@ -6,7 +6,6 @@ import { SendIcon } from "../icons/SendIcon"
 const CreateMemoMobilePageBase = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
   padding: theme.spacing(1)
 }))
 
@@ -59,13 +58,6 @@ const CreateMemoMobilePage: React.FC<CreateMemoMobilePageProps> = ({ transitionH
 
   return (
     <CreateMemoMobilePageBase>
-      <StyledInput
-        fullWidth
-        multiline
-        placeholder='メモを書く'
-        inputRef={inputRef}
-        inputProps={{ spellCheck: false }}
-        onChange={handleInputChange} />
       <FunctionBox>
         <Button
           onClick={handleCancelClick}>
@@ -79,6 +71,13 @@ const CreateMemoMobilePage: React.FC<CreateMemoMobilePageProps> = ({ transitionH
           登録
         </Button>
       </FunctionBox>
+      <StyledInput
+        fullWidth
+        multiline
+        placeholder='メモを書く'
+        inputRef={inputRef}
+        inputProps={{ spellCheck: false }}
+        onChange={handleInputChange} />
     </CreateMemoMobilePageBase>
   )
 }

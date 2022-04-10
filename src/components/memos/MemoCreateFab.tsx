@@ -3,8 +3,8 @@ import { AddIcon } from "../icons/AddIcon"
 
 const StyledFab = styled(Fab)(({ theme }) => ({
   position: 'absolute',
-  right: theme.spacing(5),
-  bottom: theme.spacing(10),
+  right: theme.spacing(4),
+  bottom: theme.spacing(4),
   [theme.breakpoints.up('sm')]: {
     display: 'none',
   }

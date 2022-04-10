@@ -1,58 +1,37 @@
-import { Box, Drawer, List, ListItem, ListItemText, styled, Tab, Tabs } from "@mui/material"
+import { Box, Drawer, DrawerProps, List, ListItem, ListItemText, styled, Tab, Tabs } from "@mui/material"
+import DrawerItems from "./DrawerItems"
 
-const sideNavigationWidth = 180
-
-const SideBarBase = styled(Box)(({ theme }) => ({
-  width: sideNavigationWidth,
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  display: 'block',
+  '& .MuiDrawer-paper': {
+    boxSizing: 'border-box'
+  },
   [theme.breakpoints.down('sm')]: {
     display: 'none'
   },
 }))
 
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  display: 'block',
-  '& .MuiDrawer-paper': {
-    boxSizing: 'border-box',
-    width: sideNavigationWidth
-  }
-}))
-
 type SideNavigationDrawerProps = {
+  sideNavigationDrawerWidth: number,
   transitionHomePage: () => void,
   transitionProfilePage: () => void
 }
 
-const SideNavigationDrawer: React.FC<SideNavigationDrawerProps> = ({ transitionHomePage, transitionProfilePage }): JSX.Element => {
-
-  const handleMemoButtonClick = () => {
-    transitionHomePage()
-  }
-
-  const handleProfileButtonClick = () => {
-    transitionProfilePage()
-  }
-
+const SideNavigationDrawer: React.FC<SideNavigationDrawerProps> = ({ sideNavigationDrawerWidth, transitionHomePage, transitionProfilePage }): JSX.Element => {
   return (
-    <SideBarBase>
-      <StyledDrawer
-        variant='permanent'
-        open>
-        <List>
-          <ListItem
-            button
-            component='a'
-            onClick={handleMemoButtonClick}>
-            <ListItemText primary='メモ' />
-          </ListItem>
-          <ListItem
-            button
-            component='a'
-            onClick={handleProfileButtonClick}>
-            <ListItemText primary='アカウント' />
-          </ListItem>
-        </List>
-      </StyledDrawer>
-    </SideBarBase>
+    <StyledDrawer
+      variant='permanent'
+      open
+      sx={{
+        width: sideNavigationDrawerWidth,
+        '& .MuiDrawer-paper': {
+          width: sideNavigationDrawerWidth
+        }
+      }}>
+      <DrawerItems
+        transitionHomePage={transitionHomePage}
+        transitionProfilePage={transitionProfilePage} />
+    </StyledDrawer>
   )
 }
 
