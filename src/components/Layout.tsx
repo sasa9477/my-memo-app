@@ -76,6 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     const inputs = document.getElementsByTagName('input')
     for (const inputElement of inputs) {
       inputElement.onfocus = () => {
+        console.log(inputElement.className)
         resizeVH()
         setInputClassName(inputElement.className)
       }
@@ -83,6 +84,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
 
     for (const textareaElement of document.getElementsByTagName('textarea')) {
       textareaElement.onfocus = () => {
+        console.log(textareaElement.className)
         resizeVH()
         setInputClassName(textareaElement.className)
       }
@@ -90,7 +92,7 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
 
 
     return () => window.removeEventListener('resize', resizeVH)
-  }, [vh, innerHeight, screenAvailHeight])
+  }, [vh, innerHeight, screenAvailHeight, inputClassName, setInputClassName])
 
   if (status === 'loading') {
     <p>Now Loading...</p>
