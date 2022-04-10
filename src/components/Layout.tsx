@@ -10,6 +10,7 @@ const TopComponent = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   //  height: '-webkit-fill-available',
   width: '100vw',
+  overflow: 'hidden'
 }))
 
 const SecondComponent = styled(Box)(({ theme }) => ({
@@ -61,32 +62,33 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
 
     resizeVH()
 
-    window.addEventListener('resize', resizeVH)
+    // window.addEventListener('resize', resizeVH)
+    window.visualViewport.addEventListener('resize', resizeVH)
 
-    const resizeOnInputsFocus = (ev: FocusEvent) => {
-      const element = ev?.target as HTMLElement
-      console.log(element?.className)
+    // const resizeOnInputsFocus = (ev: FocusEvent) => {
+    //   const element = ev?.target as HTMLElement
+    //   console.log(element?.className)
 
-      if (element && element.className !== inputClassName) {
-        setInputClassName(element.className)
-      }
+    //   if (element && element.className !== inputClassName) {
+    //     setInputClassName(element.className)
+    //   }
 
-      setTimeout(resizeVH, 300)
-    }
+    //   setTimeout(resizeVH, 1000)
+    // }
 
-    setTimeout(() => {
-      const inputs = document.getElementsByTagName('input')
-      for (const inputElement of inputs) {
-        inputElement.onfocus = resizeOnInputsFocus
-      }
+    // setTimeout(() => {
+    //   const inputs = document.getElementsByTagName('input')
+    //   for (const inputElement of inputs) {
+    //     inputElement.onfocus = resizeOnInputsFocus
+    //   }
 
-      const textareas = document.getElementsByTagName('textarea')
-      for (const textareaElement of textareas) {
-        textareaElement.onfocus = resizeOnInputsFocus
-      }
-    }, 300)
+    //   const textareas = document.getElementsByTagName('textarea')
+    //   for (const textareaElement of textareas) {
+    //     textareaElement.onfocus = resizeOnInputsFocus
+    //   }
+    // }, 300)
 
-    return () => window.removeEventListener('resize', resizeVH)
+    return () => window.visualViewport.removeEventListener('resize', resizeVH)
   }, [vh, inputClassName])
 
   if (status === 'loading') {
