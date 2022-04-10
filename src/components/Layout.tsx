@@ -1,16 +1,16 @@
 import { Box, styled, Typography } from "@mui/material"
-import { ReactNode, useCallback, useEffect, useState } from "react"
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react"
 import BottomNavigationTab from "./navigations/AppBottomNavigation"
 import SideNavigationDrawer from "./navigations/SideNavigationDrawer"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
+import { enableBodyScroll, disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
 
 const TopComponent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '-webkit-fill-available',
-  width: '100vw',
-  overflow: 'hidden'
+  width: '100vw'
 }))
 
 const SecondComponent = styled(Box)(({ theme }) => ({
@@ -30,6 +30,8 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
   const [vh, setVH] = useState(0)
   const [inputClassName, setInputClassName] = useState('')
+  const scrollLockTargetRef = useRef<HTMLElement>()
+  let scrollLockTarget: HTMLElement | undefined
 
   const { status } = useSession({
     required: true
@@ -53,6 +55,12 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     router.prefetch('/profile')
   }, [router])
 
+  // useEffect(() => {
+  //   scrollLockTarget = scrollLockTargetRef.current
+
+
+  // }, [scrollLockTargetRef])
+
   useEffect(() => {
     const resizeVH = () => {
       if (vh !== window.visualViewport.height) {
@@ -65,30 +73,44 @@ const Layout: React.FC<LayoutProps> = ({ children }): JSX.Element => {
     // window.addEventListener('resize', resizeVH)
     window.visualViewport.addEventListener('resize', resizeVH)
 
-    // const resizeOnInputsFocus = (ev: FocusEvent) => {
-    //   const element = ev?.target as HTMLElement
-    //   console.log(element?.className)
+    const scrollLockOnInputsFocus = (ev: FocusEvent) => {
+      const element = ev?.target as HTMLElement
+      console.log('focus', element?.className)
 
-    //   if (element && element.className !== inputClassName) {
-    //     setInputClassName(element.className)
-    //   }
+      if (element) {
+        scrollLockTargetRef.current = element
+        disableBodyScroll(element)
+      }
+    }
 
-    //   setTimeout(resizeVH, 1000)
-    // }
+    const scrollUnlockOnInputsBlur = (ev: FocusEvent) => {
+      const element = ev?.target as HTMLElement
+      console.log('blur', element?.className)
 
-    // setTimeout(() => {
-    //   const inputs = document.getElementsByTagName('input')
-    //   for (const inputElement of inputs) {
-    //     inputElement.onfocus = resizeOnInputsFocus
-    //   }
+      if (element) {
+        scrollLockTargetRef.current = element
+        enableBodyScroll(element)
+      }
+    }
 
-    //   const textareas = document.getElementsByTagName('textarea')
-    //   for (const textareaElement of textareas) {
-    //     textareaElement.onfocus = resizeOnInputsFocus
-    //   }
-    // }, 300)
+    setTimeout(() => {
+      const inputs = document.getElementsByTagName('input')
+      for (const inputElement of inputs) {
+        inputElement.onfocus = scrollLockOnInputsFocus
+        inputElement.onblur = scrollUnlockOnInputsBlur
+      }
 
-    return () => window.visualViewport.removeEventListener('resize', resizeVH)
+      const textareas = document.getElementsByTagName('textarea')
+      for (const textareaElement of textareas) {
+        textareaElement.onfocus = scrollLockOnInputsFocus
+        textareaElement.onblur = scrollUnlockOnInputsBlur
+      }
+    }, 300)
+
+    return () => {
+      window.visualViewport.removeEventListener('resize', resizeVH)
+      clearAllBodyScrollLocks()
+    }
   }, [vh, inputClassName])
 
   if (status === 'loading') {
